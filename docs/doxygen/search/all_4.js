@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['jumptoentry_11',['JumpToEntry',['../structlibcommunism_1_1internal_1_1Amd64.html#a1152bf592d959f6f119a6b7c6a39080e',1,'libcommunism::internal::Amd64']]]
+  ['amd64_15',['Amd64',['../classlibcommunism_1_1Cothread.html#a79870e7f40c6ef21612f6464e875e02b',1,'libcommunism::Cothread']]]
 ];
