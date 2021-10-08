@@ -23,7 +23,7 @@ For documentation on how to use the library, and how its internals are construct
 ## Examples
 Proper examples will be provided soon. For now, take a look at the following snippet:
 
-```c++
+``` cpp
 #include <libcommunism/Cothread.h>
 
 libcommunism::Cothread *thread1, *thread2;
