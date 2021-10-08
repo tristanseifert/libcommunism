@@ -69,13 +69,14 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="structlibcommunism_1_1internal_1_1Amd64-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">libcommunism::internal::Amd64 Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Architecture specific methods for working with cothreads on <a class="el" href="namespacelibcommunism_1_1internal_1_1amd64.html" title="Implementation detail of cothreads on amd64.">amd64</a> based systems.  
+<p>Architecture specific methods for working with cothreads on amd64 based systems.  
  <a href="structlibcommunism_1_1internal_1_1Amd64.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="Amd64_8h_source.html">Amd64.h</a>&gt;</code></p>
@@ -86,9 +87,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:abd68efacd93a79896aa876bdf56a9bed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d23d6b326b85065e5966e7fdda90352"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a2d23d6b326b85065e5966e7fdda90352">ValidateStackSize</a> (const size_t size)</td></tr>
 <tr class="separator:a2d23d6b326b85065e5966e7fdda90352"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c1e01d11bc41f3afb6401547b79ccc9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a6c1e01d11bc41f3afb6401547b79ccc9">Prepare</a> (Cothread *thread, void(*entry)(void *), void *ctx=nullptr)</td></tr>
+<tr class="memitem:a6c1e01d11bc41f3afb6401547b79ccc9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a6c1e01d11bc41f3afb6401547b79ccc9">Prepare</a> (<a class="el" href="classlibcommunism_1_1Cothread.html">Cothread</a> *thread, void(*entry)(void *), void *ctx=nullptr)</td></tr>
 <tr class="separator:a6c1e01d11bc41f3afb6401547b79ccc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66794b215fbd5878f8f92e51fa68f956"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a66794b215fbd5878f8f92e51fa68f956">Switch</a> (Cothread *from, Cothread *to)</td></tr>
+<tr class="memitem:a66794b215fbd5878f8f92e51fa68f956"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a66794b215fbd5878f8f92e51fa68f956">Switch</a> (<a class="el" href="classlibcommunism_1_1Cothread.html">Cothread</a> *from, <a class="el" href="classlibcommunism_1_1Cothread.html">Cothread</a> *to)</td></tr>
 <tr class="separator:a66794b215fbd5878f8f92e51fa68f956"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1152bf592d959f6f119a6b7c6a39080e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a1152bf592d959f6f119a6b7c6a39080e">JumpToEntry</a> ()</td></tr>
 <tr class="separator:a1152bf592d959f6f119a6b7c6a39080e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -96,11 +97,26 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a296bb3942213f7a194474e72c76aa3f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98ea4ba02d88bef4d6e43301dc2e9c9d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a98ea4ba02d88bef4d6e43301dc2e9c9d">CothreadReturned</a> ()</td></tr>
 <tr class="separator:a98ea4ba02d88bef4d6e43301dc2e9c9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:abcdd353448a6e680c66c1b721184faa5"><td class="memItemLeft" align="right" valign="top">static constexpr const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#abcdd353448a6e680c66c1b721184faa5">kNumSavedRegisters</a> {6}</td></tr>
+<tr class="separator:abcdd353448a6e680c66c1b721184faa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d221a54b8413b25a9544a60db82c297"><td class="memItemLeft" align="right" valign="top">static constexpr const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a5d221a54b8413b25a9544a60db82c297">kMainStackSize</a> {64}</td></tr>
+<tr class="separator:a5d221a54b8413b25a9544a60db82c297"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a883bba75422b94e6a6aa87fde9593181"><td class="memItemLeft" align="right" valign="top">static constexpr const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a883bba75422b94e6a6aa87fde9593181">kStackAlignment</a> {64}</td></tr>
+<tr class="separator:a883bba75422b94e6a6aa87fde9593181"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7847682f05a7af09d8882353a5bb93b"><td class="memItemLeft" align="right" valign="top">static constexpr const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#ae7847682f05a7af09d8882353a5bb93b">kDefaultStackSize</a> {0x80000}</td></tr>
+<tr class="separator:ae7847682f05a7af09d8882353a5bb93b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a485e7e91fcf6bebca5812c0df210d9c6"><td class="memItemLeft" align="right" valign="top">static thread_local <a class="el" href="classlibcommunism_1_1Cothread.html">Cothread</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a485e7e91fcf6bebca5812c0df210d9c6">gCurrentHandle</a> {nullptr}</td></tr>
+<tr class="separator:a485e7e91fcf6bebca5812c0df210d9c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d11b198daf631dff419c45fc41634c6"><td class="memItemLeft" align="right" valign="top">static thread_local std::array&lt; uintptr_t, <a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a5d221a54b8413b25a9544a60db82c297">kMainStackSize</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a6d11b198daf631dff419c45fc41634c6">gMainStack</a></td></tr>
+<tr class="separator:a6d11b198daf631dff419c45fc41634c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Architecture specific methods for working with cothreads on <a class="el" href="namespacelibcommunism_1_1internal_1_1amd64.html" title="Implementation detail of cothreads on amd64.">amd64</a> based systems. </p>
+<div class="textblock"><p>Architecture specific methods for working with cothreads on amd64 based systems. </p>
 
-<p class="definition">Definition at line <a class="el" href="Amd64_8h_source.html#l00012">12</a> of file <a class="el" href="Amd64_8h_source.html">Amd64.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Amd64_8h_source.html#l00013">13</a> of file <a class="el" href="Amd64_8h_source.html">Amd64.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="abd68efacd93a79896aa876bdf56a9bed"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abd68efacd93a79896aa876bdf56a9bed">&#9670;&nbsp;</a></span>AllocMainCothread()</h2>
@@ -124,18 +140,18 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Allocates the current physical (kernel) thread's Cothread object.</p>
-<p>Allocates the current physical (kernel) thread's Cothread object.</p>
+<p>Allocates the current physical (kernel) thread's <a class="el" href="classlibcommunism_1_1Cothread.html" title="Instance of a single cooperative thread.">Cothread</a> object.</p>
 <dl class="section note"><dt>Note</dt><dd>This will leak the associated cothread object, unless the caller stores it somewhere and ensures they deallocate it later when the underlying kernel thread is destroyed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Amd64_8cpp_source.html#l00142">142</a> of file <a class="el" href="Amd64_8cpp_source.html">Amd64.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                              {</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keyword">auto</span> main = <span class="keyword">new</span> Cothread(<a class="code" href="namespacelibcommunism_1_1internal_1_1amd64.html#ad28f015711d156e753c943bf40f284d5">gMainStack</a>, <a class="code" href="namespacelibcommunism_1_1internal_1_1amd64.html#ad28f015711d156e753c943bf40f284d5">gMainStack</a>.data() + <a class="code" href="namespacelibcommunism_1_1internal_1_1amd64.html#abb650893000af84c63b618355db3ac10">kMainStackSize</a>);</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <a class="code" href="namespacelibcommunism_1_1internal_1_1amd64.html#a7a3d950b6005e6c6d320e8af9fc8bd53">gCurrentHandle</a> = main;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;}</div>
-<div class="ttc" id="anamespacelibcommunism_1_1internal_1_1amd64_html_a7a3d950b6005e6c6d320e8af9fc8bd53"><div class="ttname"><a href="namespacelibcommunism_1_1internal_1_1amd64.html#a7a3d950b6005e6c6d320e8af9fc8bd53">libcommunism::internal::amd64::gCurrentHandle</a></div><div class="ttdeci">thread_local Cothread * gCurrentHandle</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8cpp_source.html#l00028">Amd64.cpp:28</a></div></div>
-<div class="ttc" id="anamespacelibcommunism_1_1internal_1_1amd64_html_abb650893000af84c63b618355db3ac10"><div class="ttname"><a href="namespacelibcommunism_1_1internal_1_1amd64.html#abb650893000af84c63b618355db3ac10">libcommunism::internal::amd64::kMainStackSize</a></div><div class="ttdeci">constexpr const size_t kMainStackSize</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8cpp_source.html#l00043">Amd64.cpp:43</a></div></div>
-<div class="ttc" id="anamespacelibcommunism_1_1internal_1_1amd64_html_ad28f015711d156e753c943bf40f284d5"><div class="ttname"><a href="namespacelibcommunism_1_1internal_1_1amd64.html#ad28f015711d156e753c943bf40f284d5">libcommunism::internal::amd64::gMainStack</a></div><div class="ttdeci">thread_local std::array&lt; uintptr_t, kMainStackSize &gt; gMainStack</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8cpp_source.html#l00066">Amd64.cpp:66</a></div></div>
+<p class="definition">Definition at line <a class="el" href="Amd64_8cpp_source.html#l00097">97</a> of file <a class="el" href="Amd64_8cpp_source.html">Amd64.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                              {</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">auto</span> main = <span class="keyword">new</span> <a class="code" href="classlibcommunism_1_1Cothread.html">Cothread</a>(<a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a6d11b198daf631dff419c45fc41634c6">gMainStack</a>, <a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a6d11b198daf631dff419c45fc41634c6">gMainStack</a>.data() + <a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a5d221a54b8413b25a9544a60db82c297">Amd64::kMainStackSize</a>);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a485e7e91fcf6bebca5812c0df210d9c6">gCurrentHandle</a> = main;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
+<div class="ttc" id="aclasslibcommunism_1_1Cothread_html"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html">libcommunism::Cothread</a></div><div class="ttdoc">Instance of a single cooperative thread.</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00024">Cothread.h:24</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_a485e7e91fcf6bebca5812c0df210d9c6"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#a485e7e91fcf6bebca5812c0df210d9c6">libcommunism::internal::Amd64::gCurrentHandle</a></div><div class="ttdeci">static thread_local Cothread * gCurrentHandle</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8h_source.html#l00109">Amd64.h:109</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_a5d221a54b8413b25a9544a60db82c297"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#a5d221a54b8413b25a9544a60db82c297">libcommunism::internal::Amd64::kMainStackSize</a></div><div class="ttdeci">static constexpr const size_t kMainStackSize</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8h_source.html#l00089">Amd64.h:89</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_a6d11b198daf631dff419c45fc41634c6"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#a6d11b198daf631dff419c45fc41634c6">libcommunism::internal::Amd64::gMainStack</a></div><div class="ttdeci">static thread_local std::array&lt; uintptr_t, kMainStackSize &gt; gMainStack</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8h_source.html#l00122">Amd64.h:122</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -164,12 +180,12 @@ Static Public Member Functions</h2></td></tr>
 <p>Invoked when the main method of a cothread returns.</p>
 <p>The currently running cothread returned from its main function. This is very naughty behavior. </p>
 
-<p class="definition">Definition at line <a class="el" href="Amd64_8cpp_source.html#l00209">209</a> of file <a class="el" href="Amd64_8cpp_source.html">Amd64.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                             {</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="comment">// invokle handler</span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <a class="code" href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">gReturnHandler</a>(<a class="code" href="namespacelibcommunism_1_1internal_1_1amd64.html#a7a3d950b6005e6c6d320e8af9fc8bd53">gCurrentHandle</a>);</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;}</div>
-<div class="ttc" id="anamespacelibcommunism_1_1internal_html_a7ffa60f4788d5229f04e2ad5a41b2935"><div class="ttname"><a href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">libcommunism::internal::gReturnHandler</a></div><div class="ttdeci">std::function&lt; void(libcommunism::Cothread *)&gt; gReturnHandler</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8cpp_source.html#l00019">Cothread.cpp:19</a></div></div>
+<p class="definition">Definition at line <a class="el" href="Amd64_8cpp_source.html#l00164">164</a> of file <a class="el" href="Amd64_8cpp_source.html">Amd64.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                             {</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="comment">// invokle handler</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <a class="code" href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">gReturnHandler</a>(<a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a485e7e91fcf6bebca5812c0df210d9c6">gCurrentHandle</a>);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;}</div>
+<div class="ttc" id="anamespacelibcommunism_1_1internal_html_a7ffa60f4788d5229f04e2ad5a41b2935"><div class="ttname"><a href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">libcommunism::internal::gReturnHandler</a></div><div class="ttdeci">std::function&lt; void(libcommunism::Cothread *)&gt; gReturnHandler</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8cpp_source.html#l00067">Cothread.cpp:67</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -222,7 +238,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Pops two arguments off the stack (the entry point and its context argument) and invokes the entry point.</p>
-<dl class="section remark"><dt>Remarks</dt><dd>The implementation of this method is written in assembly and varies slightly depending on the calling convention of the platform (SystemV vs. Windows.)</dd>
+<dl class="section remark"><dt>Remarks</dt><dd>The implementation of this method is written in assembly and varies slightly depending on the calling convention of the platform (System V vs. Windows.)</dd>
 <dd>
 The arguments are implicit; they reside on the stack when this method is invoked. </dd></dl>
 
@@ -240,7 +256,7 @@ The arguments are implicit; they reside on the stack when this method is invoked
         <tr>
           <td class="memname">void Amd64::Prepare </td>
           <td>(</td>
-          <td class="paramtype">Cothread *&#160;</td>
+          <td class="paramtype"><a class="el" href="classlibcommunism_1_1Cothread.html">Cothread</a> *&#160;</td>
           <td class="paramname"><em>wrap</em>, </td>
         </tr>
         <tr>
@@ -270,7 +286,7 @@ The arguments are implicit; they reside on the stack when this method is invoked
 <p>Given a wrapper structure and initial function to invoke, prepares the context of the cothread such that it will return to the start of this method.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">thread</td><td>Cothread whose stack frame is to be prepared </td></tr>
+    <tr><td class="paramname">thread</td><td><a class="el" href="classlibcommunism_1_1Cothread.html" title="Instance of a single cooperative thread.">Cothread</a> whose stack frame is to be prepared </td></tr>
     <tr><td class="paramname">entry</td><td>Function to return control to when switching to this cothread </td></tr>
     <tr><td class="paramname">ctx</td><td>Arbitrary pointer to pass to the entry point</td></tr>
   </table>
@@ -287,42 +303,42 @@ The arguments are implicit; they reside on the stack when this method is invoked
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Amd64_8cpp_source.html#l00174">174</a> of file <a class="el" href="Amd64_8cpp_source.html">Amd64.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                                                                    {</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    static_assert(offsetof(Cothread, stackTop) == COTHREAD_OFF_CONTEXT_TOP, <span class="stringliteral">&quot;cothread stack top is invalid&quot;</span>);</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="comment">// ensure current handle is valid</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordflow">if</span>(!<a class="code" href="namespacelibcommunism_1_1internal_1_1amd64.html#a7a3d950b6005e6c6d320e8af9fc8bd53">gCurrentHandle</a>) <a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#abd68efacd93a79896aa876bdf56a9bed">Amd64::AllocMainCothread</a>();</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160; </div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="comment">// NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="comment">// prepare some space for a stack frame (zeroed registers; four function call params)</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keyword">auto</span> &amp;stackBuf = wrap-&gt;stack;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keyword">auto</span> stackFrame = <span class="keyword">reinterpret_cast&lt;</span>std::byte *<span class="keyword">&gt;</span>(stackBuf.data());</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    stackFrame += ((stackBuf.size()*<span class="keyword">sizeof</span>(typeof(*stackBuf.data()))) &amp; ~(0x10-1))</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        - (<span class="keyword">sizeof</span>(uintptr_t) * (4 + <a class="code" href="namespacelibcommunism_1_1internal_1_1amd64.html#a8ebd0b18c27b33246db8056cbd7ba288">kNumSavedRegisters</a>));</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keyword">auto</span> stack = <span class="keyword">reinterpret_cast&lt;</span>uintptr_t *<span class="keyword">&gt;</span>(stackFrame);</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="comment">// method to execute if main method returns</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    *--stack = <span class="keyword">reinterpret_cast&lt;</span>uintptr_t<span class="keyword">&gt;</span>(&amp;<a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a296bb3942213f7a194474e72c76aa3f0">Amd64::EntryReturnedStub</a>);</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="comment">// and then jump to the stub that calls the entry point</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    *--stack = <span class="keyword">reinterpret_cast&lt;</span>uintptr_t<span class="keyword">&gt;</span>(ctx);</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    *--stack = <span class="keyword">reinterpret_cast&lt;</span>uintptr_t<span class="keyword">&gt;</span>(entry);</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    *--stack = <span class="keyword">reinterpret_cast&lt;</span>uintptr_t<span class="keyword">&gt;</span>(&amp;<a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a1152bf592d959f6f119a6b7c6a39080e">Amd64::JumpToEntry</a>);</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="comment">// NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="comment">// clear the region that registers are written into (so they&#39;re all zeroed)</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code" href="namespacelibcommunism_1_1internal_1_1amd64.html#a8ebd0b18c27b33246db8056cbd7ba288">kNumSavedRegisters</a>; i++) {</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        *--stack = 0;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    }</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160; </div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="comment">// restore the stack pointer to the correct point</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    wrap-&gt;stackTop = stack;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;}</div>
-<div class="ttc" id="anamespacelibcommunism_1_1internal_1_1amd64_html_a8ebd0b18c27b33246db8056cbd7ba288"><div class="ttname"><a href="namespacelibcommunism_1_1internal_1_1amd64.html#a8ebd0b18c27b33246db8056cbd7ba288">libcommunism::internal::amd64::kNumSavedRegisters</a></div><div class="ttdeci">constexpr const size_t kNumSavedRegisters</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8cpp_source.html#l00034">Amd64.cpp:34</a></div></div>
+<p class="definition">Definition at line <a class="el" href="Amd64_8cpp_source.html#l00129">129</a> of file <a class="el" href="Amd64_8cpp_source.html">Amd64.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                                                                    {</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    static_assert(offsetof(<a class="code" href="classlibcommunism_1_1Cothread.html">Cothread</a>, stackTop) == COTHREAD_OFF_CONTEXT_TOP, <span class="stringliteral">&quot;cothread stack top is invalid&quot;</span>);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="comment">// ensure current handle is valid</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordflow">if</span>(!<a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a485e7e91fcf6bebca5812c0df210d9c6">gCurrentHandle</a>) <a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#abd68efacd93a79896aa876bdf56a9bed">Amd64::AllocMainCothread</a>();</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="comment">// NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="comment">// prepare some space for a stack frame (zeroed registers; four function call params)</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keyword">auto</span> &amp;stackBuf = wrap-&gt;stack;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keyword">auto</span> stackFrame = <span class="keyword">reinterpret_cast&lt;</span>std::byte *<span class="keyword">&gt;</span>(stackBuf.data());</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    stackFrame += ((stackBuf.size()*<span class="keyword">sizeof</span>(typeof(*stackBuf.data()))) &amp; ~(0x10-1))</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        - (<span class="keyword">sizeof</span>(uintptr_t) * (4 + <a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#abcdd353448a6e680c66c1b721184faa5">kNumSavedRegisters</a>));</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keyword">auto</span> stack = <span class="keyword">reinterpret_cast&lt;</span>uintptr_t *<span class="keyword">&gt;</span>(stackFrame);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="comment">// method to execute if main method returns</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    *--stack = <span class="keyword">reinterpret_cast&lt;</span>uintptr_t<span class="keyword">&gt;</span>(&amp;<a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a296bb3942213f7a194474e72c76aa3f0">Amd64::EntryReturnedStub</a>);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="comment">// and then jump to the stub that calls the entry point</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    *--stack = <span class="keyword">reinterpret_cast&lt;</span>uintptr_t<span class="keyword">&gt;</span>(ctx);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    *--stack = <span class="keyword">reinterpret_cast&lt;</span>uintptr_t<span class="keyword">&gt;</span>(entry);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    *--stack = <span class="keyword">reinterpret_cast&lt;</span>uintptr_t<span class="keyword">&gt;</span>(&amp;<a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a1152bf592d959f6f119a6b7c6a39080e">Amd64::JumpToEntry</a>);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="comment">// NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="comment">// clear the region that registers are written into (so they&#39;re all zeroed)</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#abcdd353448a6e680c66c1b721184faa5">kNumSavedRegisters</a>; i++) {</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        *--stack = 0;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    }</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="comment">// restore the stack pointer to the correct point</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    wrap-&gt;stackTop = stack;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;}</div>
 <div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_a1152bf592d959f6f119a6b7c6a39080e"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#a1152bf592d959f6f119a6b7c6a39080e">libcommunism::internal::Amd64::JumpToEntry</a></div><div class="ttdeci">static void JumpToEntry()</div></div>
 <div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_a296bb3942213f7a194474e72c76aa3f0"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#a296bb3942213f7a194474e72c76aa3f0">libcommunism::internal::Amd64::EntryReturnedStub</a></div><div class="ttdeci">static void EntryReturnedStub()</div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_abd68efacd93a79896aa876bdf56a9bed"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#abd68efacd93a79896aa876bdf56a9bed">libcommunism::internal::Amd64::AllocMainCothread</a></div><div class="ttdeci">static void AllocMainCothread()</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8cpp_source.html#l00142">Amd64.cpp:142</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_abcdd353448a6e680c66c1b721184faa5"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#abcdd353448a6e680c66c1b721184faa5">libcommunism::internal::Amd64::kNumSavedRegisters</a></div><div class="ttdeci">static constexpr const size_t kNumSavedRegisters</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8h_source.html#l00080">Amd64.h:80</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_abd68efacd93a79896aa876bdf56a9bed"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#abd68efacd93a79896aa876bdf56a9bed">libcommunism::internal::Amd64::AllocMainCothread</a></div><div class="ttdeci">static void AllocMainCothread()</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8cpp_source.html#l00097">Amd64.cpp:97</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -338,13 +354,13 @@ The arguments are implicit; they reside on the stack when this method is invoked
         <tr>
           <td class="memname">static void libcommunism::internal::Amd64::Switch </td>
           <td>(</td>
-          <td class="paramtype">Cothread *&#160;</td>
+          <td class="paramtype"><a class="el" href="classlibcommunism_1_1Cothread.html">Cothread</a> *&#160;</td>
           <td class="paramname"><em>from</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Cothread *&#160;</td>
+          <td class="paramtype"><a class="el" href="classlibcommunism_1_1Cothread.html">Cothread</a> *&#160;</td>
           <td class="paramname"><em>to</em>&#160;</td>
         </tr>
         <tr>
@@ -360,11 +376,11 @@ The arguments are implicit; they reside on the stack when this method is invoked
 </table>
 </div><div class="memdoc">
 <p>Performs a context switch.</p>
-<dl class="section remark"><dt>Remarks</dt><dd>The implementation of this method is written in assembly and varies slightly depending on the calling convention of the platform (SystemV vs. Windows.)</dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>The implementation of this method is written in assembly and varies slightly depending on the calling convention of the platform (System V vs. Windows.)</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">from</td><td>Cothread buffer that will receive the current context </td></tr>
-    <tr><td class="paramname">to</td><td>Cothread buffer whose context is to be restored </td></tr>
+    <tr><td class="paramname">from</td><td><a class="el" href="classlibcommunism_1_1Cothread.html" title="Instance of a single cooperative thread.">Cothread</a> buffer that will receive the current context </td></tr>
+    <tr><td class="paramname">to</td><td><a class="el" href="classlibcommunism_1_1Cothread.html" title="Instance of a single cooperative thread.">Cothread</a> buffer whose context is to be restored </td></tr>
   </table>
   </dd>
 </dl>
@@ -408,13 +424,168 @@ The arguments are implicit; they reside on the stack when this method is invoked
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Amd64_8cpp_source.html#l00154">154</a> of file <a class="el" href="Amd64_8cpp_source.html">Amd64.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                                               {</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordflow">if</span>(!size) <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Size may not be nil&quot;</span>);</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordflow">if</span>(size % <a class="code" href="namespacelibcommunism_1_1internal_1_1amd64.html#a47055509d81efa919e26cd4cb23b9763">kStackAlignment</a>) <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Stack is misaligned&quot;</span>);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;}</div>
-<div class="ttc" id="anamespacelibcommunism_1_1internal_1_1amd64_html_a47055509d81efa919e26cd4cb23b9763"><div class="ttname"><a href="namespacelibcommunism_1_1internal_1_1amd64.html#a47055509d81efa919e26cd4cb23b9763">libcommunism::internal::amd64::kStackAlignment</a></div><div class="ttdeci">constexpr const size_t kStackAlignment</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8cpp_source.html#l00051">Amd64.cpp:51</a></div></div>
+<p class="definition">Definition at line <a class="el" href="Amd64_8cpp_source.html#l00109">109</a> of file <a class="el" href="Amd64_8cpp_source.html">Amd64.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                                               {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">if</span>(!size) <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Size may not be nil&quot;</span>);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">if</span>(size % <a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a883bba75422b94e6a6aa87fde9593181">kStackAlignment</a>) <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Stack is misaligned&quot;</span>);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_a883bba75422b94e6a6aa87fde9593181"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#a883bba75422b94e6a6aa87fde9593181">libcommunism::internal::Amd64::kStackAlignment</a></div><div class="ttdeci">static constexpr const size_t kStackAlignment</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8h_source.html#l00097">Amd64.h:97</a></div></div>
 </div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a485e7e91fcf6bebca5812c0df210d9c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a485e7e91fcf6bebca5812c0df210d9c6">&#9670;&nbsp;</a></span>gCurrentHandle</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">thread_local <a class="el" href="classlibcommunism_1_1Cothread.html">Cothread</a> * Amd64::gCurrentHandle {nullptr}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Handle for the currently executing cothread in the calling physical thread. This is updated when switching cothreads, but will be <code>nullptr</code> until the first call to <code>SwitchTo()</code>. </p>
+
+<p class="definition">Definition at line <a class="el" href="Amd64_8h_source.html#l00109">109</a> of file <a class="el" href="Amd64_8h_source.html">Amd64.h</a>.</p>
+
+</div>
+</div>
+<a id="a6d11b198daf631dff419c45fc41634c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d11b198daf631dff419c45fc41634c6">&#9670;&nbsp;</a></span>gMainStack</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">thread_local std::array&lt; uintptr_t, <a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a5d221a54b8413b25a9544a60db82c297">Amd64::kMainStackSize</a> &gt; Amd64::gMainStack</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Pseudo-stack to use for the "main" cothread, i.e. the native kernel thread executing before a cothread is ever switched to it.</p>
+<p>This buffer receives the stack frame of the context of the thread on the first invocation to SwitchTo(). When invoking the Current() method before executing a real cothread, the returned <a class="el" href="classlibcommunism_1_1Cothread.html" title="Instance of a single cooperative thread.">Cothread</a> will correspond to this buffer.</p>
+<p>It does not have to be particularly large, since the stack is actually allocated by the system already, and this "stack" only holds the register state. </p>
+
+<p class="definition">Definition at line <a class="el" href="Amd64_8h_source.html#l00122">122</a> of file <a class="el" href="Amd64_8h_source.html">Amd64.h</a>.</p>
+
+</div>
+</div>
+<a id="ae7847682f05a7af09d8882353a5bb93b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7847682f05a7af09d8882353a5bb93b">&#9670;&nbsp;</a></span>kDefaultStackSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr const size_t libcommunism::internal::Amd64::kDefaultStackSize {0x80000}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Platform default size to use for the stack, in bytes, if no size is requested by the caller. We default to 512K. </p>
+
+<p class="definition">Definition at line <a class="el" href="Amd64_8h_source.html#l00103">103</a> of file <a class="el" href="Amd64_8h_source.html">Amd64.h</a>.</p>
+
+</div>
+</div>
+<a id="a5d221a54b8413b25a9544a60db82c297"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d221a54b8413b25a9544a60db82c297">&#9670;&nbsp;</a></span>kMainStackSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr const size_t libcommunism::internal::Amd64::kMainStackSize {64}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Size of the stack buffer for the "fake" initial cothread, in machine words. This only needs to be large enough to fit the register stack frame. This <em>must</em> be a power of two.</p>
+<p>It must be sufficiently large to store the callee-saved general purpose registers, as well as all of the SSE registers on Windows. </p>
+
+<p class="definition">Definition at line <a class="el" href="Amd64_8h_source.html#l00089">89</a> of file <a class="el" href="Amd64_8h_source.html">Amd64.h</a>.</p>
+
+</div>
+</div>
+<a id="abcdd353448a6e680c66c1b721184faa5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abcdd353448a6e680c66c1b721184faa5">&#9670;&nbsp;</a></span>kNumSavedRegisters</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr const size_t libcommunism::internal::Amd64::kNumSavedRegisters {6}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Number of registers saved by the cothread swap code. This is used to correctly build the stack frames during initialization. </p>
+
+<p class="definition">Definition at line <a class="el" href="Amd64_8h_source.html#l00080">80</a> of file <a class="el" href="Amd64_8h_source.html">Amd64.h</a>.</p>
+
+</div>
+</div>
+<a id="a883bba75422b94e6a6aa87fde9593181"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a883bba75422b94e6a6aa87fde9593181">&#9670;&nbsp;</a></span>kStackAlignment</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr const size_t libcommunism::internal::Amd64::kStackAlignment {64}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Requested alignment for stack allocations.</p>
+<p>This is set to 64 bytes for cache line alignment. On amd64, the stack should always be at least 16 byte aligned (for SSE quantities). </p>
+
+<p class="definition">Definition at line <a class="el" href="Amd64_8h_source.html#l00097">97</a> of file <a class="el" href="Amd64_8h_source.html">Amd64.h</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following files:<ul>

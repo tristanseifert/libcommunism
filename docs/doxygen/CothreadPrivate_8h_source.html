@@ -74,17 +74,19 @@ $(function() {
 <a href="CothreadPrivate_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef COTHREADPRIVATE_H</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define COTHREADPRIVATE_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;libcommunism/Cothread.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="Cothread_8h.html">libcommunism/Cothread.h</a>&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacelibcommunism_1_1internal.html">libcommunism::internal</a> {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">extern</span> std::function&lt;void(libcommunism::Cothread *)&gt; <a class="code" href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">gReturnHandler</a>;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;};</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="anamespacelibcommunism_1_1internal_html"><div class="ttname"><a href="namespacelibcommunism_1_1internal.html">libcommunism::internal</a></div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8cpp_source.html#l00023">Amd64.cpp:23</a></div></div>
-<div class="ttc" id="anamespacelibcommunism_1_1internal_html_a7ffa60f4788d5229f04e2ad5a41b2935"><div class="ttname"><a href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">libcommunism::internal::gReturnHandler</a></div><div class="ttdeci">std::function&lt; void(libcommunism::Cothread *)&gt; gReturnHandler</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8cpp_source.html#l00019">Cothread.cpp:19</a></div></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacelibcommunism_1_1internal.html">libcommunism::internal</a> {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">extern</span> std::function&lt;void(<a class="code" href="classlibcommunism_1_1Cothread.html">libcommunism::Cothread</a> *)&gt; <a class="code" href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">gReturnHandler</a>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;};</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aCothread_8h_html"><div class="ttname"><a href="Cothread_8h.html">Cothread.h</a></div></div>
+<div class="ttc" id="aclasslibcommunism_1_1Cothread_html"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html">libcommunism::Cothread</a></div><div class="ttdoc">Instance of a single cooperative thread.</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00024">Cothread.h:24</a></div></div>
+<div class="ttc" id="anamespacelibcommunism_1_1internal_html"><div class="ttname"><a href="namespacelibcommunism_1_1internal.html">libcommunism::internal</a></div><div class="ttdoc">Implementation details (including architecture/platform specific code) for the library.</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8h_source.html#l00009">Amd64.h:9</a></div></div>
+<div class="ttc" id="anamespacelibcommunism_1_1internal_html_a7ffa60f4788d5229f04e2ad5a41b2935"><div class="ttname"><a href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">libcommunism::internal::gReturnHandler</a></div><div class="ttdeci">std::function&lt; void(libcommunism::Cothread *)&gt; gReturnHandler</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8cpp_source.html#l00067">Cothread.cpp:67</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
