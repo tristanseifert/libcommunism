@@ -18,14 +18,22 @@ jobs:
           fetch-depth: 0
       # create output directory
       - run: mkdir -p docs/doxygen
+      - run: ls -la
       # generate the doxygen docs
       - name: Doxygen Action
         uses: mattnotmitt/doxygen-action@v1.3.1
+      - run: ls -la
+      - run: ls -la docs/
+      - run: ls -la docs/doxygen
+      - run: ls -la docs/doxygen/html && pwd
+      - run: ls -la /home/runner/work/libcommunism/libcommunism/docs/doxygen/html/
       # and output to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/doxygen/html
+          publish_dir: docs/doxygen/html
           destination_dir: docs/doxygen
           enable_jekyll: true
+      - run: ls -la /home/runner/work/libcommunism/libcommunism/docs/doxygen/html/
+
