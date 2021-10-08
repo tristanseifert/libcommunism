@@ -1,0 +1,11 @@
+libcommunism is intended to be a really, really fast implementation of cooperative multithreading in userspace. It provides a common C++ interface to clients, similar to the C++ `std::thread` class. The caller decides when threads are scheduled by explicitly switching to them.
+
+## Supported Platforms
+Currently, the following platforms are supported:
+
+- amd64 (System V ABI)
+
+Adding support for other platforms is relatively easy; only a thin platform shim needs to be developed. Feel free to submit pull requests to add this.
+
+## Requirements
+There are no external requirements for using the library besides a functioning C++ compiler. The library itself requires C++20 (due to use of `std::span<T>`) and CMake to build.
