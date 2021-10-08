@@ -7,7 +7,7 @@
 #include <string>
 
 /**
- * Main namespace for the libcommunism library.
+ * @brief Main namespace for the libcommunism library.
  */
 namespace libcommunism {
 namespace internal{
@@ -69,8 +69,9 @@ class Cothread {
          *         like `malloc()`. That is to say, you should not have any expectations on how
          *         or where the stack is allocated.
          *
-         * @note Entry point method should _not_ return! This will cause undefined behavior. It
-         *       should instead have some call to `SwitchTo()` to switch to a different thread.
+         * @note If the entry point returns, the the cothread return handler is invoked; its
+         *       default action is to terminate the program, as the state of the stack after return
+         *       from the main thread is undefined and may result in undefined behavior.
          *
          * @param entry Method to execute on entry to this cothread
          * @param ctx Optional context parameter passed to the cothread entry
@@ -90,8 +91,9 @@ class Cothread {
          * @remark You are responsible for managing the buffer memory, i.e. freeing it after the
          *         cothread has been deallocated. See notes for important information.
          *
-         * @note Entry point method should _not_ return! This will cause undefined behavior. It
-         *       should instead have some call to `SwitchTo()` to switch to a different thread.
+         * @note If the entry point returns, the the cothread return handler is invoked; its
+         *       default action is to terminate the program, as the state of the stack after return
+         *       from the main thread is undefined and may result in undefined behavior.
          *
          * @note The provided buffer must remain valid for the duration of the cothread's life. If
          *       it is deallocated or otherwise reused during the lifetime of the cothread,
@@ -113,7 +115,8 @@ class Cothread {
          * Destroys a previously allocated cothread, and deallocates any underlying buffer memory
          * used by it.
          *
-         * @note Destroying the currently executing cothread results in undefined behavior.
+         * @note Destroying the currently executing cothread results in undefined behavior, as it
+         *       will cause its stack to be deallocated.
          */
         ~Cothread();
 

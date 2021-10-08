@@ -1,0 +1,31 @@
+name: Generate Docs
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  doxygen:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      # fetch the repo (incl. submodules for doxygen theme)
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+      # create output directory
+      - run: mkdir -p docs/doxygen
+      # generate the doxygen docs
+      - name: Doxygen Action
+        uses: mattnotmitt/doxygen-action@v1.3.1
+      # and output to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/doxygen/html
+          destination_dir: docs/doxygen
+          enable_jekyll: true

@@ -19,53 +19,8 @@
 using namespace libcommunism;
 using namespace libcommunism::internal;
 
-/// Implementation detail of cothreads on amd64
-namespace libcommunism::internal::amd64 {
-/**
- * Handle for the currently executing cothread in the calling physical thread. This is updated when
- * switching cothreads, but will be `nullptr` until the first call to `SwitchTo()`.
- */
-thread_local Cothread *gCurrentHandle{nullptr};
-
-/**
- * Number of registers saved by the cothread swap code. This is used to correctly build the stack
- * frames during initialization.
- */
-constexpr const size_t kNumSavedRegisters{6};
-
-/**
- * Size of the stack buffer for the "fake" initial cothread, in machine words. This only needs to
- * be large enough to fit the register stack frame. This _must_ be a power of two.
- *
- * It must be sufficiently large to store the callee-saved general purpose registers, as well as
- * all of the SSE registers on Windows.
- */
-constexpr const size_t kMainStackSize{64};
-
-/**
- * Requested alignment for stack allocations.
- *
- * This is set to 64 bytes for cache line alignment. On amd64, the stack should always be at least
- * 16 byte aligned (for SSE quantities).
- */
-constexpr const size_t kStackAlignment{64};
-
-/**
- * Platform default size to use for the stack, in bytes, if no size is requested by the caller. We
- * default to 512K.
- */
-constexpr const size_t kDefaultStackSize{0x80000};
-
-/**
- * Context buffer to use for a "fake" initial cothread.
- *
- * This buffer receives the stack frame of the context of the thread on the first invocation to
- * SwitchTo(). When invoking the Current() method before executing a real cothread, the returned
- * handle will correspond to this buffer.
- */
-thread_local std::array<uintptr_t, kMainStackSize> gMainStack;
-}
-using namespace libcommunism::internal::amd64;
+thread_local Cothread *Amd64::gCurrentHandle{nullptr};
+thread_local std::array<uintptr_t, Amd64::kMainStackSize> Amd64::gMainStack;
 
 
 
@@ -75,8 +30,8 @@ using namespace libcommunism::internal::amd64;
  * If no cothread has been lanched yet, the "fake" initial cothread handle is returned.
  */
 Cothread *Cothread::Current() {
-    if(!gCurrentHandle) Amd64::AllocMainCothread();
-    return gCurrentHandle;
+    if(!Amd64::gCurrentHandle) Amd64::AllocMainCothread();
+    return Amd64::gCurrentHandle;
 }
 
 /**
@@ -87,11 +42,11 @@ Cothread::Cothread(void (*entry)(void *), void *ctx, const size_t contextSize) {
     int err{-1};
 
     // round down context size to ensure it's aligned
-    auto allocSize = contextSize & ~(kStackAlignment - 1);
-    allocSize = allocSize ? allocSize : kDefaultStackSize;
+    auto allocSize = contextSize & ~(Amd64::kStackAlignment - 1);
+    allocSize = allocSize ? allocSize : Amd64::kDefaultStackSize;
 
     // allocate buffer
-    err = posix_memalign(&buf, kStackAlignment, allocSize);
+    err = posix_memalign(&buf, Amd64::kStackAlignment, allocSize);
     if(err) {
         throw std::runtime_error("posix_memalign() failed");
     }
@@ -126,8 +81,8 @@ Cothread::~Cothread() {
  * The state of the caller is stored into the context structure of the currently active thread.
  */
 void Cothread::switchTo() {
-    auto from = gCurrentHandle;
-    gCurrentHandle = this;
+    auto from = Amd64::gCurrentHandle;
+    Amd64::gCurrentHandle = this;
     Amd64::Switch(from, this);
 }
 
@@ -140,7 +95,7 @@ void Cothread::switchTo() {
  *       ensures they deallocate it later when the underlying kernel thread is destroyed.
  */
 void Amd64::AllocMainCothread() {
-    auto main = new Cothread(gMainStack, gMainStack.data() + kMainStackSize);
+    auto main = new Cothread(gMainStack, gMainStack.data() + Amd64::kMainStackSize);
     gCurrentHandle = main;
 }
 
