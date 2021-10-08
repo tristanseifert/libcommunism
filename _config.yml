@@ -1,6 +1,10 @@
 theme: jekyll-theme-leap-day
 
-  # Jekyll 3 now only supports Kramdown for Markdown
+# exclude the doxygen files
+exclude:
+  - docs/doxygen/
+
+# Jekyll 3 now only supports Kramdown for Markdown
 kramdown:
     # Use GitHub flavored markdown, including triple backtick fenced code blocks
     input: GFM

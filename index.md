@@ -23,26 +23,6 @@ For documentation on how to use the library, and how its internals are construct
 ## Examples
 Proper examples will be provided soon. For now, take a look at the following snippet:
 
-``` cpp
-#include <libcommunism/Cothread.h>
-
-libcommunism::Cothread *thread1, *thread2;
-
-thread1 = new libcommunism::Cothread([](auto) {
-    do {
-        puts("Hello from cothread 1!");
-        thread2->switchTo();
-    } while(1);
-});
-thread2 = new libcommunism::Cothread([](auto) {
-    do {
-        puts("Hello from cothread 2!");
-        thread1->switchTo();
-    } while(1);
-});
-
-thread1->switchTo();
-```
 
 The above code will have two cooperative threads passing control back and forth forever, printing alternating lines of "Hello from cothread 1/2."
 
