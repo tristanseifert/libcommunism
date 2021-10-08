@@ -1,0 +1,26 @@
+PROJECT_NAME            = "libcommunism"
+PROJECT_BRIEF           = "Userspace cooperative threading library"
+
+# where to write docs to
+OUTPUT_DIRECTORY        = docs/docs/
+# source files for these docs; scan directories recursively
+INPUT                   = src
+RECURSIVE               = YES
+
+# make C++ declarations visible
+PREDEFINED              = __cplusplus
+
+# we don't care to make LaTeX docs
+GENERATE_LATEX          = NO
+# document each group explicitly rather than reusing the first member
+DISTRIBUTE_GROUP_DOC    = YES
+# assume everything is documented even without doc comments
+EXTRACT_ALL             = YES
+
+# show source browser (file cross-reference) and embed source
+SOURCE_BROWSER          = YES
+INLINE_SOURCES          = YES
+
+##########
+# use the special CSS
+HTML_EXTRA_STYLESHEET  = extra/doxygen-awesome-css/doxygen-awesome.css
