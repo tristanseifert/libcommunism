@@ -26,15 +26,15 @@ Proper examples will be provided soon. For now, take a look at the following sni
 ``` cpp
 #include <libcommunism/Cothread.h>
 
-libcommunism::Cothread *thread1, *thread2;
+static libcommunism::Cothread *thread1, *thread2;
 
-thread1 = new libcommunism::Cothread([](auto) {
+thread1 = new libcommunism::Cothread([](void *) {
     do {
         puts("Hello from cothread 1!");
         thread2->switchTo();
     } while(1);
 });
-thread2 = new libcommunism::Cothread([](auto) {
+thread2 = new libcommunism::Cothread([](void *) {
     do {
         puts("Hello from cothread 2!");
         thread1->switchTo();
