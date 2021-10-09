@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['libcommunism_20documentation_80',['libcommunism Documentation',['../index.html',1,'']]]
+  ['libcommunism_20documentation_104',['libcommunism Documentation',['../index.html',1,'']]]
 ];

@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['prepare_32',['Prepare',['../structlibcommunism_1_1internal_1_1Amd64.html#a6415d5e61e9528aa7d9d1b62cba7f7d3',1,'libcommunism::internal::Amd64']]]
+  ['internal_36',['internal',['../namespacelibcommunism_1_1internal.html',1,'libcommunism']]],
+  ['libcommunism_37',['libcommunism',['../namespacelibcommunism.html',1,'']]],
+  ['libcommunism_20documentation_38',['libcommunism Documentation',['../index.html',1,'']]]
 ];

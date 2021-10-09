@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['entry_16',['Entry',['../classlibcommunism_1_1Cothread.html#a56facf24195f6223f0fc1397a9a71467',1,'libcommunism::Cothread']]],
-  ['entry_17',['entry',['../structlibcommunism_1_1internal_1_1Amd64_1_1CallInfo.html#a041e02f1ed0d61034403f404db36876d',1,'libcommunism::internal::Amd64::CallInfo']]],
-  ['entryreturnedstub_18',['EntryReturnedStub',['../structlibcommunism_1_1internal_1_1Amd64.html#a296bb3942213f7a194474e72c76aa3f0',1,'libcommunism::internal::Amd64']]]
+  ['deallocstack_15',['DeallocStack',['../structlibcommunism_1_1internal_1_1Amd64.html#add15bef63613c973d4223f973e7148bc',1,'libcommunism::internal::Amd64']]],
+  ['dereferencecallinfo_16',['DereferenceCallInfo',['../structlibcommunism_1_1internal_1_1Amd64.html#af66b604f36218306d2ccd34fe65da58c',1,'libcommunism::internal::Amd64']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['resetreturnhandler_63',['ResetReturnHandler',['../classlibcommunism_1_1Cothread.html#aeaef12afd0dd667c02876716e5833865',1,'libcommunism::Cothread']]]
+  ['prepare_81',['Prepare',['../structlibcommunism_1_1internal_1_1Amd64.html#a6415d5e61e9528aa7d9d1b62cba7f7d3',1,'libcommunism::internal::Amd64::Prepare()'],['../structlibcommunism_1_1internal_1_1UContext.html#ae1d8f0a78ac0c4e87d4eff55cd4bbfeb',1,'libcommunism::internal::UContext::Prepare()']]]
 ];
