@@ -12,8 +12,18 @@ Currently, the following platforms are supported:
 
 Adding support for other platforms is relatively easy; only a thin platform shim needs to be developed, with a few small assembly routines to switch thread context. Feel free to submit pull requests to add new platforms.
 
+## Pseudoplatforms
+In addition to the above "real" and optimized platforms, the following pseudoplatforms are available:
+
+- ucontext
+
+These implementations are not suitable as much more than a proof of concept, due to their performance implications. Other implementations should be preferred whenever possible.
+
 ## Requirements
 There are no external requirements for using the library besides a functioning C++ compiler. The library itself requires C++20 (due to use of `std::span<T>`) and CMake to build.
+
+## Building and Installation
+Use your favorite CMake generator to generate the build files for the library and build it; by default, this will result in a static library. You can influence the produced library with [build options.]({% link buildopts.md %})
 
 # Tests
 Tests are provided with the library. They use the [Catch2](https://github.com/catchorg/Catch2) framework, and are built by the `tests` target. Do note that these tests only cover the host's architecture.
