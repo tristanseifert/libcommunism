@@ -34,11 +34,11 @@ Cothread *Cothread::Current() {
 /**
  * Allocates a cothread including a context region of the specified size.
  */
-Cothread::Cothread(const Entry &entry, const size_t contextSize) {
+Cothread::Cothread(const Entry &entry, const size_t stackSize) {
     void *buf{nullptr};
 
-    // round down context size to ensure it's aligned before allocating it
-    auto allocSize = contextSize & ~(Amd64::kStackAlignment - 1);
+    // round down stack size to ensure it's aligned before allocating it
+    auto allocSize = stackSize & ~(Amd64::kStackAlignment - 1);
     allocSize = allocSize ? allocSize : Amd64::kDefaultStackSize;
 
     buf = Amd64::AllocStack(allocSize);
@@ -70,7 +70,7 @@ Cothread::~Cothread() {
 /**
  * Performs a context switch to the provided cothread.
  *
- * The state of the caller is stored into the context structure of the currently active thread.
+ * The state of the caller is stored on the stack of the currently active thread.
  */
 void Cothread::switchTo() {
     auto from = Amd64::gCurrentHandle;

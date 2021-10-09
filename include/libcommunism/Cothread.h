@@ -30,7 +30,7 @@ class Cothread {
          * architecture specific code.
          */
         enum class Flags: uintptr_t {
-            /// Context memory was owned and allocated by the cothread and should be deallocated
+            /// Stack was allocated by the cothread and should be deallocated on destruction
             OwnsStack                   = (1 << 0),
         };
 
@@ -86,7 +86,6 @@ class Cothread {
          *       from the main thread is undefined and may result in undefined behavior.
          *
          * @param entry Method to execute on entry to this cothread
-         * @param ctx Optional context parameter passed to the cothread entry
          * @param stackSize Size of the stack to be allocated, in bytes. it should be a multiple of
          *        the machine word size, or specify zero to use the platform default.
          *
@@ -98,7 +97,7 @@ class Cothread {
         Cothread(const Entry &entry, const size_t stackSize = 0);
 
         /**
-         * Allocates a new cothread, using an existing buffer to store its context.
+         * Allocates a new cothread, using an existing buffer to store its stack.
          *
          * @remark You are responsible for managing the buffer memory, i.e. freeing it after the
          *         cothread has been deallocated. See notes for important information.
@@ -113,9 +112,8 @@ class Cothread {
          *       of the buffer. Additionally, it must meet alignment requirements for stacks on
          *       the underlying platform. (A 64 byte alignment should be safe for most platforms.)
          *
-         * @param stack Buffer to use as the stack of the cothread
          * @param entry Method to execute on entry to this cothread
-         * @param ctx Optional context passed to the cothread entry
+         * @param stack Buffer to use as the stack of the cothread
          *
          * @throw std::runtime_error If the provided stack is invalid
          *
@@ -136,8 +134,8 @@ class Cothread {
          * Performs a context switch to this cothread.
          *
          * This method saves the context of the current cothread (registers, including the stack
-         * pointer) in its context buffer; then restores registers, stack and returns control to
-         * the destination cothread.
+         * pointer) on top of its stack; then restores registers, stack and returns control to the
+         * destination cothread.
          *
          * @note Do not attempt to switch to a currently executing cothread, whether it is on the
          *       same physical thread or not. This will corrupt both cothreads' stacks and result
