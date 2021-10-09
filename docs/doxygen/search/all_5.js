@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['gcontextinfo_21',['gContextInfo',['../structlibcommunism_1_1internal_1_1UContext.html#ae933f615cbe1f356d7165ef8977b75ca',1,'libcommunism::internal::UContext']]],
+  ['gcontextinfo_21',['gContextInfo',['../structlibcommunism_1_1internal_1_1UContext.html#a0459cebaff39cc99caf4a0d5ae3ec5ac',1,'libcommunism::internal::UContext']]],
   ['gcontextinfolock_22',['gContextInfoLock',['../structlibcommunism_1_1internal_1_1UContext.html#a793d056aa4fd1d41300703b6fc65e708',1,'libcommunism::internal::UContext']]],
   ['gcontextnextid_23',['gContextNextId',['../structlibcommunism_1_1internal_1_1UContext.html#ad33edc632aa9ec3d78f4a3bd821d342a',1,'libcommunism::internal::UContext']]],
   ['gcurrenthandle_24',['gCurrentHandle',['../structlibcommunism_1_1internal_1_1Amd64.html#a485e7e91fcf6bebca5812c0df210d9c6',1,'libcommunism::internal::Amd64::gCurrentHandle()'],['../structlibcommunism_1_1internal_1_1UContext.html#af8323911e50712a84f288c4e54cf97cd',1,'libcommunism::internal::UContext::gCurrentHandle()']]],

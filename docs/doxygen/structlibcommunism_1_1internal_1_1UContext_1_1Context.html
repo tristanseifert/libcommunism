@@ -68,6 +68,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structlibcommunism_1_1internal_1_1UContext_1_1Context-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -80,6 +81,12 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="UContext_8h_source.html">UContext.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ae58a1e3835954d83c82df3184b723cf1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1internal_1_1UContext_1_1Context.html#ae58a1e3835954d83c82df3184b723cf1">Context</a> (const <a class="el" href="classlibcommunism_1_1Cothread.html#a56facf24195f6223f0fc1397a9a71467">Cothread::Entry</a> &amp;_entry)</td></tr>
+<tr class="memdesc:ae58a1e3835954d83c82df3184b723cf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a context struct with the given entry point.  <a href="structlibcommunism_1_1internal_1_1UContext_1_1Context.html#ae58a1e3835954d83c82df3184b723cf1">More...</a><br /></td></tr>
+<tr class="separator:ae58a1e3835954d83c82df3184b723cf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a07612f25400396116db9b76bcea8d8f1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classlibcommunism_1_1Cothread.html#a56facf24195f6223f0fc1397a9a71467">Cothread::Entry</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1internal_1_1UContext_1_1Context.html#a07612f25400396116db9b76bcea8d8f1">entry</a></td></tr>
@@ -89,8 +96,41 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="structlibcommunism_1_1internal_1_1UContext_1_1Context.html" title="Context structure passed to the entry point of an ucontext.">Context</a> structure passed to the entry point of an ucontext. </p>
 
-<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00032">32</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
+<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00033">33</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ae58a1e3835954d83c82df3184b723cf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae58a1e3835954d83c82df3184b723cf1">&#9670;&nbsp;</a></span>Context()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">libcommunism::internal::UContext::Context::Context </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classlibcommunism_1_1Cothread.html#a56facf24195f6223f0fc1397a9a71467">Cothread::Entry</a> &amp;&#160;</td>
+          <td class="paramname"><em>_entry</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initializes a context struct with the given entry point. </p>
+
+<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00038">38</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;: <a class="code" href="structlibcommunism_1_1internal_1_1UContext_1_1Context.html#a07612f25400396116db9b76bcea8d8f1">entry</a>(_entry) {}</div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_1_1Context_html_a07612f25400396116db9b76bcea8d8f1"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext_1_1Context.html#a07612f25400396116db9b76bcea8d8f1">libcommunism::internal::UContext::Context::entry</a></div><div class="ttdeci">Cothread::Entry entry</div><div class="ttdoc">Entry point of the cothread.</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00035">UContext.h:35</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
 <a id="a07612f25400396116db9b76bcea8d8f1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a07612f25400396116db9b76bcea8d8f1">&#9670;&nbsp;</a></span>entry</h2>
 
@@ -105,7 +145,7 @@ Public Attributes</h2></td></tr>
 
 <p>Entry point of the cothread. </p>
 
-<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00034">34</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00035">35</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
 
 </div>
 </div>
