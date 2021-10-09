@@ -35,6 +35,9 @@ class Cothread {
         };
 
     public:
+        /// Type alias for an entry point of a cothread
+        using Entry = std::function<void()>;
+
         /**
          * Returns the cothread currently executing on the calling "physical" thread.
          *
@@ -60,7 +63,7 @@ class Cothread {
         static void SetReturnHandler(const std::function<void(Cothread *)> &handler);
 
         /**
-         * Allocates a new cothread without explicitly allocating its state buffer.
+         * Allocates a new cothread without explicitly allocating its stack.
          *
          * @remark The backing storage for the cothread is allocated internally by the platform
          *         implementation and not directly accessible to clients of this interface.
@@ -83,7 +86,7 @@ class Cothread {
          *
          * @return An initialized cothread object
          */
-        Cothread(void (*entry)(void *), void *ctx = nullptr, const size_t stackSize = 0);
+        Cothread(const Entry &entry, const size_t stackSize = 0);
 
         /**
          * Allocates a new cothread, using an existing buffer to store its context.
@@ -109,7 +112,7 @@ class Cothread {
          *
          * @return An initialized cothread object
          */
-        Cothread(std::span<uintptr_t> stack, void (*entry)(void *), void *ctx = nullptr);
+        Cothread(const Entry &entry, std::span<uintptr_t> stack);
 
         /**
          * Destroys a previously allocated cothread, and deallocates any underlying buffer memory

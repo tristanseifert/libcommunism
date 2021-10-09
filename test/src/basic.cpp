@@ -12,7 +12,7 @@ using namespace libcommunism;
  */
 TEST_CASE("initialization of cothreads") {
     Cothread *t1;
-    REQUIRE_NOTHROW(t1 = new Cothread([](auto) {}));
+    REQUIRE_NOTHROW(t1 = new Cothread([]() {}));
     REQUIRE(!!t1);
     REQUIRE_NOTHROW(delete t1);
 }
@@ -28,7 +28,7 @@ TEST_CASE("context switch between main, cothread, and back") {
     main = Cothread::Current();
     REQUIRE(!!main);
 
-    REQUIRE_NOTHROW(t1 = new Cothread([](auto) {
+    REQUIRE_NOTHROW(t1 = new Cothread([]() {
         counter++;
         main->switchTo();
     }));

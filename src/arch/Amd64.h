@@ -12,6 +12,13 @@ namespace libcommunism::internal {
  */
 struct Amd64 {
     /**
+     * @brief Information required to make a function call for a cothread's entry point.
+     */
+    struct CallInfo {
+        Cothread::Entry entry;
+    };
+
+    /**
      * Allocates the current physical (kernel) thread's Cothread object.
      *
      * @note This will leak the associated cothread object, unless the caller stores it somewhere
@@ -29,14 +36,26 @@ struct Amd64 {
     static void ValidateStackSize(const size_t size);
 
     /**
+     * Invoked when the main method of a cothread returns.
+     */
+    static void CothreadReturned();
+
+    /**
+     * Performs the call described inside a call info structure.
+     *
+     * @param info Pointer to the call info structure; it's deleted once the call returns.
+     */
+    static void DereferenceCallInfo(CallInfo *info);
+
+    /**
      * Given a wrapper structure and initial function to invoke, prepares the context of the
      * cothread such that it will return to the start of this method.
      *
      * @param thread Cothread whose stack frame is to be prepared
      * @param entry Function to return control to when switching to this cothread
-     * @param ctx Arbitrary pointer to pass to the entry point
      */
-    static void Prepare(Cothread *thread, void (*entry)(void *), void *ctx = nullptr);
+    //static void Prepare(Cothread *thread, void (*entry)(void *), void *ctx = nullptr);
+    static void Prepare(Cothread *thread, const Cothread::Entry &entry);
 
     /**
      * Performs a context switch.
@@ -66,18 +85,12 @@ struct Amd64 {
      */
     static void EntryReturnedStub();
 
-    /**
-     * Invoked when the main method of a cothread returns.
-     */
-    static void CothreadReturned();
-
-
 
     /**
      * Number of registers saved by the cothread swap code. This is used to correctly build the stack
      * frames during initialization.
      */
-    static constexpr const size_t kNumSavedRegisters{6};
+    static const size_t kNumSavedRegisters;
 
     /**
      * Size of the stack buffer for the "fake" initial cothread, in machine words. This only needs to

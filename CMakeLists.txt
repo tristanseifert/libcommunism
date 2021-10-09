@@ -37,6 +37,8 @@ add_library(libcommunism
     src/Cothread.cpp
 )
 
+set_target_properties(libcommunism PROPERTIES OUTPUT_NAME communism)
+
 target_include_directories(libcommunism PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src)
 target_include_directories(libcommunism PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
 
@@ -44,12 +46,19 @@ target_include_directories(libcommunism PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include
 if("x86_64" STREQUAL ${TARGET_ARCH})
     target_sources(libcommunism PRIVATE
         src/arch/Amd64.cpp
-        src/arch/Amd64+SysV.S
     )
+
+    if(WIN32)
+
+    else()
+        target_sources(libcommunism PRIVATE
+            src/arch/Amd64+SysV.cpp
+            src/arch/Amd64+SysV.S
+        )
+    endif()
 else()
     message(SEND_ERROR "don't know what arch specific sources are needed for '${TARGET_ARCH}'!")
 endif()
-
 
 ### TODO: define install step
 

@@ -20,7 +20,7 @@ TEST_CASE("benchmarks") {
     main = Cothread::Current();
     REQUIRE(!!main);
 
-    REQUIRE_NOTHROW(t1 = new Cothread([](auto) {
+    REQUIRE_NOTHROW(t1 = new Cothread([]() {
         while(1) {
             main->switchTo();
         }
