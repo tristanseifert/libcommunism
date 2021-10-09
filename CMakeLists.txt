@@ -23,6 +23,10 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         -fdiagnostics-color=always -Wwrite-strings -Wimplicit-fallthrough
         -Wno-unused-private-field)
     add_compile_options(-Werror)
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    add_compile_options(-Wall -Wextra -Wmissing-declarations -Wformat=2 -Wcast-qual -Wundef
+        -fdiagnostics-color=always -Wwrite-strings -Wimplicit-fallthrough)
+    add_compile_options(-Werror)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     # default warnings, treat warnings as errors
     # this breaks the MASM :(
