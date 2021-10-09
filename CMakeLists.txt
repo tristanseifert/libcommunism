@@ -37,7 +37,7 @@ message(STATUS "Target architecture: ${TARGET_ARCH}")
 
 ### Use the manually specified arch code override, or autodetect it
 set(ARCH_LIBCOMMUNISM "Auto" CACHE STRING "Architecture specific code to be built")
-set_property(CACHE ARCH_LIBCOMMUNISM PROPERTY STRINGS Auto amd64-sysv amd64-win)
+set_property(CACHE ARCH_LIBCOMMUNISM PROPERTY STRINGS Auto amd64-sysv amd64-win ucontext)
 
 if("Auto" STREQUAL ${ARCH_LIBCOMMUNISM})
     if("x86_64" STREQUAL ${TARGET_ARCH})
@@ -75,7 +75,7 @@ if("amd64-win" STREQUAL ${ARCH_SOURCES_TYPE})
         src/arch/Amd64/Windows.cpp
         src/arch/Amd64/Windows.asm
     )
-    target_compile_definitions(libcommunism PRIVATE -DAMD64_ABI_WINDOWS)
+    target_compile_definitions(libcommunism PRIVATE -DPLATFORM_AMD64_WINDOWS)
 elseif("amd64-sysv" STREQUAL ${ARCH_SOURCES_TYPE})
     enable_language(ASM)
 
@@ -84,7 +84,12 @@ elseif("amd64-sysv" STREQUAL ${ARCH_SOURCES_TYPE})
         src/arch/amd64/SysV.cpp
         src/arch/amd64/SysV.S
     )
-    target_compile_definitions(libcommunism PRIVATE -DAMD64_ABI_SYSV)
+    target_compile_definitions(libcommunism PRIVATE -DPLATFORM_AMD64_SYSV)
+elseif("ucontext" STREQUAL ${ARCH_SOURCES_TYPE})
+    target_sources(libcommunism PRIVATE
+        src/arch/ucontext/UContext.cpp
+    )
+    target_compile_definitions(libcommunism PRIVATE -DPLATFORM_UCONTEXT)
 else()
     message(SEND_ERROR "don't know what arch specific sources are needed for '${ARCH_SOURCES_TYPE}'!")
 endif()
