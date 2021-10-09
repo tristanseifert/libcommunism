@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['getlabel_45',['getLabel',['../classlibcommunism_1_1Cothread.html#abeed231da1a3ad90e982650a08dc645c',1,'libcommunism::Cothread']]]
+  ['entryreturnedstub_52',['EntryReturnedStub',['../structlibcommunism_1_1internal_1_1Amd64.html#a296bb3942213f7a194474e72c76aa3f0',1,'libcommunism::internal::Amd64']]]
 ];

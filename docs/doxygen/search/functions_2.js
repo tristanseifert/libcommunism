@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['entryreturnedstub_44',['EntryReturnedStub',['../structlibcommunism_1_1internal_1_1Amd64.html#a296bb3942213f7a194474e72c76aa3f0',1,'libcommunism::internal::Amd64']]]
+  ['dereferencecallinfo_51',['DereferenceCallInfo',['../structlibcommunism_1_1internal_1_1Amd64.html#af66b604f36218306d2ccd34fe65da58c',1,'libcommunism::internal::Amd64']]]
 ];

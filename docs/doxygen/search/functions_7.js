@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['validatestacksize_52',['ValidateStackSize',['../structlibcommunism_1_1internal_1_1Amd64.html#a2d23d6b326b85065e5966e7fdda90352',1,'libcommunism::internal::Amd64']]]
+  ['setlabel_56',['setLabel',['../classlibcommunism_1_1Cothread.html#adc9fabe12335420c2fcd05fe748cba18',1,'libcommunism::Cothread']]],
+  ['setreturnhandler_57',['SetReturnHandler',['../classlibcommunism_1_1Cothread.html#a1aa6febcd8872e14341c66b9c5a447c6',1,'libcommunism::Cothread']]],
+  ['switch_58',['Switch',['../structlibcommunism_1_1internal_1_1Amd64.html#a66794b215fbd5878f8f92e51fa68f956',1,'libcommunism::internal::Amd64']]],
+  ['switchto_59',['switchTo',['../classlibcommunism_1_1Cothread.html#a672bcee91d509ed6a145c713066e8527',1,'libcommunism::Cothread']]]
 ];

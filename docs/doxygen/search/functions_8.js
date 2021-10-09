@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['_7ecothread_53',['~Cothread',['../classlibcommunism_1_1Cothread.html#a0cdb57c1f9305b5e9f604bb0817a63fa',1,'libcommunism::Cothread']]]
+  ['validatestacksize_60',['ValidateStackSize',['../structlibcommunism_1_1internal_1_1Amd64.html#a2d23d6b326b85065e5966e7fdda90352',1,'libcommunism::internal::Amd64']]]
 ];

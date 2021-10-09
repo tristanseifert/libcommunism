@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['gcurrenthandle_11',['gCurrentHandle',['../structlibcommunism_1_1internal_1_1Amd64.html#a485e7e91fcf6bebca5812c0df210d9c6',1,'libcommunism::internal::Amd64']]],
-  ['getlabel_12',['getLabel',['../classlibcommunism_1_1Cothread.html#abeed231da1a3ad90e982650a08dc645c',1,'libcommunism::Cothread']]],
-  ['gmainstack_13',['gMainStack',['../structlibcommunism_1_1internal_1_1Amd64.html#a6d11b198daf631dff419c45fc41634c6',1,'libcommunism::internal::Amd64']]],
-  ['greturnhandler_14',['gReturnHandler',['../namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935',1,'libcommunism::internal']]]
+  ['entry_13',['Entry',['../classlibcommunism_1_1Cothread.html#a56facf24195f6223f0fc1397a9a71467',1,'libcommunism::Cothread']]],
+  ['entry_14',['entry',['../structlibcommunism_1_1internal_1_1Amd64_1_1CallInfo.html#a041e02f1ed0d61034403f404db36876d',1,'libcommunism::internal::Amd64::CallInfo']]],
+  ['entryreturnedstub_15',['EntryReturnedStub',['../structlibcommunism_1_1internal_1_1Amd64.html#a296bb3942213f7a194474e72c76aa3f0',1,'libcommunism::internal::Amd64']]]
 ];
