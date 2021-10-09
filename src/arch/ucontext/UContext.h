@@ -5,12 +5,13 @@
 
 #include <array>
 #include <cstddef>
+#include <memory>
 #include <mutex>
 #include <unordered_map>
 
 namespace libcommunism::internal {
 /**
- * @brief Implementation of context switching that uses the C library's `ucontext()` methods
+ * @brief Implementation of context switching that uses the C library's `setcontext()` methods
  *
  * This is intended mostly to be a "test" platform that can be used to verify that the core
  * library works, without relying on assembly other such fun stuff. It's not particularly fast so
@@ -22,8 +23,8 @@ namespace libcommunism::internal {
  * externally allocated stack, as less (roughly `sizeof(ucontext_t)` and alignment) space than
  * provided will be actually be available as stack.
  *
- * @remark Since ucontext has been deprecated since the 2008 revision of POSIX, this may stop
- *         working (or not even be supported to begin with) on any given platform in the future.
+ * @note Since ucontext has been deprecated since the 2008 revision of POSIX, this may stop
+ *       working (or not even be supported to begin with) on any given platform in the future.
  */
 struct UContext {
     /**
@@ -32,6 +33,9 @@ struct UContext {
     struct Context {
         /// Entry point of the cothread
         Cothread::Entry entry;
+
+        /// Initializes a context struct with the given entry point.
+        Context(const Cothread::Entry &_entry) : entry(_entry) {}
     };
 
     /**
@@ -108,7 +112,7 @@ struct UContext {
      *
      * The value going into it is based on some counter we increment.
      */
-    static std::unordered_map<int, Context *> gContextInfo;
+    static std::unordered_map<int, std::unique_ptr<Context>> gContextInfo;
 
     /**
      * Mutex protecting access to the context map. This is taken during insertion and removal of

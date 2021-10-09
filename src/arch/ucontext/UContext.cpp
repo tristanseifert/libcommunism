@@ -25,7 +25,7 @@ static_assert(sizeof(ucontext_t) < (UContext::kMainStackSize * sizeof(uintptr_t)
 thread_local Cothread *UContext::gCurrentHandle{nullptr};
 thread_local std::array<uintptr_t, UContext::kMainStackSize> UContext::gMainStack;
 
-std::unordered_map<int, UContext::Context *> UContext::gContextInfo;
+std::unordered_map<int, std::unique_ptr<UContext::Context>> UContext::gContextInfo;
 std::mutex UContext::gContextInfoLock;
 int UContext::gContextNextId{0};
 
@@ -115,13 +115,18 @@ void UContext::AllocMainCothread() {
 
 /**
  * Prepares the `ucontext_t` buffer.
+ *
+ * @param thread Cothread to initialize
+ * @param entry Entry point to execute
+ *
+ * @throw std::runtime_error If context allocation or initialization failed
  */
 void UContext::Prepare(Cothread *thread, const Cothread::Entry &entry) {
     // ensure current handle is valid
     if(!gCurrentHandle) UContext::AllocMainCothread();
 
     // build the context structure we pass to our "fake" entry point
-    auto info = new Context{entry};
+    auto info = std::make_unique<Context>(entry);
     if(!info) throw std::runtime_error("Failed to allocate context");
 
     // get its ucontext_t and prepare it
@@ -148,7 +153,7 @@ void UContext::Prepare(Cothread *thread, const Cothread::Entry &entry) {
         do{
             id = ++gContextNextId;
         } while(!id);
-        gContextInfo[id] = info;
+        gContextInfo.emplace(id, std::move(info));
     }
 
     // fill in the context to invoke the helper method
@@ -169,13 +174,15 @@ void UContext::InvokeCothreadDidReturnHandler(Cothread *from) {
 
 /**
  * Looks up the context for the cothread.
+ *
+ * @param id Key into the gContextInfo map
  */
 void UContext::EntryStub(int id) {
     // extract info
-    Context *info{nullptr};
+    std::unique_ptr<Context> info;
     {
         std::lock_guard<std::mutex> lg(gContextInfoLock);
-        info = gContextInfo.at(id);
+        info = std::move(gContextInfo.at(id));
         gContextInfo.erase(id);
     }
 
@@ -183,7 +190,7 @@ void UContext::EntryStub(int id) {
     info->entry();
 
     // call the return handler
-    delete info;
+    info.reset();
     UContext::InvokeCothreadDidReturnHandler(gCurrentHandle);
 }
 
