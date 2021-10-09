@@ -159,7 +159,7 @@ Friends</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const size_t&#160;</td>
-          <td class="paramname"><em>contextSize</em> = <code>0</code>&#160;</td>
+          <td class="paramname"><em>stackSize</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -174,7 +174,6 @@ Friends</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">entry</td><td>Method to execute on entry to this cothread </td></tr>
-    <tr><td class="paramname">ctx</td><td>Optional context parameter passed to the cothread entry </td></tr>
     <tr><td class="paramname">stackSize</td><td>Size of the stack to be allocated, in bytes. it should be a multiple of the machine word size, or specify zero to use the platform default.</td></tr>
   </table>
   </dd>
@@ -190,11 +189,11 @@ Friends</h2></td></tr>
 <p>Allocates a cothread including a context region of the specified size. </p>
 
 <p class="definition">Definition at line <a class="el" href="Amd64_8cpp_source.html#l00037">37</a> of file <a class="el" href="Amd64_8cpp_source.html">Amd64.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                                                               {</div>
+<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                                                             {</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">void</span> *buf{<span class="keyword">nullptr</span>};</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">// round down context size to ensure it&#39;s aligned before allocating it</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">auto</span> allocSize = contextSize &amp; ~(Amd64::kStackAlignment - 1);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">// round down stack size to ensure it&#39;s aligned before allocating it</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">auto</span> allocSize = stackSize &amp; ~(Amd64::kStackAlignment - 1);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    allocSize = allocSize ? allocSize : Amd64::kDefaultStackSize;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    buf = Amd64::AllocStack(allocSize);</div>
@@ -233,16 +232,15 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Allocates a new cothread, using an existing buffer to store its context.</p>
+<p>Allocates a new cothread, using an existing buffer to store its stack.</p>
 <dl class="section remark"><dt>Remarks</dt><dd>You are responsible for managing the buffer memory, i.e. freeing it after the cothread has been deallocated. See notes for important information.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>If the entry point returns, the the cothread return handler is invoked; its default action is to terminate the program, as the state of the stack after return from the main thread is undefined and may result in undefined behavior.</dd>
 <dd>
 The provided buffer must remain valid for the duration of the cothread's life. If it is deallocated or otherwise reused during the lifetime of the cothread, undefined behavior results. You must not attempt to manually modify the contents of the buffer. Additionally, it must meet alignment requirements for stacks on the underlying platform. (A 64 byte alignment should be safe for most platforms.)</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">stack</td><td>Buffer to use as the stack of the cothread </td></tr>
     <tr><td class="paramname">entry</td><td>Method to execute on entry to this cothread </td></tr>
-    <tr><td class="paramname">ctx</td><td>Optional context passed to the cothread entry</td></tr>
+    <tr><td class="paramname">stack</td><td>Buffer to use as the stack of the cothread</td></tr>
   </table>
   </dd>
 </dl>
@@ -352,10 +350,10 @@ The provided buffer must remain valid for the duration of the cothread's life. I
 <p>Gets the debug label (name) associated with this cothread.</p>
 <dl class="section return"><dt>Returns</dt><dd>A string containing the thread's debug label </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00153">153</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                                         {</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            <span class="keywordflow">return</span> this-&gt;label;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00151">151</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                                         {</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            <span class="keywordflow">return</span> this-&gt;label;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -423,10 +421,10 @@ The provided buffer must remain valid for the duration of the cothread's life. I
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00162">162</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                                                 {</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            this-&gt;label = newLabel;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00160">160</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                                                 {</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            this-&gt;label = newLabel;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -485,10 +483,10 @@ The provided buffer must remain valid for the duration of the cothread's life. I
       </table>
 </div><div class="memdoc">
 <p>Performs a context switch to this cothread.</p>
-<p>This method saves the context of the current cothread (registers, including the stack pointer) in its context buffer; then restores registers, stack and returns control to the destination cothread.</p>
+<p>This method saves the context of the current cothread (registers, including the stack pointer) on top of its stack; then restores registers, stack and returns control to the destination cothread.</p>
 <dl class="section note"><dt>Note</dt><dd>Do not attempt to switch to a currently executing cothread, whether it is on the same physical thread or not. This will corrupt both cothreads' stacks and result in undefined behavior.</dd></dl>
 <p>Performs a context switch to the provided cothread.</p>
-<p>The state of the caller is stored into the context structure of the currently active thread. </p>
+<p>The state of the caller is stored on the stack of the currently active thread. </p>
 
 <p class="definition">Definition at line <a class="el" href="Amd64_8cpp_source.html#l00075">75</a> of file <a class="el" href="Amd64_8cpp_source.html">Amd64.cpp</a>.</p>
 <div class="fragment"><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                        {</div>
