@@ -1,5 +1,5 @@
 /**
- * AMD64 implementation of cothreads for SysV ABI
+ * AMD64 implementation of cothreads for Windows ABI
  */
 #include "Amd64.h"
 #include "CothreadPrivate.h"
@@ -12,10 +12,12 @@
 using namespace libcommunism;
 using namespace libcommunism::internal;
 
-/**
- * For System V ABI, the only saved registers are %rbp, %rbx, and %r12-%r15.
- */
-const size_t Amd64::kNumSavedRegisters{6};
+ /**
+  * On Windows, we have to save integer registers RBX, RBP, RDI, RSI, and R12-R15. In
+  * addition, XMM6-XMM15 must be saved. Since the SSE registers are 128 bits vs. 64 bits for an
+  * integer register, we just count them twice.
+  */
+const size_t Amd64::kNumSavedRegisters{ 8 + (10 * 2) };
 
 /**
  * Ensures the provided stack size is valid.
@@ -25,12 +27,15 @@ const size_t Amd64::kNumSavedRegisters{6};
  * @throw std::runtime_error Stack size is invalid (misaligned, too small, etc.)
  */
 void Amd64::ValidateStackSize(const size_t size) {
-    if(!size) throw std::runtime_error("Size may not be nil");
-    if(size % kStackAlignment) throw std::runtime_error("Stack is misaligned");
+    if (!size) throw std::runtime_error("Size may not be nil");
+    if (size % kStackAlignment) throw std::runtime_error("Stack is misaligned");
 }
 
 /**
  * Allocates memory for a stack that's the given number of bytes in size.
+ * 
+ * @note This should be expanded to use VirtualAlloc() to allocate the stack pages with the
+ *       surrounding reserved guard regions.
  *
  * @remark If required (for page alignment, for example) the size may be rounded up.
  *
@@ -40,15 +45,11 @@ void Amd64::ValidateStackSize(const size_t size) {
  * @return Pointer to the _top_ of allocated stack
  */
 void* Amd64::AllocStack(const size_t bytes) {
-    void* buf{ nullptr };
-    int err{ -1 };
-
-    err = posix_memalign(&buf, kStackAlignment, bytes);
-    if (err) {
-        throw std::runtime_error("posix_memalign() failed");
+    auto ret = _aligned_malloc(bytes, kStackAlignment);
+    if (!ret) {
+        throw std::runtime_error("failed to allocate stack");
     }
-
-    return buf;
+    return ret;
 }
 
 /**
@@ -59,7 +60,7 @@ void* Amd64::AllocStack(const size_t bytes) {
  * @throw std::runtime_error If deallocating stack fails (invalid pointer)
  */
 void Amd64::DeallocStack(void* stack) {
-    free(stack);
+    _aligned_free(stack);
 }
 
 /**
@@ -77,23 +78,23 @@ void Amd64::DeallocStack(void* stack) {
  * @param wrap Wrapper structure defining the cothread
  * @param main Entry point for the cothread
  */
-void Amd64::Prepare(Cothread *wrap, const Cothread::Entry &entry) {
+void Amd64::Prepare(Cothread* wrap, const Cothread::Entry& entry) {
     static_assert(offsetof(Cothread, stackTop) == COTHREAD_OFF_CONTEXT_TOP, "cothread stack top is invalid");
 
     // ensure current handle is valid
-    if(!gCurrentHandle) Amd64::AllocMainCothread();
+    if (!gCurrentHandle) Amd64::AllocMainCothread();
 
     // build the context structure we pass to our "fake" entry point
-    auto info = new CallInfo{entry};
-    if(!info) throw std::runtime_error("Failed to allocate call info");
+    auto info = new CallInfo{ entry };
+    if (!info) throw std::runtime_error("Failed to allocate call info");
 
     // NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)
     // prepare some space for a stack frame (zeroed registers; four function call params)
-    auto &stackBuf = wrap->stack;
-    auto stackFrame = reinterpret_cast<std::byte *>(stackBuf.data());
-    stackFrame += ((stackBuf.size()*sizeof(typeof(*stackBuf.data()))) & ~(0x10-1))
+    auto& stackBuf = wrap->stack;
+    auto stackFrame = reinterpret_cast<std::byte*>(stackBuf.data());
+    stackFrame += ((stackBuf.size() * sizeof(uintptr_t)) & ~(0x10 - 1))
         - (sizeof(uintptr_t) * (4 + kNumSavedRegisters));
-    auto stack = reinterpret_cast<uintptr_t *>(stackFrame);
+    auto stack = reinterpret_cast<uintptr_t*>(stackFrame);
 
     // method to execute if main method returns
     *--stack = reinterpret_cast<uintptr_t>(&Amd64::EntryReturnedStub);
@@ -105,11 +106,10 @@ void Amd64::Prepare(Cothread *wrap, const Cothread::Entry &entry) {
     // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
 
     // clear the region that registers are written into (so they're all zeroed)
-    for(size_t i = 0; i < kNumSavedRegisters; i++) {
+    for (size_t i = 0; i < kNumSavedRegisters; i++) {
         *--stack = 0;
     }
 
     // restore the stack pointer to the correct point
     wrap->stackTop = stack;
 }
-

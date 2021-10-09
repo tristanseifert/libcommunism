@@ -11,7 +11,7 @@ using namespace libcommunism;
  * Allocates a cothread and ensures this succeeded, then deallocates it again.
  */
 TEST_CASE("initialization of cothreads") {
-    Cothread *t1;
+    Cothread* t1{ nullptr };
     REQUIRE_NOTHROW(t1 = new Cothread([]() {}));
     REQUIRE(!!t1);
     REQUIRE_NOTHROW(delete t1);
