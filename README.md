@@ -9,6 +9,7 @@ More information is available on [the project website.](https://libcommunism.blr
 Due to the nature of the library, some architecture specific code is required to implement context switching. Currently supported architectures and platforms are:
 
 - amd64 (System V ABI)
+- amd64 (Windows ABI)
 
 Support for additional platforms is relatively trivial to add.
 

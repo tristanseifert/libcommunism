@@ -2,7 +2,7 @@
 # Primary CMakeLists for libcommunism
 ###############################################################################
 cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
-project(libcommunism VERSION 0.1 LANGUAGES C CXX ASM)
+project(libcommunism VERSION 0.1 LANGUAGES C CXX)
 
 ### Define the build options
 option(BUILD_LIBCOMMUNISM_TESTS "Build libcommunism test cases" OFF)
@@ -27,6 +27,10 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         -fdiagnostics-color=always -Wwrite-strings -Wimplicit-fallthrough
         -Wno-unused-private-field)
     add_compile_options(-Werror)
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    # default warnings, treat warnings as errors
+    # this breaks the MASM :(
+    #add_compile_options(/W4 /WX)
 else()
     message(FATAL_ERROR "We do not know what C/C++ warning flags to use for compiler '${CMAKE_CXX_COMPILER_ID}'!")
 endif()
@@ -49,12 +53,21 @@ if("x86_64" STREQUAL ${TARGET_ARCH})
     )
 
     if(WIN32)
+        enable_language(ASM_MASM)
 
+        target_sources(libcommunism PRIVATE
+            src/arch/Amd64+Windows.cpp
+            src/arch/Amd64+Windows.asm
+        )
+        target_compile_definitions(libcommunism PRIVATE -DAMD64_ABI_WINDOWS)
     else()
+        enable_language(ASM)
+
         target_sources(libcommunism PRIVATE
             src/arch/Amd64+SysV.cpp
             src/arch/Amd64+SysV.S
         )
+        target_compile_definitions(libcommunism PRIVATE -DAMD64_ABI_SYSV)
     endif()
 else()
     message(SEND_ERROR "don't know what arch specific sources are needed for '${TARGET_ARCH}'!")

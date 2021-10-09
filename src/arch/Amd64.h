@@ -36,6 +36,26 @@ struct Amd64 {
     static void ValidateStackSize(const size_t size);
 
     /**
+     * Allocates memory for a stack that's the given number of bytes in size.
+     *
+     * @remark If required (for page alignment, for example) the size may be rounded up.
+     *
+     * @param bytes Size of the stack memory, in bytes.
+     * 
+     * @return Pointer to the _top_ of allocated stack
+     */
+    static void* AllocStack(const size_t bytes);
+
+    /**
+     * Releases previously allocated stack memory.
+     * 
+     * @param stack Pointer to the top of previously allocated stack.
+     * 
+     * @throw std::runtime_error If deallocating stack fails (invalid pointer)
+     */
+    static void DeallocStack(void* stack);
+
+    /**
      * Invoked when the main method of a cothread returns.
      */
     static void CothreadReturned();
@@ -54,7 +74,6 @@ struct Amd64 {
      * @param thread Cothread whose stack frame is to be prepared
      * @param entry Function to return control to when switching to this cothread
      */
-    //static void Prepare(Cothread *thread, void (*entry)(void *), void *ctx = nullptr);
     static void Prepare(Cothread *thread, const Cothread::Entry &entry);
 
     /**

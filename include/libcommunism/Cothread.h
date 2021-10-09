@@ -59,8 +59,17 @@ class Cothread {
          *         programming error. The state of the cothread's stack is not well defined after
          *         it returns (w.r.t. alignment;) instead design your code so that it switches to
          *         another cothread when it's done, at which point it can be deallocated.
+         * 
+         * @param handler Function to invoke with a pointer to the cothread that returned from its
+         *        main method.
          */
         static void SetReturnHandler(const std::function<void(Cothread *)> &handler);
+
+        /**
+         * Installs the default handler for a cothread that returns from its entry point. This will
+         * terminate the program.
+         */
+        static void ResetReturnHandler();
 
         /**
          * Allocates a new cothread without explicitly allocating its stack.

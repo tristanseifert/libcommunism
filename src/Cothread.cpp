@@ -76,6 +76,13 @@ void Cothread::SetReturnHandler(const std::function<void (Cothread *)> &handler)
 }
 
 /**
+ * Installs the default cothread return handler.
+ */
+void Cothread::ResetReturnHandler() {
+    gReturnHandler = DefaultCothreadReturnedHandler;
+}
+
+/**
  * Default handler for a returned cothread
  */
 static void libcommunism::internal::DefaultCothreadReturnedHandler(Cothread *thread) {

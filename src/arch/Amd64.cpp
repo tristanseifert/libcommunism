@@ -36,17 +36,12 @@ Cothread *Cothread::Current() {
  */
 Cothread::Cothread(const Entry &entry, const size_t contextSize) {
     void *buf{nullptr};
-    int err{-1};
 
-    // round down context size to ensure it's aligned
+    // round down context size to ensure it's aligned before allocating it
     auto allocSize = contextSize & ~(Amd64::kStackAlignment - 1);
     allocSize = allocSize ? allocSize : Amd64::kDefaultStackSize;
 
-    // allocate buffer
-    err = posix_memalign(&buf, Amd64::kStackAlignment, allocSize);
-    if(err) {
-        throw std::runtime_error("posix_memalign() failed");
-    }
+    buf = Amd64::AllocStack(allocSize);
 
     // create it as if we had provided the memory in the first place
     this->stack = {reinterpret_cast<uintptr_t *>(buf), allocSize / sizeof(uintptr_t)};
@@ -68,7 +63,7 @@ Cothread::Cothread(const Entry &entry, std::span<uintptr_t> _stack) : stack(_sta
  */
 Cothread::~Cothread() {
     if(static_cast<uintptr_t>(this->flags) & static_cast<uintptr_t>(Flags::OwnsStack)) {
-        free(this->stack.data());
+        Amd64::DeallocStack(this->stack.data());
     }
 }
 
