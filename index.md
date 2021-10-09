@@ -8,6 +8,7 @@ It is freely available under the terms of the [ISC license.](https://choosealice
 Currently, the following platforms are supported:
 
 - amd64 (System V ABI)
+- amd64 (Windows ABI)
 
 Adding support for other platforms is relatively easy; only a thin platform shim needs to be developed, with a few small assembly routines to switch thread context. Feel free to submit pull requests to add new platforms.
 
@@ -21,6 +22,7 @@ Tests are provided with the library. They use the [Catch2](https://github.com/ca
 One of the tests attempts to benchmark the context switching time. Approximate context switching times are:
 
 - amd64 System V: 15ns
+- amd64 Windows: 19ns
 
 # Documentation
 ![Generate Docs](https://github.com/tristanseifert/libcommunism/actions/workflows/docs_doxygen.yml/badge.svg)
