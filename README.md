@@ -1,7 +1,7 @@
 # libcommunism
 libcommunism is a simple cooperative multithreading library. It implements the concept of CoThreads, which are lightweight streams of execution context switched in user space. Each CoThread has its own stack, which allows them to maintain implicit state between invocations. Control is passed cooperatively between threads, rather than preemptively as kernel threads are scheduled, hence the name.
 
-The library has no external dependencies, besides a C++20 compiler and CMake 3.21. (Earlier versions of CMake will likely work, but were not tested. C++20 is required for native `std::span` support.)
+The library has no external dependencies, besides a C++20 compiler and CMake 3.20. (Earlier versions of CMake will likely work, but were not tested. C++20 is required for native `std::span` support.)
 
 More information is available on [the project website.](https://libcommunism.blraaz.me)
 

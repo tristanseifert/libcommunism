@@ -1,7 +1,7 @@
 ###############################################################################
 # Primary CMakeLists for libcommunism
 ###############################################################################
-cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
 project(libcommunism VERSION 0.1 LANGUAGES C CXX ASM)
 
 ### Define the build options
