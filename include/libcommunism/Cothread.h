@@ -12,6 +12,7 @@
 namespace libcommunism {
 namespace internal{
 struct Amd64;
+struct UContext;
 }
 
 /**
@@ -23,6 +24,7 @@ struct Amd64;
  */
 class Cothread {
     friend struct internal::Amd64;
+    friend struct internal::UContext;
 
     private:
         /**
@@ -32,6 +34,13 @@ class Cothread {
         enum class Flags: uintptr_t {
             /// Stack was allocated by the cothread and should be deallocated on destruction
             OwnsStack                   = (1 << 0),
+            /**
+             * @brief Part of the stack memory is reserved for use by the platform code.
+             *
+             * This memory is taken from the _top_ of the stack, so that it does not affect the
+             * application code.
+             */
+            PartialReserved             = (1 << 1),
         };
 
     public:

@@ -1,10 +1,10 @@
 /**
  * AMD64 implementation of cothreads for SysV ABI
  */
-#include "Amd64.h"
+#include "Common.h"
 #include "CothreadPrivate.h"
 
-#include "Amd64+SysV.S"
+#include "SysV.S"
 
 #include <cstddef>
 #include <stdexcept>
