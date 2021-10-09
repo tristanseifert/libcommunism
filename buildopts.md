@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Build Options"
+description: "Customizing the resulting library"
 permalink: /build-options/
 ---
 A few options are available to customize the build processs of the library. Most standard CMake variables for libraries (such as `BUILD_SHARED`) apply, unless otherwise specified.
@@ -16,6 +17,7 @@ Any other value will override the automatic detection of the platform. The follo
 
 - amd64-win: 64-bit Intel x86 with Windows ABI
 - amd64-sysv: 64-bit Intel x86 with System V ABI (macOS, BSD, Linux)
+- ucontext: Generic [setcontext()](https://en.wikipedia.org/wiki/Setcontext) based implementation. (_Note:_ This is really, really slow and mainly intended as a proof of concept.)
 
 # Tests
 There are a few test cases that can be built into a test executable to exercise the library. By default, tests are not built; change the `BUILD_LIBCOMMUNISM_TESTS` variable.

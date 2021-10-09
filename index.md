@@ -23,7 +23,16 @@ These implementations are not suitable as much more than a proof of concept, due
 There are no external requirements for using the library besides a functioning C++ compiler. The library itself requires C++20 (due to use of `std::span<T>`) and CMake to build.
 
 # Building and Installation
-Use your favorite CMake generator to generate the build files for the library and build it; by default, this will result in a static library. You can influence the produced library with [build options.]({% link buildopts.md %})
+Use your favorite CMake generator to generate the build files for the library and build it; by default, this will result in a static library. You can then easily link against it by its name, or, if using CMake:
+
+``` cmake
+target_link_libraries(TARGET_NAME PUBLIC libcommunism)
+```
+
+The main header of `libcommunism/Cothread.h` is currently the only required (and installed) header.
+
+## Configuration
+There are not a whole lot of tuneables for the library, but you can influence the produced library with the available [build options.]({% link buildopts.md %})
 
 # Tests
 Tests are provided with the library. They use the [Catch2](https://github.com/catchorg/Catch2) framework, and are built by the `tests` target. Do note that these tests only cover the host's architecture.
@@ -33,6 +42,7 @@ One of the tests attempts to benchmark the context switching time. Approximate c
 
 - amd64 System V: 15ns
 - amd64 Windows: 19ns
+- ucontext macOS: 1.45µS
 
 # Documentation
 ![Generate Docs](https://github.com/tristanseifert/libcommunism/actions/workflows/docs_doxygen.yml/badge.svg)
