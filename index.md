@@ -22,7 +22,7 @@ These implementations are not suitable as much more than a proof of concept, due
 ## Requirements
 There are no external requirements for using the library besides a functioning C++ compiler. The library itself requires C++20 (due to use of `std::span<T>`) and CMake to build.
 
-## Building and Installation
+# Building and Installation
 Use your favorite CMake generator to generate the build files for the library and build it; by default, this will result in a static library. You can influence the produced library with [build options.]({% link buildopts.md %})
 
 # Tests

@@ -1,7 +1,6 @@
 ---
-layout: page
 title: "Build Options"
-permalink: /build-options/
+permalink: /build-options.html
 ---
 A few options are available to customize the build processs of the library. Most standard CMake variables for libraries (such as `BUILD_SHARED`) apply, unless otherwise specified.
 
