@@ -93,34 +93,39 @@ $(function() {
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">gReturnHandler</a> = handler;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> libcommunism::internal::DefaultCothreadReturnedHandler(<a class="code" href="classlibcommunism_1_1Cothread.html">Cothread</a> *thread) {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    std::cerr &lt;&lt; <span class="stringliteral">&quot;[libcommunism] Cothread $&quot;</span> &lt;&lt; std::hex &lt;&lt; thread &lt;&lt; std::dec;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">if</span>(thread) {</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> &amp;label = thread-&gt;<a class="code" href="classlibcommunism_1_1Cothread.html#abeed231da1a3ad90e982650a08dc645c">getLabel</a>();</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordflow">if</span>(!label.empty()) {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            std::cerr &lt;&lt; <span class="stringliteral">&quot; (&quot;</span> &lt;&lt; thread-&gt;<a class="code" href="classlibcommunism_1_1Cothread.html#abeed231da1a3ad90e982650a08dc645c">getLabel</a>() &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            std::cerr &lt;&lt; <span class="stringliteral">&quot; (unnamed cothread)&quot;</span>;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        }</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    std::cerr &lt;&lt; <span class="stringliteral">&quot; returned from entry point!&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    std::terminate();</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;}</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<a class="code" href="classlibcommunism_1_1Cothread.html#a36ebd9f605c88b0155d4b02b7859b05b">Cothread::Cothread</a>(std::span&lt;uintptr_t&gt; _stack, <span class="keywordtype">void</span> *_stackTop) : stackTop(_stackTop),</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    stack(_stack) {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="comment">// nothing :D</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;}</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="classlibcommunism_1_1Cothread.html#aeaef12afd0dd667c02876716e5833865">   81</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classlibcommunism_1_1Cothread.html#aeaef12afd0dd667c02876716e5833865">Cothread::ResetReturnHandler</a>() {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">gReturnHandler</a> = DefaultCothreadReturnedHandler;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> libcommunism::internal::DefaultCothreadReturnedHandler(<a class="code" href="classlibcommunism_1_1Cothread.html">Cothread</a> *thread) {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    std::cerr &lt;&lt; <span class="stringliteral">&quot;[libcommunism] Cothread $&quot;</span> &lt;&lt; std::hex &lt;&lt; thread &lt;&lt; std::dec;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">if</span>(thread) {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> &amp;label = thread-&gt;<a class="code" href="classlibcommunism_1_1Cothread.html#abeed231da1a3ad90e982650a08dc645c">getLabel</a>();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordflow">if</span>(!label.empty()) {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            std::cerr &lt;&lt; <span class="stringliteral">&quot; (&quot;</span> &lt;&lt; thread-&gt;<a class="code" href="classlibcommunism_1_1Cothread.html#abeed231da1a3ad90e982650a08dc645c">getLabel</a>() &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            std::cerr &lt;&lt; <span class="stringliteral">&quot; (unnamed cothread)&quot;</span>;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        }</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    }</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    std::cerr &lt;&lt; <span class="stringliteral">&quot; returned from entry point!&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    std::terminate();</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<a class="code" href="classlibcommunism_1_1Cothread.html#a36ebd9f605c88b0155d4b02b7859b05b">Cothread::Cothread</a>(std::span&lt;uintptr_t&gt; _stack, <span class="keywordtype">void</span> *_stackTop) : stackTop(_stackTop),</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    stack(_stack) {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">// nothing :D</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
 <div class="ttc" id="aCothreadPrivate_8h_html"><div class="ttname"><a href="CothreadPrivate_8h.html">CothreadPrivate.h</a></div></div>
 <div class="ttc" id="aCothread_8h_html"><div class="ttname"><a href="Cothread_8h.html">Cothread.h</a></div></div>
 <div class="ttc" id="aclasslibcommunism_1_1Cothread_html"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html">libcommunism::Cothread</a></div><div class="ttdoc">Instance of a single cooperative thread.</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00024">Cothread.h:24</a></div></div>
 <div class="ttc" id="aclasslibcommunism_1_1Cothread_html_a1aa6febcd8872e14341c66b9c5a447c6"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#a1aa6febcd8872e14341c66b9c5a447c6">libcommunism::Cothread::SetReturnHandler</a></div><div class="ttdeci">static void SetReturnHandler(const std::function&lt; void(Cothread *)&gt; &amp;handler)</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8cpp_source.html#l00074">Cothread.cpp:74</a></div></div>
 <div class="ttc" id="aclasslibcommunism_1_1Cothread_html_a36ebd9f605c88b0155d4b02b7859b05b"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#a36ebd9f605c88b0155d4b02b7859b05b">libcommunism::Cothread::Cothread</a></div><div class="ttdeci">Cothread(const Entry &amp;entry, const size_t stackSize=0)</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8cpp_source.html#l00037">Amd64.cpp:37</a></div></div>
-<div class="ttc" id="aclasslibcommunism_1_1Cothread_html_abeed231da1a3ad90e982650a08dc645c"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#abeed231da1a3ad90e982650a08dc645c">libcommunism::Cothread::getLabel</a></div><div class="ttdeci">constexpr auto &amp; getLabel() const</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00144">Cothread.h:144</a></div></div>
+<div class="ttc" id="aclasslibcommunism_1_1Cothread_html_abeed231da1a3ad90e982650a08dc645c"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#abeed231da1a3ad90e982650a08dc645c">libcommunism::Cothread::getLabel</a></div><div class="ttdeci">constexpr auto &amp; getLabel() const</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00153">Cothread.h:153</a></div></div>
+<div class="ttc" id="aclasslibcommunism_1_1Cothread_html_aeaef12afd0dd667c02876716e5833865"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#aeaef12afd0dd667c02876716e5833865">libcommunism::Cothread::ResetReturnHandler</a></div><div class="ttdeci">static void ResetReturnHandler()</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8cpp_source.html#l00081">Cothread.cpp:81</a></div></div>
 <div class="ttc" id="anamespacelibcommunism_1_1internal_html"><div class="ttname"><a href="namespacelibcommunism_1_1internal.html">libcommunism::internal</a></div><div class="ttdoc">Implementation details (including architecture/platform specific code) for the library.</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8h_source.html#l00009">Amd64.h:9</a></div></div>
 <div class="ttc" id="anamespacelibcommunism_1_1internal_html_a7ffa60f4788d5229f04e2ad5a41b2935"><div class="ttname"><a href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">libcommunism::internal::gReturnHandler</a></div><div class="ttdeci">std::function&lt; void(libcommunism::Cothread *)&gt; gReturnHandler</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8cpp_source.html#l00067">Cothread.cpp:67</a></div></div>
 <div class="ttc" id="anamespacelibcommunism_html"><div class="ttname"><a href="namespacelibcommunism.html">libcommunism</a></div><div class="ttdoc">Main namespace for the libcommunism library.</div><div class="ttdef"><b>Definition:</b> <a href="Amd64_8h_source.html#l00009">Amd64.h:9</a></div></div>
