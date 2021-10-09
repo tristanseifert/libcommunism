@@ -1,5 +1,5 @@
-#ifndef ARCH_AMD64_H
-#define ARCH_AMD64_H
+#ifndef ARCH_AMD64_COMMON_H
+#define ARCH_AMD64_COMMON_H
 
 #include "CothreadPrivate.h"
 
@@ -15,6 +15,7 @@ struct Amd64 {
      * @brief Information required to make a function call for a cothread's entry point.
      */
     struct CallInfo {
+        /// Entry point of the cothread
         Cothread::Entry entry;
     };
 

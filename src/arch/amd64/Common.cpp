@@ -1,7 +1,7 @@
 /**
  * AMD64 implementation of cothreads for all ABIs
  */
-#include "Amd64.h"
+#include "Common.h"
 #include "CothreadPrivate.h"
 
 #include <algorithm>
