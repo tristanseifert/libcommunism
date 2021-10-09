@@ -45,3 +45,8 @@ TEST_CASE("context switch between main, cothread, and back") {
     // clean up
     REQUIRE_NOTHROW(delete t1);
 }
+
+/**
+ * This test creates a cothread, then returns from its main routine. We should catch the return in
+ * our error handler.
+ */

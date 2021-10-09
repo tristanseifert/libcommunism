@@ -55,12 +55,6 @@ if("x86_64" STREQUAL ${TARGET_ARCH})
     if(WIN32)
         enable_language(ASM_MASM)
 
-        # ugh... required to make MSVC assembler work        
-        #set(CMAKE_ASM${ASM_DIALECT}_COMPILE_OPTIONS_MSVC_RUNTIME_LIBRARY_MultiThreaded         "")
-        #set(CMAKE_ASM${ASM_DIALECT}_COMPILE_OPTIONS_MSVC_RUNTIME_LIBRARY_MultiThreadedDLL      "")
-        #set(CMAKE_ASM${ASM_DIALECT}_COMPILE_OPTIONS_MSVC_RUNTIME_LIBRARY_MultiThreadedDebug    "")
-        #set(CMAKE_ASM${ASM_DIALECT}_COMPILE_OPTIONS_MSVC_RUNTIME_LIBRARY_MultiThreadedDebugDLL "")
-
         target_sources(libcommunism PRIVATE
             src/arch/Amd64+Windows.cpp
             src/arch/Amd64+Windows.asm

@@ -20,7 +20,7 @@
     push    R14
     push    R15
 
-    ; save SSE state (XXX: can we use MOVAPS instead of MOVDQU?)
+    ; save SSE state (TODO: look at using MOVAPS instead of MOVDQU?)
     movdqu  [rsp-010h], XMM6
     movdqu  [rsp-020h], XMM7
     movdqu  [rsp-030h], XMM8
@@ -78,8 +78,6 @@
 ?JumpToEntry@Amd64@internal@libcommunism@@SAXXZ PROC
     pop     RAX
     pop     RCX
-
-    ;sub     RSP, 20h
     jmp     RAX
 ?JumpToEntry@Amd64@internal@libcommunism@@SAXXZ ENDP
     
