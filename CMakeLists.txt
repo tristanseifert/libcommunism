@@ -1,7 +1,7 @@
 ###############################################################################
 # Primary CMakeLists for libcommunism
 ###############################################################################
-cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
 project(libcommunism VERSION 0.1 LANGUAGES C CXX)
 
 ### Define the build options
@@ -40,24 +40,24 @@ target_architecture(TARGET_ARCH)
 message(STATUS "Target architecture: ${TARGET_ARCH}")
 
 ### Use the manually specified arch code override, or autodetect it
-set(ARCH_LIBCOMMUNISM "Auto" CACHE STRING "Architecture specific code to be built")
-set_property(CACHE ARCH_LIBCOMMUNISM PROPERTY STRINGS Auto amd64-sysv amd64-win ucontext)
+set(PLATFORM_LIBCOMMUNISM "Auto" CACHE STRING "Architecture specific code to be built")
+set_property(CACHE PLATFORM_LIBCOMMUNISM PROPERTY STRINGS Auto amd64-sysv amd64-win setjmp ucontext)
 
-if("Auto" STREQUAL ${ARCH_LIBCOMMUNISM})
+if("Auto" STREQUAL ${PLATFORM_LIBCOMMUNISM})
     if("x86_64" STREQUAL ${TARGET_ARCH})
         if(WIN32)
-            set(ARCH_SOURCES_TYPE "amd64-win")
+            set(PLATFORM_SOURCES_TYPE "amd64-win")
         else()
-            set(ARCH_SOURCES_TYPE "amd64-sysv")
+            set(PLATFORM_SOURCES_TYPE "amd64-sysv")
         endif()
     else()
         message(SEND_ERROR "failed to autodetect architecture variant for '${TARGET_ARCH}'!")
     endif()
 else()
-    set(ARCH_SOURCES_TYPE ${ARCH_LIBCOMMUNISM})
+    set(PLATFORM_SOURCES_TYPE ${PLATFORM_LIBCOMMUNISM})
 endif()
 
-message(STATUS "Target architecture variant: ${ARCH_SOURCES_TYPE}")
+message(STATUS "Platform support variant: ${PLATFORM_SOURCES_TYPE}")
 
 
 ### Build the core library
@@ -71,7 +71,7 @@ target_include_directories(libcommunism PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src)
 target_include_directories(libcommunism PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
 
 ### Add target specific sources
-if("amd64-win" STREQUAL ${ARCH_SOURCES_TYPE})
+if("amd64-win" STREQUAL ${PLATFORM_SOURCES_TYPE})
     enable_language(ASM_MASM)
 
     target_sources(libcommunism PRIVATE
@@ -80,7 +80,7 @@ if("amd64-win" STREQUAL ${ARCH_SOURCES_TYPE})
         src/arch/Amd64/Windows.asm
     )
     target_compile_definitions(libcommunism PRIVATE -DPLATFORM_AMD64_WINDOWS)
-elseif("amd64-sysv" STREQUAL ${ARCH_SOURCES_TYPE})
+elseif("amd64-sysv" STREQUAL ${PLATFORM_SOURCES_TYPE})
     enable_language(ASM)
 
     target_sources(libcommunism PRIVATE
@@ -89,13 +89,18 @@ elseif("amd64-sysv" STREQUAL ${ARCH_SOURCES_TYPE})
         src/arch/amd64/SysV.S
     )
     target_compile_definitions(libcommunism PRIVATE -DPLATFORM_AMD64_SYSV)
-elseif("ucontext" STREQUAL ${ARCH_SOURCES_TYPE})
+elseif("setjmp" STREQUAL ${PLATFORM_SOURCES_TYPE})
+    target_sources(libcommunism PRIVATE
+        src/arch/setjmp/SetJmp.cpp
+    )
+    target_compile_definitions(libcommunism PRIVATE -DPLATFORM_UCONTEXT)
+elseif("ucontext" STREQUAL ${PLATFORM_SOURCES_TYPE})
     target_sources(libcommunism PRIVATE
         src/arch/ucontext/UContext.cpp
     )
     target_compile_definitions(libcommunism PRIVATE -DPLATFORM_UCONTEXT)
 else()
-    message(SEND_ERROR "don't know what arch specific sources are needed for '${ARCH_SOURCES_TYPE}'!")
+    message(SEND_ERROR "don't know what arch specific sources are needed for '${PLATFORM_SOURCES_TYPE}'!")
 endif()
 
 ### TODO: define install step

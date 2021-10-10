@@ -12,6 +12,7 @@
 namespace libcommunism {
 namespace internal{
 struct Amd64;
+struct SetJmp;
 struct UContext;
 }
 
@@ -24,6 +25,7 @@ struct UContext;
  */
 class Cothread {
     friend struct internal::Amd64;
+    friend struct internal::SetJmp;
     friend struct internal::UContext;
 
     private:
