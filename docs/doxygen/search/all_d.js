@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['ucontext_46',['UContext',['../structlibcommunism_1_1internal_1_1UContext.html',1,'libcommunism::internal']]],
-  ['ucontext_2ecpp_47',['UContext.cpp',['../UContext_8cpp.html',1,'']]],
-  ['ucontext_2eh_48',['UContext.h',['../UContext_8h.html',1,'']]]
+  ['thread_55',['thread',['../structlibcommunism_1_1internal_1_1SetJmp_1_1EntryContext.html#a8929b8b2412308bfe5bf910c96adbe61',1,'libcommunism::internal::SetJmp::EntryContext']]]
 ];

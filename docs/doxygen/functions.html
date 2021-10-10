@@ -68,6 +68,7 @@ $(function() {
 <h3><a id="index_a"></a>- a -</h3><ul>
 <li>AllocMainCothread()
 : <a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#abd68efacd93a79896aa876bdf56a9bed">libcommunism::internal::Amd64</a>
+, <a class="el" href="structlibcommunism_1_1internal_1_1SetJmp.html#a614632827e750f8be47e56065417cc45">libcommunism::internal::SetJmp</a>
 , <a class="el" href="structlibcommunism_1_1internal_1_1UContext.html#a67ea909ba16d45b9f6ccfbb5ba29b67c">libcommunism::internal::UContext</a>
 </li>
 <li>AllocStack()
@@ -111,7 +112,11 @@ $(function() {
 </li>
 <li>entry
 : <a class="el" href="structlibcommunism_1_1internal_1_1Amd64_1_1CallInfo.html#a041e02f1ed0d61034403f404db36876d">libcommunism::internal::Amd64::CallInfo</a>
+, <a class="el" href="structlibcommunism_1_1internal_1_1SetJmp_1_1EntryContext.html#a6767c57216b924cfe21a7122b9a695ee">libcommunism::internal::SetJmp::EntryContext</a>
 , <a class="el" href="structlibcommunism_1_1internal_1_1UContext_1_1Context.html#a07612f25400396116db9b76bcea8d8f1">libcommunism::internal::UContext::Context</a>
+</li>
+<li>EntryContext()
+: <a class="el" href="structlibcommunism_1_1internal_1_1SetJmp_1_1EntryContext.html#ac3716e30cf9b81034ee8bcf58337cc69">libcommunism::internal::SetJmp::EntryContext</a>
 </li>
 <li>EntryReturnedStub()
 : <a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a296bb3942213f7a194474e72c76aa3f0">libcommunism::internal::Amd64</a>
@@ -134,14 +139,22 @@ $(function() {
 </li>
 <li>gCurrentHandle
 : <a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a485e7e91fcf6bebca5812c0df210d9c6">libcommunism::internal::Amd64</a>
+, <a class="el" href="structlibcommunism_1_1internal_1_1SetJmp.html#a947eb06ca191e8d372438570b1d65034">libcommunism::internal::SetJmp</a>
 , <a class="el" href="structlibcommunism_1_1internal_1_1UContext.html#af8323911e50712a84f288c4e54cf97cd">libcommunism::internal::UContext</a>
+</li>
+<li>gCurrentlyPreparing
+: <a class="el" href="structlibcommunism_1_1internal_1_1SetJmp.html#a44267d6a6825b7362a9d3de0dbe12f51">libcommunism::internal::SetJmp</a>
 </li>
 <li>getLabel()
 : <a class="el" href="classlibcommunism_1_1Cothread.html#abeed231da1a3ad90e982650a08dc645c">libcommunism::Cothread</a>
 </li>
 <li>gMainStack
 : <a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a6d11b198daf631dff419c45fc41634c6">libcommunism::internal::Amd64</a>
+, <a class="el" href="structlibcommunism_1_1internal_1_1SetJmp.html#a219ff5502b0dbd561ec18a5458d82f5a">libcommunism::internal::SetJmp</a>
 , <a class="el" href="structlibcommunism_1_1internal_1_1UContext.html#ad3781a09d44c312e93837b70127c9033">libcommunism::internal::UContext</a>
+</li>
+<li>gSignalLock
+: <a class="el" href="structlibcommunism_1_1internal_1_1SetJmp.html#aeb055b62dca595e8598b4b26a7d9fa49">libcommunism::internal::SetJmp</a>
 </li>
 </ul>
 
@@ -150,16 +163,23 @@ $(function() {
 <li>internal::Amd64
 : <a class="el" href="classlibcommunism_1_1Cothread.html#a79870e7f40c6ef21612f6464e875e02b">libcommunism::Cothread</a>
 </li>
+<li>internal::SetJmp
+: <a class="el" href="classlibcommunism_1_1Cothread.html#a61ef8e61c4426dd2cca2d5a4581cd3b3">libcommunism::Cothread</a>
+</li>
 <li>internal::UContext
 : <a class="el" href="classlibcommunism_1_1Cothread.html#a8afdd85978899aa0ac87b95e44562919">libcommunism::Cothread</a>
 </li>
 <li>InvokeCothreadDidReturnHandler()
-: <a class="el" href="structlibcommunism_1_1internal_1_1UContext.html#a5e82993f5a89feb310864033f1eef279">libcommunism::internal::UContext</a>
+: <a class="el" href="structlibcommunism_1_1internal_1_1SetJmp.html#a4f299fc7a2363930bdf08e9b1a32ac27">libcommunism::internal::SetJmp</a>
+, <a class="el" href="structlibcommunism_1_1internal_1_1UContext.html#a5e82993f5a89feb310864033f1eef279">libcommunism::internal::UContext</a>
 </li>
 </ul>
 
 
 <h3><a id="index_j"></a>- j -</h3><ul>
+<li>JmpBufFor()
+: <a class="el" href="structlibcommunism_1_1internal_1_1SetJmp.html#ad3454544e7b2ca889b8e3bfecd5b2ac1">libcommunism::internal::SetJmp</a>
+</li>
 <li>JumpToEntry()
 : <a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a1152bf592d959f6f119a6b7c6a39080e">libcommunism::internal::Amd64</a>
 </li>
@@ -169,10 +189,12 @@ $(function() {
 <h3><a id="index_k"></a>- k -</h3><ul>
 <li>kDefaultStackSize
 : <a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#ae7847682f05a7af09d8882353a5bb93b">libcommunism::internal::Amd64</a>
+, <a class="el" href="structlibcommunism_1_1internal_1_1SetJmp.html#a7be761696b3a4c34e099ac4d4730b3ce">libcommunism::internal::SetJmp</a>
 , <a class="el" href="structlibcommunism_1_1internal_1_1UContext.html#afe3bd6961f54c575400fdad9fd858f16">libcommunism::internal::UContext</a>
 </li>
 <li>kMainStackSize
 : <a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a5d221a54b8413b25a9544a60db82c297">libcommunism::internal::Amd64</a>
+, <a class="el" href="structlibcommunism_1_1internal_1_1SetJmp.html#afad47683f0733863a41dedd4e00671d1">libcommunism::internal::SetJmp</a>
 , <a class="el" href="structlibcommunism_1_1internal_1_1UContext.html#affcb29eed86604c5fcbbf229af2d54c9">libcommunism::internal::UContext</a>
 </li>
 <li>kNumSavedRegisters
@@ -180,6 +202,7 @@ $(function() {
 </li>
 <li>kStackAlignment
 : <a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a883bba75422b94e6a6aa87fde9593181">libcommunism::internal::Amd64</a>
+, <a class="el" href="structlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">libcommunism::internal::SetJmp</a>
 , <a class="el" href="structlibcommunism_1_1internal_1_1UContext.html#a5b5fb08c7e8b373ea1504ff4af4a1c53">libcommunism::internal::UContext</a>
 </li>
 </ul>
@@ -188,6 +211,7 @@ $(function() {
 <h3><a id="index_p"></a>- p -</h3><ul>
 <li>Prepare()
 : <a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a6415d5e61e9528aa7d9d1b62cba7f7d3">libcommunism::internal::Amd64</a>
+, <a class="el" href="structlibcommunism_1_1internal_1_1SetJmp.html#a15481c390c0864f13ccdc82f3e362385">libcommunism::internal::SetJmp</a>
 , <a class="el" href="structlibcommunism_1_1internal_1_1UContext.html#ae1d8f0a78ac0c4e87d4eff55cd4bbfeb">libcommunism::internal::UContext</a>
 </li>
 </ul>
@@ -207,11 +231,21 @@ $(function() {
 <li>SetReturnHandler()
 : <a class="el" href="classlibcommunism_1_1Cothread.html#a1aa6febcd8872e14341c66b9c5a447c6">libcommunism::Cothread</a>
 </li>
+<li>SignalHandlerSetupThunk()
+: <a class="el" href="structlibcommunism_1_1internal_1_1SetJmp.html#af2f788f1d2d0312fcb75f67d002ae238">libcommunism::internal::SetJmp</a>
+</li>
 <li>Switch()
 : <a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html#a66794b215fbd5878f8f92e51fa68f956">libcommunism::internal::Amd64</a>
 </li>
 <li>switchTo()
 : <a class="el" href="classlibcommunism_1_1Cothread.html#a672bcee91d509ed6a145c713066e8527">libcommunism::Cothread</a>
+</li>
+</ul>
+
+
+<h3><a id="index_t"></a>- t -</h3><ul>
+<li>thread
+: <a class="el" href="structlibcommunism_1_1internal_1_1SetJmp_1_1EntryContext.html#a8929b8b2412308bfe5bf910c96adbe61">libcommunism::internal::SetJmp::EntryContext</a>
 </li>
 </ul>
 

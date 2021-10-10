@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ucontext_56',['UContext',['../structlibcommunism_1_1internal_1_1UContext.html',1,'libcommunism::internal']]]
+  ['entrycontext_66',['EntryContext',['../structlibcommunism_1_1internal_1_1SetJmp_1_1EntryContext.html',1,'libcommunism::internal::SetJmp']]]
 ];
