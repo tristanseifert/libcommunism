@@ -12,6 +12,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake;${CMAKE_MODULE_PATH}")
 
 include(ExternalProject)
 include(FetchContent)
+include(CheckSymbolExists)
 include(TargetArch)
 
 ### Force C and C++ standards, warnings
@@ -50,11 +51,38 @@ if("Auto" STREQUAL ${PLATFORM_LIBCOMMUNISM})
         else()
             set(PLATFORM_SOURCES_TYPE "amd64-sysv")
         endif()
-    else()
-        message(SEND_ERROR "failed to autodetect architecture variant for '${TARGET_ARCH}'!")
     endif()
 else()
     set(PLATFORM_SOURCES_TYPE ${PLATFORM_LIBCOMMUNISM})
+endif()
+
+### if still unset, select the best generic approach (first sigsetjmp, then ucontext)
+if(NOT DEFINED PLATFORM_SOURCES_TYPE)
+    message(WARNING "Failed to select an optimized platform; attempting to pick a generic one")
+
+    # check for the methods required by the setjmp approach
+    check_symbol_exists(sigsetjmp "setjmp.h" HAVE_SIGSETJMP)
+    check_symbol_exists(siglongjmp "setjmp.h" HAVE_SIGLONGJMP)
+    check_symbol_exists(sigaltstack "signal.h" HAVE_SIGALTSTACK)
+    check_symbol_exists(sigaction "signal.h" HAVE_SIGACTION)
+
+    # check for the methods required by the ucontext approach
+    set(CMAKE_REQUIRED_DEFINITIONS "-D_XOPEN_SOURCE")
+    check_symbol_exists(getcontext "ucontext.h" HAVE_GETCONTEXT)
+    check_symbol_exists(swapcontext "ucontext.h" HAVE_SWAPCONTEXT)
+
+    # are all the methods for `setjmp` available?
+    if(DEFINED HAVE_SIGSETJMP AND DEFINED HAVE_SIGLONGJMP AND DEFINED HAVE_SIGALTSTACK
+            AND DEFINED HAVE_SIGACTION)
+        set(PLATFORM_SOURCES_TYPE "setjmp")
+    # are all the methods for `ucontext` available?
+    elseif(DEFINED HAVE_GETCONTEXT AND DEFINED HAVE_SWAPCONTEXT)
+        set(PLATFORM_SOURCES_TYPE "ucontext")
+    # no suitable alternate methods
+    else()
+        message(FATAL_ERROR "Failed to autodetect a suitable generic platform implementation, "
+            "please file an issue")
+    endif()
 endif()
 
 message(STATUS "Platform support variant: ${PLATFORM_SOURCES_TYPE}")
