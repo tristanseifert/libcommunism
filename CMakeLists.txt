@@ -42,7 +42,8 @@ message(STATUS "Target architecture: ${TARGET_ARCH}")
 
 ### Use the manually specified arch code override, or autodetect it
 set(PLATFORM_LIBCOMMUNISM "Auto" CACHE STRING "Architecture specific code to be built")
-set_property(CACHE PLATFORM_LIBCOMMUNISM PROPERTY STRINGS Auto amd64-sysv amd64-win setjmp ucontext)
+set_property(CACHE PLATFORM_LIBCOMMUNISM PROPERTY STRINGS Auto amd64-sysv amd64-win aarch64-sysv
+    setjmp ucontext)
 
 if("Auto" STREQUAL ${PLATFORM_LIBCOMMUNISM})
     if("x86_64" STREQUAL ${TARGET_ARCH})
@@ -51,6 +52,9 @@ if("Auto" STREQUAL ${PLATFORM_LIBCOMMUNISM})
         else()
             set(PLATFORM_SOURCES_TYPE "amd64-sysv")
         endif()
+    elseif("aarch64" STREQUAL ${TARGET_ARCH})
+        # TODO: are there aarch64 platforms that don't use AAPCS?
+        set(PLATFORM_SOURCES_TYPE "aarch64-aapcs")
     endif()
 else()
     set(PLATFORM_SOURCES_TYPE ${PLATFORM_LIBCOMMUNISM})
@@ -117,11 +121,20 @@ elseif("amd64-sysv" STREQUAL ${PLATFORM_SOURCES_TYPE})
         src/arch/amd64/SysV.S
     )
     target_compile_definitions(libcommunism PRIVATE -DPLATFORM_AMD64_SYSV)
+elseif("aarch64-aapcs" STREQUAL ${PLATFORM_SOURCES_TYPE})
+    enable_language(ASM)
+
+    target_sources(libcommunism PRIVATE
+        src/arch/aarch64/Common.cpp
+        src/arch/aarch64/AAPCS.cpp
+        src/arch/aarch64/AAPCS.S
+    )
+    target_compile_definitions(libcommunism PRIVATE -DPLATFORM_AARCH64)
 elseif("setjmp" STREQUAL ${PLATFORM_SOURCES_TYPE})
     target_sources(libcommunism PRIVATE
         src/arch/setjmp/SetJmp.cpp
     )
-    target_compile_definitions(libcommunism PRIVATE -DPLATFORM_UCONTEXT)
+    target_compile_definitions(libcommunism PRIVATE -DPLATFORM_SETJMP)
 elseif("ucontext" STREQUAL ${PLATFORM_SOURCES_TYPE})
     target_sources(libcommunism PRIVATE
         src/arch/ucontext/UContext.cpp
