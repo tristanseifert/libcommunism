@@ -197,6 +197,14 @@ void SetJmp::Prepare(Cothread *thread, const Cothread::Entry &entry) {
 
 /**
  * Helper method that's registered as a signal handler when initializing a cothread.
+ *
+ * Since we take this signal on the signal stack, it will set up the stack frame correctly, and
+ * we can correctly populate the setjmp buffer at the same time.
+ *
+ * @param signal Signal number
+ *
+ * @remark This relies on a global variable, so the prepare method must be sure that only a single
+ *         thread is being prepared at a time.
  */
 void SetJmp::SignalHandlerSetupThunk(int signal) {
     (void) signal;

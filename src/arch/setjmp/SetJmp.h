@@ -12,8 +12,19 @@
 namespace libcommunism::internal {
 /**
  * @brief Context switching utilizing the C library `setjmp()` and `longjmp()` methods
+ *
+ * The means by which this is works is based on ideas by Ralf S. Engelschall, from the 2000 paper
+ * titled [Portable Multithreading.](http://www.xmailserver.org/rse-pmt.pdf) Thread stacks are set
+ * up in a portable way by making use of signal handlers, so this should be supported on basically
+ * all targets that have a functional C library and are UNIX-y.
+ *
+ * @remark Since signals are a per-process resource, allocation of cothreads effectively becomes
+ *         serialized to ensure safety.
  */
 struct SetJmp {
+    /**
+     * @brief Context structure passed to the entry point of a setjmp based cothread
+     */
     struct EntryContext {
         /// Cothread that is being created
         Cothread *thread{nullptr};
@@ -24,6 +35,17 @@ struct SetJmp {
             entry(_entry) {}
     };
 
+    /**
+     * Returns a pointer to the `sigjmp_buf` structure for a given cooperative thread.
+     *
+     * It's stored at the top of its stack buffer. The actual stack available to the program will
+     * be reduced accordingly, but it is still possible for the program to overflow into this
+     * structure and wreak havoc.
+     *
+     * @param thread Thread whose setjmp buffer to retrieve
+     *
+     * @return Thread's setjmp, in the stack allocation.
+     */
     static auto JmpBufFor(Cothread *thread) {
         return reinterpret_cast<sigjmp_buf *>(thread->stack.data());
     }
@@ -80,7 +102,22 @@ struct SetJmp {
     static thread_local std::array<uintptr_t, kMainStackSize> gMainStack;
 
 
+    /**
+     * Global variable indicating the context of the current cothread whose state buffer is to be
+     * initialized. This is consulted in the signal handler to find the thread's actual entry
+     * point.
+     */
     static EntryContext *gCurrentlyPreparing;
+
+    /**
+     * Because the signals are shared between all threads in a process, including the associated
+     * signal stacks, it's possible that multiple threads attempting to be prepared simultaneously
+     * would cause issues.
+     *
+     * Therefore, this lock is taken for the duration of signal based operations (that is, the
+     * entire time between saving the current signal handler, installing our custom ones, raising
+     * the signal, and then restoring the old h andlers) needed to initialize the context buffer.
+     */
     static std::mutex gSignalLock;
 };
 }
