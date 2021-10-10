@@ -50,7 +50,7 @@
  *
  * \section more More Information
  *
- * For more information, check out the <a href="https://libcommunism.blraaz.me/">project site.</a>
+ * For more information, check out the [project site.](https://libcommunism.blraaz.me/)
  */
 
 namespace libcommunism::internal {
