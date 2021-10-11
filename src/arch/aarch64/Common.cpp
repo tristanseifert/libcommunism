@@ -48,20 +48,12 @@ Cothread::Cothread(const Entry &entry, std::span<uintptr_t> _stack) : stack(_sta
     Aarch64::Prepare(this, entry);
 }
 
-/**
- * Deallocates a cothread. This releases the underlying stack if we allocated it.
- */
 Cothread::~Cothread() {
     if(static_cast<uintptr_t>(this->flags) & static_cast<uintptr_t>(Flags::OwnsStack)) {
         Aarch64::DeallocStack(this->stack.data());
     }
 }
 
-/**
- * Performs a context switch to the provided cothread.
- *
- * The state of the caller is stored on the stack of the currently active thread.
- */
 void Cothread::switchTo() {
     auto from = Aarch64::gCurrentHandle;
     Aarch64::gCurrentHandle = this;

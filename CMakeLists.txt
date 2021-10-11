@@ -129,7 +129,7 @@ elseif("aarch64-aapcs" STREQUAL ${PLATFORM_SOURCES_TYPE})
         src/arch/aarch64/AAPCS.cpp
         src/arch/aarch64/AAPCS.S
     )
-    target_compile_definitions(libcommunism PRIVATE -DPLATFORM_AARCH64)
+    target_compile_definitions(libcommunism PRIVATE -DPLATFORM_AARCH64_AAPCS)
 elseif("setjmp" STREQUAL ${PLATFORM_SOURCES_TYPE})
     target_sources(libcommunism PRIVATE
         src/arch/setjmp/SetJmp.cpp
