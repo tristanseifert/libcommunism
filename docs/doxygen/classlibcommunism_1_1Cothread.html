@@ -123,12 +123,14 @@ Friends</h2></td></tr>
 <tr class="separator:a61ef8e61c4426dd2cca2d5a4581cd3b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8afdd85978899aa0ac87b95e44562919"><td class="memItemLeft" align="right" valign="top">struct&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcommunism_1_1Cothread.html#a8afdd85978899aa0ac87b95e44562919">internal::UContext</a></td></tr>
 <tr class="separator:a8afdd85978899aa0ac87b95e44562919"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba7ea46400672eaacc1ae6ddf027a245"><td class="memItemLeft" align="right" valign="top">struct&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcommunism_1_1Cothread.html#aba7ea46400672eaacc1ae6ddf027a245">internal::x86</a></td></tr>
+<tr class="separator:aba7ea46400672eaacc1ae6ddf027a245"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Instance of a single cooperative thread. </p>
 <p>Cooperative threads are threads that perform context switching in userspace, rather than relying on the kernel to do this. This has distinct performance advantages as the context switch is avoided, which costs a significant amount of clock cycles. </p>
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00027">27</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00028">28</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a56facf24195f6223f0fc1397a9a71467"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a56facf24195f6223f0fc1397a9a71467">&#9670;&nbsp;</a></span>Entry</h2>
@@ -144,7 +146,7 @@ Friends</h2></td></tr>
 
 <p>Type alias for an entry point of a cothread. </p>
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00052">52</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00054">54</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
 
 </div>
 </div>
@@ -362,10 +364,10 @@ The provided buffer must remain valid for the duration of the cothread's life. I
 <p>Gets the debug label (name) associated with this cothread.</p>
 <dl class="section return"><dt>Returns</dt><dd>A string containing the thread's debug label </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00164">164</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                                         {</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            <span class="keywordflow">return</span> this-&gt;label;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00166">166</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                                         {</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            <span class="keywordflow">return</span> this-&gt;label;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -433,10 +435,10 @@ The provided buffer must remain valid for the duration of the cothread's life. I
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00173">173</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                                                 {</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            this-&gt;label = newLabel;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00175">175</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                                                 {</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            this-&gt;label = newLabel;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -531,7 +533,7 @@ The provided buffer must remain valid for the duration of the cothread's life. I
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00029">29</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00030">30</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
 
 </div>
 </div>
@@ -555,7 +557,7 @@ The provided buffer must remain valid for the duration of the cothread's life. I
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00028">28</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00029">29</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
 
 </div>
 </div>
@@ -579,7 +581,7 @@ The provided buffer must remain valid for the duration of the cothread's life. I
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00030">30</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00031">31</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
 
 </div>
 </div>
@@ -603,7 +605,31 @@ The provided buffer must remain valid for the duration of the cothread's life. I
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00031">31</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00032">32</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+
+</div>
+</div>
+<a id="aba7ea46400672eaacc1ae6ddf027a245"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba7ea46400672eaacc1ae6ddf027a245">&#9670;&nbsp;</a></span>internal::x86</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend struct <a class="el" href="structlibcommunism_1_1internal_1_1x86.html">internal::x86</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00033">33</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
 
 </div>
 </div>

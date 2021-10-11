@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['validatestacksize_64',['ValidateStackSize',['../structlibcommunism_1_1internal_1_1Aarch64.html#a1101b9fdd7bbd5d766caccf4bfa76b43',1,'libcommunism::internal::Aarch64::ValidateStackSize()'],['../structlibcommunism_1_1internal_1_1Amd64.html#a2d23d6b326b85065e5966e7fdda90352',1,'libcommunism::internal::Amd64::ValidateStackSize()']]]
+  ['ucontext_63',['UContext',['../structlibcommunism_1_1internal_1_1UContext.html',1,'libcommunism::internal']]],
+  ['ucontext_2ecpp_64',['UContext.cpp',['../UContext_8cpp.html',1,'']]],
+  ['ucontext_2eh_65',['UContext.h',['../UContext_8h.html',1,'']]]
 ];

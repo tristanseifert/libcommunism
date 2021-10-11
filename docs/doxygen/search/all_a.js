@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['prepare_49',['Prepare',['../structlibcommunism_1_1internal_1_1Aarch64.html#a6878eea7693866cc654653b7ffdeb4c3',1,'libcommunism::internal::Aarch64::Prepare()'],['../structlibcommunism_1_1internal_1_1Amd64.html#a6415d5e61e9528aa7d9d1b62cba7f7d3',1,'libcommunism::internal::Amd64::Prepare()'],['../structlibcommunism_1_1internal_1_1SetJmp.html#a15481c390c0864f13ccdc82f3e362385',1,'libcommunism::internal::SetJmp::Prepare()'],['../structlibcommunism_1_1internal_1_1UContext.html#ae1d8f0a78ac0c4e87d4eff55cd4bbfeb',1,'libcommunism::internal::UContext::Prepare()']]]
+  ['internal_48',['internal',['../namespacelibcommunism_1_1internal.html',1,'libcommunism']]],
+  ['libcommunism_49',['libcommunism',['../namespacelibcommunism.html',1,'']]],
+  ['libcommunism_20documentation_50',['libcommunism Documentation',['../index.html',1,'']]]
 ];
