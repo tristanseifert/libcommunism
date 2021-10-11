@@ -14,6 +14,7 @@ In addition to the generic platforms, the following performance optimized platfo
 
 - amd64 (System V, Windows ABIs)
 - aarch64 (AAPCS ABI)
+- x86 (fastcall ABI)
 
 Adding optimized implementations for new platforms is relatively easy; only a thin shim needs to be developed, which may require a few small assembly routines to switch thread context. Feel free to submit pull requests to add new platforms.
 
@@ -45,6 +46,7 @@ One of the tests attempts to benchmark the context switching time. Approximate c
 
 - amd64 System V: 15ns
 - amd64 Windows: 19ns
+- x86 Fastcall: 23ns
 - setjmp macOS: 60ns
 - ucontext macOS: 1.45µS
 

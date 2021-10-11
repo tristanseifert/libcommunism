@@ -18,6 +18,7 @@ Any other value will override the automatic detection of the platform. The follo
 - amd64-win: 64-bit Intel x86 with Windows ABI
 - amd64-sysv: 64-bit Intel x86 with System V ABI (macOS, BSD, Linux)
 - aarch64-aapcs: 64-bit ARM using the standard [Procedure Call Standard](https://github.com/ARM-software/abi-aa/blob/main/aapcs64/aapcs64.rst)
+- x86-fastcall: 32-bit Intel x86 using the [fastcall](https://docs.microsoft.com/en-us/cpp/cpp/fastcall?view=msvc-160) calling convention. This is supported by GCC and Clang in addition to MSVC, so it allows supporting all 32-bit x86 platforms with the same platform.
 - setjmp: Generic, fully portable [setjmp()](https://linux.die.net/man/3/sigsetjmp) context switching. Its performance is significantly better than the ucontext implementation, but still several times slower than fully native implementations.
 - ucontext: Generic [setcontext()](https://en.wikipedia.org/wiki/Setcontext) based implementation. (_Note:_ This is egregiously slow and mainly intended as a proof of concept; the setjmp implementation blows it out of the water.)
 
