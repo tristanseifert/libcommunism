@@ -15,6 +15,7 @@ struct Amd64;
 struct Aarch64;
 struct SetJmp;
 struct UContext;
+struct x86;
 }
 
 /**
@@ -29,6 +30,7 @@ class Cothread {
     friend struct internal::Aarch64;
     friend struct internal::SetJmp;
     friend struct internal::UContext;
+    friend struct internal::x86;
 
     private:
         /**

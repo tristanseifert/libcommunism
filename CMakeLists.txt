@@ -55,6 +55,8 @@ if("Auto" STREQUAL ${PLATFORM_LIBCOMMUNISM})
     elseif("aarch64" STREQUAL ${TARGET_ARCH})
         # TODO: are there aarch64 platforms that don't use AAPCS?
         set(PLATFORM_SOURCES_TYPE "aarch64-aapcs")
+    elseif("i386" STREQUAL ${TARGET_ARCH})
+        set(PLATFORM_SOURCES_TYPE "x86-fastcall")
     endif()
 else()
     set(PLATFORM_SOURCES_TYPE ${PLATFORM_LIBCOMMUNISM})
@@ -130,6 +132,26 @@ elseif("aarch64-aapcs" STREQUAL ${PLATFORM_SOURCES_TYPE})
         src/arch/aarch64/AAPCS.S
     )
     target_compile_definitions(libcommunism PRIVATE -DPLATFORM_AARCH64_AAPCS)
+elseif("x86-fastcall" STREQUAL ${PLATFORM_SOURCES_TYPE})
+    # compiled sources are always the same as fastcall calling convention is identical
+    target_sources(libcommunism PRIVATE
+        src/arch/x86/Common.cpp
+    )
+
+    # for MSVC toolchain, use the MASM formatted assembler
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+        enable_language(ASM_MASM)
+        target_sources(libcommunism PRIVATE
+            src/arch/x86/Fastcall.asm
+        )
+    # otherwise, use the GNU AS style
+    else()
+        enable_language(ASM)
+        target_sources(libcommunism PRIVATE
+            src/arch/x86/Fastcall.S
+        )
+    endif()
+    target_compile_definitions(libcommunism PRIVATE -DPLATFORM_X86_FASTCALL)
 elseif("setjmp" STREQUAL ${PLATFORM_SOURCES_TYPE})
     target_sources(libcommunism PRIVATE
         src/arch/setjmp/SetJmp.cpp
