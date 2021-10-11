@@ -8,6 +8,7 @@ More information is available on [the project website.](https://libcommunism.blr
 ## Supported Platforms
 Due to the nature of the library, some architecture specific code is required to implement context switching. Currently supported architectures and platforms are:
 
+- aarch64 ([AAPCS](https://github.com/ARM-software/abi-aa/blob/main/aapcs64/aapcs64.rst))
 - amd64 (System V ABI)
 - amd64 (Windows ABI)
 - setjmp

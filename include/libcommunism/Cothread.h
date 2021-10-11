@@ -12,6 +12,7 @@
 namespace libcommunism {
 namespace internal{
 struct Amd64;
+struct Aarch64;
 struct SetJmp;
 struct UContext;
 }
@@ -25,6 +26,7 @@ struct UContext;
  */
 class Cothread {
     friend struct internal::Amd64;
+    friend struct internal::Aarch64;
     friend struct internal::SetJmp;
     friend struct internal::UContext;
 
@@ -181,7 +183,10 @@ class Cothread {
      * in the class.
      */
     private:
-        /// Last saved stack pointer to restore when switching to this thread
+        /**
+         * Points to the location where the thread's context is stored in the stack frame. The
+         * exact location on the stack is defined by the platform code.
+         */
         void *stackTop;
         /// Range encompassing the entire stack allocated to this cothread
         std::span<uintptr_t> stack;

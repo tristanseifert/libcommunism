@@ -12,6 +12,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake;${CMAKE_MODULE_PATH}")
 
 include(ExternalProject)
 include(FetchContent)
+include(CheckSymbolExists)
 include(TargetArch)
 
 ### Force C and C++ standards, warnings
@@ -41,7 +42,8 @@ message(STATUS "Target architecture: ${TARGET_ARCH}")
 
 ### Use the manually specified arch code override, or autodetect it
 set(PLATFORM_LIBCOMMUNISM "Auto" CACHE STRING "Architecture specific code to be built")
-set_property(CACHE PLATFORM_LIBCOMMUNISM PROPERTY STRINGS Auto amd64-sysv amd64-win setjmp ucontext)
+set_property(CACHE PLATFORM_LIBCOMMUNISM PROPERTY STRINGS Auto amd64-sysv amd64-win aarch64-aapcs
+    setjmp ucontext)
 
 if("Auto" STREQUAL ${PLATFORM_LIBCOMMUNISM})
     if("x86_64" STREQUAL ${TARGET_ARCH})
@@ -50,11 +52,41 @@ if("Auto" STREQUAL ${PLATFORM_LIBCOMMUNISM})
         else()
             set(PLATFORM_SOURCES_TYPE "amd64-sysv")
         endif()
-    else()
-        message(SEND_ERROR "failed to autodetect architecture variant for '${TARGET_ARCH}'!")
+    elseif("aarch64" STREQUAL ${TARGET_ARCH})
+        # TODO: are there aarch64 platforms that don't use AAPCS?
+        set(PLATFORM_SOURCES_TYPE "aarch64-aapcs")
     endif()
 else()
     set(PLATFORM_SOURCES_TYPE ${PLATFORM_LIBCOMMUNISM})
+endif()
+
+### if still unset, select the best generic approach (first sigsetjmp, then ucontext)
+if(NOT DEFINED PLATFORM_SOURCES_TYPE)
+    message(WARNING "Failed to select an optimized platform; attempting to pick a generic one")
+
+    # check for the methods required by the setjmp approach
+    check_symbol_exists(sigsetjmp "setjmp.h" HAVE_SIGSETJMP)
+    check_symbol_exists(siglongjmp "setjmp.h" HAVE_SIGLONGJMP)
+    check_symbol_exists(sigaltstack "signal.h" HAVE_SIGALTSTACK)
+    check_symbol_exists(sigaction "signal.h" HAVE_SIGACTION)
+
+    # check for the methods required by the ucontext approach
+    set(CMAKE_REQUIRED_DEFINITIONS "-D_XOPEN_SOURCE")
+    check_symbol_exists(getcontext "ucontext.h" HAVE_GETCONTEXT)
+    check_symbol_exists(swapcontext "ucontext.h" HAVE_SWAPCONTEXT)
+
+    # are all the methods for `setjmp` available?
+    if(DEFINED HAVE_SIGSETJMP AND DEFINED HAVE_SIGLONGJMP AND DEFINED HAVE_SIGALTSTACK
+            AND DEFINED HAVE_SIGACTION)
+        set(PLATFORM_SOURCES_TYPE "setjmp")
+    # are all the methods for `ucontext` available?
+    elseif(DEFINED HAVE_GETCONTEXT AND DEFINED HAVE_SWAPCONTEXT)
+        set(PLATFORM_SOURCES_TYPE "ucontext")
+    # no suitable alternate methods
+    else()
+        message(FATAL_ERROR "Failed to autodetect a suitable generic platform implementation, "
+            "please file an issue")
+    endif()
 endif()
 
 message(STATUS "Platform support variant: ${PLATFORM_SOURCES_TYPE}")
@@ -89,11 +121,20 @@ elseif("amd64-sysv" STREQUAL ${PLATFORM_SOURCES_TYPE})
         src/arch/amd64/SysV.S
     )
     target_compile_definitions(libcommunism PRIVATE -DPLATFORM_AMD64_SYSV)
+elseif("aarch64-aapcs" STREQUAL ${PLATFORM_SOURCES_TYPE})
+    enable_language(ASM)
+
+    target_sources(libcommunism PRIVATE
+        src/arch/aarch64/Common.cpp
+        src/arch/aarch64/AAPCS.cpp
+        src/arch/aarch64/AAPCS.S
+    )
+    target_compile_definitions(libcommunism PRIVATE -DPLATFORM_AARCH64_AAPCS)
 elseif("setjmp" STREQUAL ${PLATFORM_SOURCES_TYPE})
     target_sources(libcommunism PRIVATE
         src/arch/setjmp/SetJmp.cpp
     )
-    target_compile_definitions(libcommunism PRIVATE -DPLATFORM_UCONTEXT)
+    target_compile_definitions(libcommunism PRIVATE -DPLATFORM_SETJMP)
 elseif("ucontext" STREQUAL ${PLATFORM_SOURCES_TYPE})
     target_sources(libcommunism PRIVATE
         src/arch/ucontext/UContext.cpp

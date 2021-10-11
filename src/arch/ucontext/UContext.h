@@ -9,6 +9,8 @@
 #include <mutex>
 #include <unordered_map>
 
+#include <ucontext.h>
+
 namespace libcommunism::internal {
 /**
  * @brief Implementation of context switching that uses the C library's `setcontext()` methods
