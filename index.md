@@ -12,8 +12,8 @@ Unless overridden, the build script will automatically select the best suitable 
 ## Optimized Implementations
 In addition to the generic platforms, the following performance optimized platform choices are available:
 
-- amd64 (System V ABI)
-- amd64 (Windows ABI)
+- amd64 (System V, Windows ABIs)
+- aarch64 (AAPCS ABI)
 
 Adding optimized implementations for new platforms is relatively easy; only a thin shim needs to be developed, which may require a few small assembly routines to switch thread context. Feel free to submit pull requests to add new platforms.
 
