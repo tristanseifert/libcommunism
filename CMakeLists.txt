@@ -141,7 +141,9 @@ elseif("x86-fastcall" STREQUAL ${PLATFORM_SOURCES_TYPE})
     # for MSVC toolchain, use the MASM formatted assembler
     if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
         enable_language(ASM_MASM)
-        # TODO: define this version of the source
+        target_sources(libcommunism PRIVATE
+            src/arch/x86/Fastcall.asm
+        )
     # otherwise, use the GNU AS style
     else()
         enable_language(ASM)

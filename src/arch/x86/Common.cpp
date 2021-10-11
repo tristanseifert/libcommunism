@@ -167,15 +167,15 @@ void x86::Prepare(Cothread *wrap, const Cothread::Entry &entry) {
     // ensure current handle is valid
     if(!gCurrentHandle) x86::AllocMainCothread();
 
-    // build the context structure we pass to our "fake" entry point
+    // build the context structure we pass to our entry point stub
     auto info = new CallInfo{entry};
     if(!info) throw std::runtime_error("Failed to allocate call info");
 
     // NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)
-    // prepare some space for a stack frame (zeroed registers; four function call params)
+    // prepare some space for a stack frame
     auto &stackBuf = wrap->stack;
     auto stackFrame = reinterpret_cast<std::byte *>(stackBuf.data());
-    stackFrame += ((stackBuf.size()*sizeof(typeof(*stackBuf.data()))) & ~(0x10-1))
+    stackFrame += ((stackBuf.size()*sizeof(uintptr_t)) & ~(0x10-1))
         - (sizeof(uintptr_t) * (4 + kNumSavedRegisters));
     auto stack = reinterpret_cast<uintptr_t *>(stackFrame);
 

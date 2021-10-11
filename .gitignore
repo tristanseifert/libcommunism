@@ -1,4 +1,4 @@
-build/
+build*
 
 # for github pages (in gh-pages branch)
 docs/
