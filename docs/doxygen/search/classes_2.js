@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['entrycontext_66',['EntryContext',['../structlibcommunism_1_1internal_1_1SetJmp_1_1EntryContext.html',1,'libcommunism::internal::SetJmp']]]
+  ['entrycontext_72',['EntryContext',['../structlibcommunism_1_1internal_1_1SetJmp_1_1EntryContext.html',1,'libcommunism::internal::SetJmp']]]
 ];

@@ -126,7 +126,7 @@ Static Public Attributes</h2></td></tr>
 <p>Since we need a place to store the context in addition to the stack, it's stored at the very top of the allocated stack. When allocating the stack internally, this is taken account and some extra space at the top is reserved for it; but this must be kept in mind when using an externally allocated stack, as less (roughly <code>sizeof(ucontext_t)</code> and alignment) space than provided will be actually be available as stack.</p>
 <dl class="section note"><dt>Note</dt><dd>Since ucontext has been deprecated since the 2008 revision of POSIX, this may stop working (or not even be supported to begin with) on any given platform in the future. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00029">29</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00031">31</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a67ea909ba16d45b9f6ccfbb5ba29b67c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a67ea909ba16d45b9f6ccfbb5ba29b67c">&#9670;&nbsp;</a></span>AllocMainCothread()</h2>
@@ -157,10 +157,10 @@ Static Public Attributes</h2></td></tr>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keyword">auto</span> main = <span class="keyword">new</span> <a class="code" href="classlibcommunism_1_1Cothread.html">Cothread</a>(<a class="code" href="structlibcommunism_1_1internal_1_1UContext.html#ad3781a09d44c312e93837b70127c9033">gMainStack</a>, <a class="code" href="structlibcommunism_1_1internal_1_1UContext.html#ad3781a09d44c312e93837b70127c9033">gMainStack</a>.data() + <a class="code" href="structlibcommunism_1_1internal_1_1UContext.html#affcb29eed86604c5fcbbf229af2d54c9">UContext::kMainStackSize</a>);</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <a class="code" href="structlibcommunism_1_1internal_1_1UContext.html#af8323911e50712a84f288c4e54cf97cd">gCurrentHandle</a> = main;</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div>
-<div class="ttc" id="aclasslibcommunism_1_1Cothread_html"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html">libcommunism::Cothread</a></div><div class="ttdoc">Instance of a single cooperative thread.</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00026">Cothread.h:26</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_ad3781a09d44c312e93837b70127c9033"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#ad3781a09d44c312e93837b70127c9033">libcommunism::internal::UContext::gMainStack</a></div><div class="ttdeci">static thread_local std::array&lt; uintptr_t, kMainStackSize &gt; gMainStack</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00104">UContext.h:104</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_af8323911e50712a84f288c4e54cf97cd"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#af8323911e50712a84f288c4e54cf97cd">libcommunism::internal::UContext::gCurrentHandle</a></div><div class="ttdeci">static thread_local Cothread * gCurrentHandle</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00091">UContext.h:91</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_affcb29eed86604c5fcbbf229af2d54c9"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#affcb29eed86604c5fcbbf229af2d54c9">libcommunism::internal::UContext::kMainStackSize</a></div><div class="ttdeci">static constexpr const size_t kMainStackSize</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00078">UContext.h:78</a></div></div>
+<div class="ttc" id="aclasslibcommunism_1_1Cothread_html"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html">libcommunism::Cothread</a></div><div class="ttdoc">Instance of a single cooperative thread.</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00027">Cothread.h:27</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_ad3781a09d44c312e93837b70127c9033"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#ad3781a09d44c312e93837b70127c9033">libcommunism::internal::UContext::gMainStack</a></div><div class="ttdeci">static thread_local std::array&lt; uintptr_t, kMainStackSize &gt; gMainStack</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00106">UContext.h:106</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_af8323911e50712a84f288c4e54cf97cd"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#af8323911e50712a84f288c4e54cf97cd">libcommunism::internal::UContext::gCurrentHandle</a></div><div class="ttdeci">static thread_local Cothread * gCurrentHandle</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00093">UContext.h:93</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_affcb29eed86604c5fcbbf229af2d54c9"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#affcb29eed86604c5fcbbf229af2d54c9">libcommunism::internal::UContext::kMainStackSize</a></div><div class="ttdeci">static constexpr const size_t kMainStackSize</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00080">UContext.h:80</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -197,10 +197,10 @@ Static Public Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Thread's user context, in the stack allocation. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00052">52</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                                                    {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">reinterpret_cast&lt;</span>ucontext_t *<span class="keyword">&gt;</span>(thread-&gt;stack.data());</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
+<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00054">54</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                                                    {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">reinterpret_cast&lt;</span>ucontext_t *<span class="keyword">&gt;</span>(thread-&gt;stack.data());</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -252,9 +252,9 @@ Static Public Attributes</h2></td></tr>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    info.reset();</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <a class="code" href="structlibcommunism_1_1internal_1_1UContext.html#a5e82993f5a89feb310864033f1eef279">UContext::InvokeCothreadDidReturnHandler</a>(<a class="code" href="structlibcommunism_1_1internal_1_1UContext.html#af8323911e50712a84f288c4e54cf97cd">gCurrentHandle</a>);</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;}</div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_a0459cebaff39cc99caf4a0d5ae3ec5ac"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#a0459cebaff39cc99caf4a0d5ae3ec5ac">libcommunism::internal::UContext::gContextInfo</a></div><div class="ttdeci">static std::unordered_map&lt; int, std::unique_ptr&lt; Context &gt; &gt; gContextInfo</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00115">UContext.h:115</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_a0459cebaff39cc99caf4a0d5ae3ec5ac"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#a0459cebaff39cc99caf4a0d5ae3ec5ac">libcommunism::internal::UContext::gContextInfo</a></div><div class="ttdeci">static std::unordered_map&lt; int, std::unique_ptr&lt; Context &gt; &gt; gContextInfo</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00117">UContext.h:117</a></div></div>
 <div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_a5e82993f5a89feb310864033f1eef279"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#a5e82993f5a89feb310864033f1eef279">libcommunism::internal::UContext::InvokeCothreadDidReturnHandler</a></div><div class="ttdeci">static void InvokeCothreadDidReturnHandler(Cothread *from)</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8cpp_source.html#l00170">UContext.cpp:170</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_a793d056aa4fd1d41300703b6fc65e708"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#a793d056aa4fd1d41300703b6fc65e708">libcommunism::internal::UContext::gContextInfoLock</a></div><div class="ttdeci">static std::mutex gContextInfoLock</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00121">UContext.h:121</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_a793d056aa4fd1d41300703b6fc65e708"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#a793d056aa4fd1d41300703b6fc65e708">libcommunism::internal::UContext::gContextInfoLock</a></div><div class="ttdeci">static std::mutex gContextInfoLock</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00123">UContext.h:123</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -386,11 +386,11 @@ Static Public Attributes</h2></td></tr>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="comment">// this is disgusting but it&#39;s C. lol</span></div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    makecontext(uctx, <span class="keyword">reinterpret_cast&lt;</span><span class="keywordtype">void</span>(*)()<span class="keyword">&gt;</span>(&amp;<a class="code" href="structlibcommunism_1_1internal_1_1UContext.html#a4b4735f417c02d9d8308180b9398425a">EntryStub</a>), 1, <span class="keywordtype">id</span>);</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;}</div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_a474cfba25de2bbbcecdb6dd3969ba314"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#a474cfba25de2bbbcecdb6dd3969ba314">libcommunism::internal::UContext::ContextFor</a></div><div class="ttdeci">static ucontext_t * ContextFor(Cothread *thread)</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00052">UContext.h:52</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_a474cfba25de2bbbcecdb6dd3969ba314"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#a474cfba25de2bbbcecdb6dd3969ba314">libcommunism::internal::UContext::ContextFor</a></div><div class="ttdeci">static ucontext_t * ContextFor(Cothread *thread)</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00054">UContext.h:54</a></div></div>
 <div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_a4b4735f417c02d9d8308180b9398425a"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#a4b4735f417c02d9d8308180b9398425a">libcommunism::internal::UContext::EntryStub</a></div><div class="ttdeci">static void EntryStub(int id)</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8cpp_source.html#l00180">UContext.cpp:180</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_a5b5fb08c7e8b373ea1504ff4af4a1c53"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#a5b5fb08c7e8b373ea1504ff4af4a1c53">libcommunism::internal::UContext::kStackAlignment</a></div><div class="ttdeci">static constexpr const size_t kStackAlignment</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00070">UContext.h:70</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_a5b5fb08c7e8b373ea1504ff4af4a1c53"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#a5b5fb08c7e8b373ea1504ff4af4a1c53">libcommunism::internal::UContext::kStackAlignment</a></div><div class="ttdeci">static constexpr const size_t kStackAlignment</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00072">UContext.h:72</a></div></div>
 <div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_a67ea909ba16d45b9f6ccfbb5ba29b67c"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#a67ea909ba16d45b9f6ccfbb5ba29b67c">libcommunism::internal::UContext::AllocMainCothread</a></div><div class="ttdeci">static void AllocMainCothread()</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8cpp_source.html#l00107">UContext.cpp:107</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_ad33edc632aa9ec3d78f4a3bd821d342a"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#ad33edc632aa9ec3d78f4a3bd821d342a">libcommunism::internal::UContext::gContextNextId</a></div><div class="ttdeci">static int gContextNextId</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00126">UContext.h:126</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1UContext_html_ad33edc632aa9ec3d78f4a3bd821d342a"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1UContext.html#ad33edc632aa9ec3d78f4a3bd821d342a">libcommunism::internal::UContext::gContextNextId</a></div><div class="ttdeci">static int gContextNextId</div><div class="ttdef"><b>Definition:</b> <a href="UContext_8h_source.html#l00128">UContext.h:128</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -417,7 +417,7 @@ Static Public Attributes</h2></td></tr>
 <p>Since <code>makecontext()</code> is cursed and only passes parameters of <code>int</code> size of the function, this will break passing a pointer on most 64-bit platforms. Instead, we have this here map that stores an int index, which the entry wrapper pulls out and gets the context from.</p>
 <p>The value going into it is based on some counter we increment. </p>
 
-<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00115">115</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00117">117</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
 
 </div>
 </div>
@@ -442,7 +442,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Mutex protecting access to the context map. This is taken during insertion and removal of entries in the <a class="el" href="structlibcommunism_1_1internal_1_1UContext.html#ae1d8f0a78ac0c4e87d4eff55cd4bbfeb">Prepare()</a> and entry stubs. </p>
 
-<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00121">121</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00123">123</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
 
 </div>
 </div>
@@ -467,7 +467,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Value of the next integer of the context info map key. </p>
 
-<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00126">126</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00128">128</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
 
 </div>
 </div>
@@ -492,7 +492,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Handle for the currently executing cothread in the calling physical thread. This is updated when switching cothreads, but will be <code>nullptr</code> until the first call to <code>SwitchTo()</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00091">91</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00093">93</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
 
 </div>
 </div>
@@ -519,7 +519,7 @@ Static Public Attributes</h2></td></tr>
 <p>This buffer receives the stack frame of the context of the thread on the first invocation to SwitchTo(). When invoking the Current() method before executing a real cothread, the returned <a class="el" href="classlibcommunism_1_1Cothread.html" title="Instance of a single cooperative thread.">Cothread</a> will correspond to this buffer.</p>
 <p>It does not have to be particularly large, since the stack is actually allocated by the system already, and this "stack" only holds the register state. </p>
 
-<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00104">104</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00106">106</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
 
 </div>
 </div>
@@ -544,7 +544,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>Default stack size in bytes, if none was requested by the caller. Since this implementation may work on different width architectures, we define this as 64K worth of machine words. </p>
 
-<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00084">84</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00086">86</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
 
 </div>
 </div>
@@ -570,7 +570,7 @@ Static Public Attributes</h2></td></tr>
 <p>Size of the stack buffer for the "fake" initial cothread, in machine words. This only needs to be large enough to fit the register stack frame. This <em>must</em> be a power of two.</p>
 <p>It must be sufficiently large to fit an ucontext_t in it. </p>
 
-<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00078">78</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00080">80</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
 
 </div>
 </div>
@@ -597,7 +597,7 @@ Static Public Attributes</h2></td></tr>
 <p>64 bytes is the most stringent alignment requirements we should probably encounter in the real world (one cache line on most systems) and alignment doesn't result in <em>that</em> much overhead so this is fine.</p>
 <dl class="section remark"><dt>Remarks</dt><dd>This must be a power of 2. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00070">70</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="UContext_8h_source.html#l00072">72</a> of file <a class="el" href="UContext_8h_source.html">UContext.h</a>.</p>
 
 </div>
 </div>

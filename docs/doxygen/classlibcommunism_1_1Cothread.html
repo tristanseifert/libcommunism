@@ -117,6 +117,8 @@ Static Public Member Functions</h2></td></tr>
 Friends</h2></td></tr>
 <tr class="memitem:a79870e7f40c6ef21612f6464e875e02b"><td class="memItemLeft" align="right" valign="top">struct&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcommunism_1_1Cothread.html#a79870e7f40c6ef21612f6464e875e02b">internal::Amd64</a></td></tr>
 <tr class="separator:a79870e7f40c6ef21612f6464e875e02b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a128ff87a6f8516e7a323518fa902be6d"><td class="memItemLeft" align="right" valign="top">struct&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcommunism_1_1Cothread.html#a128ff87a6f8516e7a323518fa902be6d">internal::Aarch64</a></td></tr>
+<tr class="separator:a128ff87a6f8516e7a323518fa902be6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61ef8e61c4426dd2cca2d5a4581cd3b3"><td class="memItemLeft" align="right" valign="top">struct&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcommunism_1_1Cothread.html#a61ef8e61c4426dd2cca2d5a4581cd3b3">internal::SetJmp</a></td></tr>
 <tr class="separator:a61ef8e61c4426dd2cca2d5a4581cd3b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8afdd85978899aa0ac87b95e44562919"><td class="memItemLeft" align="right" valign="top">struct&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcommunism_1_1Cothread.html#a8afdd85978899aa0ac87b95e44562919">internal::UContext</a></td></tr>
@@ -126,7 +128,7 @@ Friends</h2></td></tr>
 <div class="textblock"><p>Instance of a single cooperative thread. </p>
 <p>Cooperative threads are threads that perform context switching in userspace, rather than relying on the kernel to do this. This has distinct performance advantages as the context switch is avoided, which costs a significant amount of clock cycles. </p>
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00026">26</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00027">27</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a56facf24195f6223f0fc1397a9a71467"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a56facf24195f6223f0fc1397a9a71467">&#9670;&nbsp;</a></span>Entry</h2>
@@ -142,7 +144,7 @@ Friends</h2></td></tr>
 
 <p>Type alias for an entry point of a cothread. </p>
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00050">50</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00052">52</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
 
 </div>
 </div>
@@ -196,22 +198,23 @@ Friends</h2></td></tr>
 <p>Allocates a cothread including a context region of the specified size.</p>
 <p>This ensures there's sufficient bonus space allocated to hold the ucontext. </p>
 
-<p class="definition">Definition at line <a class="el" href="Common_8cpp_source.html#l00037">37</a> of file <a class="el" href="Common_8cpp_source.html">Common.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                                                             {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">void</span> *buf{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">// round down stack size to ensure it&#39;s aligned before allocating it</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">auto</span> allocSize = stackSize &amp; ~(Amd64::kStackAlignment - 1);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    allocSize = allocSize ? allocSize : Amd64::kDefaultStackSize;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    buf = Amd64::AllocStack(allocSize);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">// create it as if we had provided the memory in the first place</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    this-&gt;stack = {<span class="keyword">reinterpret_cast&lt;</span>uintptr_t *<span class="keyword">&gt;</span>(buf), allocSize / <span class="keyword">sizeof</span>(uintptr_t)};</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    this-&gt;flags = Cothread::Flags::OwnsStack;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    Amd64::Prepare(<span class="keyword">this</span>, entry);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="aarch64_2Common_8cpp_source.html#l00029">29</a> of file <a class="el" href="aarch64_2Common_8cpp_source.html">Common.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                                                             {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> *buf{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment">// round down stack size to ensure it&#39;s aligned before allocating it</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">auto</span> allocSize = stackSize &amp; ~(Aarch64::kStackAlignment - 1);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    allocSize = allocSize ? allocSize : Aarch64::kDefaultStackSize;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    allocSize += Aarch64::kContextSaveAreaSize;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    buf = Aarch64::AllocStack(allocSize);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment">// create it as if we had provided the memory in the first place</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    this-&gt;stack = {<span class="keyword">reinterpret_cast&lt;</span>uintptr_t *<span class="keyword">&gt;</span>(buf), allocSize / <span class="keyword">sizeof</span>(uintptr_t)};</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    this-&gt;flags = Cothread::Flags::OwnsStack;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    Aarch64::Prepare(<span class="keyword">this</span>, entry);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -262,11 +265,11 @@ The provided buffer must remain valid for the duration of the cothread's life. I
 <p>Allocates a cothread with an existing region of memory to back its stack.</p>
 <p>Allocates a cothread with an existing region of memory to back its stack and jump buffer. </p>
 
-<p class="definition">Definition at line <a class="el" href="Common_8cpp_source.html#l00056">56</a> of file <a class="el" href="Common_8cpp_source.html">Common.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                                                : stack(_stack) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    Amd64::ValidateStackSize(_stack.size() * <span class="keyword">sizeof</span>(uintptr_t));</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    Amd64::Prepare(<span class="keyword">this</span>, entry);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="aarch64_2Common_8cpp_source.html#l00046">46</a> of file <a class="el" href="aarch64_2Common_8cpp_source.html">Common.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                                                                : stack(_stack) {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    Aarch64::ValidateStackSize(_stack.size() * <span class="keyword">sizeof</span>(uintptr_t));</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    Aarch64::Prepare(<span class="keyword">this</span>, entry);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -288,12 +291,12 @@ The provided buffer must remain valid for the duration of the cothread's life. I
 <dl class="section note"><dt>Note</dt><dd>Destroying the currently executing cothread results in undefined behavior, as it will cause its stack to be deallocated.</dd></dl>
 <p>Deallocates a cothread. This releases the underlying stack if we allocated it. </p>
 
-<p class="definition">Definition at line <a class="el" href="Common_8cpp_source.html#l00064">64</a> of file <a class="el" href="Common_8cpp_source.html">Common.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                    {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">if</span>(<span class="keyword">static_cast&lt;</span>uintptr_t<span class="keyword">&gt;</span>(this-&gt;flags) &amp; <span class="keyword">static_cast&lt;</span>uintptr_t<span class="keyword">&gt;</span>(Flags::OwnsStack)) {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        Amd64::DeallocStack(this-&gt;stack.data());</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="aarch64_2Common_8cpp_source.html#l00051">51</a> of file <a class="el" href="aarch64_2Common_8cpp_source.html">Common.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                    {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">if</span>(<span class="keyword">static_cast&lt;</span>uintptr_t<span class="keyword">&gt;</span>(this-&gt;flags) &amp; <span class="keyword">static_cast&lt;</span>uintptr_t<span class="keyword">&gt;</span>(Flags::OwnsStack)) {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        Aarch64::DeallocStack(this-&gt;stack.data());</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -326,11 +329,11 @@ The provided buffer must remain valid for the duration of the cothread's life. I
 <p>Returns the handle to the currently executing cothread.</p>
 <p>If no cothread has been lanched yet, the "fake" initial cothread handle is returned. </p>
 
-<p class="definition">Definition at line <a class="el" href="Common_8cpp_source.html#l00029">29</a> of file <a class="el" href="Common_8cpp_source.html">Common.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                            {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">if</span>(!Amd64::gCurrentHandle) Amd64::AllocMainCothread();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">return</span> Amd64::gCurrentHandle;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="aarch64_2Common_8cpp_source.html#l00024">24</a> of file <a class="el" href="aarch64_2Common_8cpp_source.html">Common.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                            {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">if</span>(!Aarch64::gCurrentHandle) Aarch64::AllocMainCothread();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">return</span> Aarch64::gCurrentHandle;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -359,10 +362,10 @@ The provided buffer must remain valid for the duration of the cothread's life. I
 <p>Gets the debug label (name) associated with this cothread.</p>
 <dl class="section return"><dt>Returns</dt><dd>A string containing the thread's debug label </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00162">162</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                                         {</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <span class="keywordflow">return</span> this-&gt;label;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00164">164</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                                         {</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            <span class="keywordflow">return</span> this-&gt;label;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -430,10 +433,10 @@ The provided buffer must remain valid for the duration of the cothread's life. I
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00171">171</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                                                 {</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            this-&gt;label = newLabel;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        }</div>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00173">173</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<div class="fragment"><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                                                 {</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            this-&gt;label = newLabel;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -498,16 +501,40 @@ The provided buffer must remain valid for the duration of the cothread's life. I
 <p>The state of the caller is stored on the stack of the currently active thread.</p>
 <p>Performs a context switch to the provided cothread. </p>
 
-<p class="definition">Definition at line <a class="el" href="Common_8cpp_source.html#l00075">75</a> of file <a class="el" href="Common_8cpp_source.html">Common.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                        {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">auto</span> from = Amd64::gCurrentHandle;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    Amd64::gCurrentHandle = <span class="keyword">this</span>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    Amd64::Switch(from, <span class="keyword">this</span>);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="aarch64_2Common_8cpp_source.html#l00057">57</a> of file <a class="el" href="aarch64_2Common_8cpp_source.html">Common.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                        {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">auto</span> from = Aarch64::gCurrentHandle;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    Aarch64::gCurrentHandle = <span class="keyword">this</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    Aarch64::Switch(from, <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a id="a128ff87a6f8516e7a323518fa902be6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a128ff87a6f8516e7a323518fa902be6d">&#9670;&nbsp;</a></span>internal::Aarch64</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend struct <a class="el" href="structlibcommunism_1_1internal_1_1Aarch64.html">internal::Aarch64</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00029">29</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+
+</div>
+</div>
 <a id="a79870e7f40c6ef21612f6464e875e02b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a79870e7f40c6ef21612f6464e875e02b">&#9670;&nbsp;</a></span>internal::Amd64</h2>
 
@@ -528,7 +555,7 @@ The provided buffer must remain valid for the duration of the cothread's life. I
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00027">27</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00028">28</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
 
 </div>
 </div>
@@ -552,7 +579,7 @@ The provided buffer must remain valid for the duration of the cothread's life. I
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00028">28</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00030">30</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
 
 </div>
 </div>
@@ -576,13 +603,13 @@ The provided buffer must remain valid for the duration of the cothread's life. I
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00029">29</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Cothread_8h_source.html#l00031">31</a> of file <a class="el" href="Cothread_8h_source.html">Cothread.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>include/libcommunism/<a class="el" href="Cothread_8h_source.html">Cothread.h</a></li>
-<li>src/arch/amd64/<a class="el" href="Common_8cpp_source.html">Common.cpp</a></li>
+<li>src/arch/aarch64/<a class="el" href="aarch64_2Common_8cpp_source.html">Common.cpp</a></li>
 <li>src/arch/setjmp/<a class="el" href="SetJmp_8cpp_source.html">SetJmp.cpp</a></li>
 <li>src/arch/ucontext/<a class="el" href="UContext_8cpp_source.html">UContext.cpp</a></li>
 <li>src/<a class="el" href="Cothread_8cpp_source.html">Cothread.cpp</a></li>
