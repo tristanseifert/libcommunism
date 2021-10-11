@@ -69,6 +69,18 @@ void Cothread::switchTo() {
 }
 
 /**
+ * Ensures the provided stack size is valid.
+ *
+ * @param size Size of stack, in bytes.
+ *
+ * @throw std::runtime_error Stack size is invalid (misaligned, too small, etc.)
+ */
+void Aarch64::ValidateStackSize(const size_t size) {
+    if(!size) throw std::runtime_error("Size may not be nil");
+    if(size % kStackAlignment) throw std::runtime_error("Stack is misaligned");
+}
+
+/**
  * Allocates the current physical (kernel) thread's Cothread object.
  *
  * @note This will leak the associated cothread object, unless the caller stores it somewhere and
@@ -80,7 +92,8 @@ void Aarch64::AllocMainCothread() {
 }
 
 /**
- * The currently running cothread returned from its main function. This is very naughty behavior.
+ * The currently running cothread returned from its main function. This is a separate function such
+ * that it will show up in stack traces.
  */
 void Aarch64::CothreadReturned() {
     gReturnHandler(gCurrentHandle);
@@ -97,6 +110,7 @@ void Aarch64::DereferenceCallInfo(CallInfo *info) {
     delete info;
 
     CothreadReturned();
+    gReturnHandler(gCurrentHandle);
 
     // if the return handler returns, we will crash. so abort to make debugging easier
     std::terminate();

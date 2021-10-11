@@ -16,18 +16,6 @@ using namespace libcommunism::internal;
 extern "C" void Aarch64AapcsEntryStub();
 
 /**
- * Ensures the provided stack size is valid.
- *
- * @param size Size of stack, in bytes.
- *
- * @throw std::runtime_error Stack size is invalid (misaligned, too small, etc.)
- */
-void Aarch64::ValidateStackSize(const size_t size) {
-    if(!size) throw std::runtime_error("Size may not be nil");
-    if(size % kStackAlignment) throw std::runtime_error("Stack is misaligned");
-}
-
-/**
  * Allocates memory for a stack that's the given number of bytes in size. We simply take it from
  * the system heap.
  *
@@ -38,7 +26,7 @@ void Aarch64::ValidateStackSize(const size_t size) {
  * @throw std::runtime_error If memory allocation failed
  * @return Pointer to the _top_ of allocated stack
  */
-void* Aarch64::AllocStack(const size_t bytes) {
+void *Aarch64::AllocStack(const size_t bytes) {
     void* buf{ nullptr };
     int err{ -1 };
 

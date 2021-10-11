@@ -42,7 +42,7 @@ message(STATUS "Target architecture: ${TARGET_ARCH}")
 
 ### Use the manually specified arch code override, or autodetect it
 set(PLATFORM_LIBCOMMUNISM "Auto" CACHE STRING "Architecture specific code to be built")
-set_property(CACHE PLATFORM_LIBCOMMUNISM PROPERTY STRINGS Auto amd64-sysv amd64-win aarch64-sysv
+set_property(CACHE PLATFORM_LIBCOMMUNISM PROPERTY STRINGS Auto amd64-sysv amd64-win aarch64-aapcs
     setjmp ucontext)
 
 if("Auto" STREQUAL ${PLATFORM_LIBCOMMUNISM})

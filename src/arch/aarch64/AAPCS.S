@@ -63,7 +63,7 @@ _ZN12libcommunism8internal7Aarch646SwitchEPNS_8CothreadES3_:
     stp         d14, d15, [x0, 0xA0]
     ldp         d14, d15, [x1, 0xA0]
 
-    // and return back to the caller (we restored x30 earlier)
+    // and return back to the caller (we restored lr earlier)
     br          lr
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

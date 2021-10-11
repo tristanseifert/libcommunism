@@ -5,6 +5,7 @@
 
 #include <array>
 #include <cstddef>
+#include <cstdint>
 
 namespace libcommunism::internal {
 /**
@@ -43,7 +44,7 @@ struct Aarch64 {
 
     /**
      * Size of the reserved region, at the top of the stack, which is reserved for saving the
-     * context of a thread.
+     * context of a thread. This is in bytes.
      */
     static constexpr const size_t kContextSaveAreaSize{0x100};
 
@@ -51,10 +52,10 @@ struct Aarch64 {
      * Size of the stack buffer for the "fake" initial cothread, in machine words. This only needs to
      * be large enough to fit the register frame. This _must_ be a power of two.
      */
-    static constexpr const size_t kMainStackSize{128};
+    static constexpr const size_t kMainStackSize{(kContextSaveAreaSize * 2) / sizeof(uintptr_t)};
 
     /**
-     * Requested alignment for stack allocations.
+     * Requested alignment for stack allocations, in bytes.
      */
     static constexpr const size_t kStackAlignment{64};
 
@@ -71,12 +72,9 @@ struct Aarch64 {
     static thread_local Cothread *gCurrentHandle;
 
     /**
-     * Pseudo-stack to use for the "main" cothread, i.e. the native kernel thread executing before
-     * a cothread is ever switched to it.
-     *
-     * This buffer receives the stack frame of the context of the thread on the first invocation to
-     * SwitchTo(). When invoking the Current() method before executing a real cothread, the
-     * returned Cothread will correspond to this buffer.
+     * Buffer to hold the state of the kernel thread that executed the first context switch to a
+     * cothread. (In other words, this buffer represents the state of the thread immediately before
+     * starting the first cothread.)
      *
      * It does not have to be particularly large, since the stack is actually allocated by the
      * system already, and this "stack" only holds the register state.
