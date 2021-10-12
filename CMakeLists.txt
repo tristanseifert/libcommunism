@@ -43,7 +43,7 @@ message(STATUS "Target architecture: ${TARGET_ARCH}")
 ### Use the manually specified arch code override, or autodetect it
 set(PLATFORM_LIBCOMMUNISM "Auto" CACHE STRING "Architecture specific code to be built")
 set_property(CACHE PLATFORM_LIBCOMMUNISM PROPERTY STRINGS Auto amd64-sysv amd64-win aarch64-aapcs
-    setjmp ucontext)
+    arm-armhf setjmp ucontext)
 
 if("Auto" STREQUAL ${PLATFORM_LIBCOMMUNISM})
     if("x86_64" STREQUAL ${TARGET_ARCH})
@@ -55,6 +55,9 @@ if("Auto" STREQUAL ${PLATFORM_LIBCOMMUNISM})
     elseif("aarch64" STREQUAL ${TARGET_ARCH})
         # TODO: are there aarch64 platforms that don't use AAPCS?
         set(PLATFORM_SOURCES_TYPE "aarch64-aapcs")
+    elseif("armv7" STREQUAL ${TARGET_ARCH})
+        # TODO: detect if this is armhf, or another calling convention
+        set(PLATFORM_SOURCES_TYPE "arm-armhf")
     elseif("i386" STREQUAL ${TARGET_ARCH})
         set(PLATFORM_SOURCES_TYPE "x86-fastcall")
     endif()
@@ -132,6 +135,15 @@ elseif("aarch64-aapcs" STREQUAL ${PLATFORM_SOURCES_TYPE})
         src/arch/aarch64/AAPCS.S
     )
     target_compile_definitions(libcommunism PRIVATE -DPLATFORM_AARCH64_AAPCS)
+elseif("arm-armhf" STREQUAL ${PLATFORM_SOURCES_TYPE})
+    enable_language(ASM)
+
+    target_sources(libcommunism PRIVATE
+        src/arch/arm/Common.cpp
+        src/arch/arm/Armhf.cpp
+        src/arch/arm/Armhf.S
+    )
+target_compile_definitions(libcommunism PRIVATE -DPLATFORM_ARM_ARMHF)
 elseif("x86-fastcall" STREQUAL ${PLATFORM_SOURCES_TYPE})
     # compiled sources are always the same as fastcall calling convention is identical
     target_sources(libcommunism PRIVATE

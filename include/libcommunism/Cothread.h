@@ -11,8 +11,9 @@
  */
 namespace libcommunism {
 namespace internal{
-struct Amd64;
 struct Aarch64;
+struct Amd64;
+struct Arm;
 struct SetJmp;
 struct UContext;
 struct x86;
@@ -26,8 +27,9 @@ struct x86;
  * @brief Instance of a single cooperative thread
  */
 class Cothread {
-    friend struct internal::Amd64;
     friend struct internal::Aarch64;
+    friend struct internal::Amd64;
+    friend struct internal::Arm;
     friend struct internal::SetJmp;
     friend struct internal::UContext;
     friend struct internal::x86;
