@@ -73,11 +73,15 @@ void Arm::Prepare(Cothread *thread, const Cothread::Entry &entry) {
 
     // build up the stack frame
     auto &stack = thread->stack;
-    //const auto stackBottom = reinterpret_cast<uintptr_t>(stack.data()) +
-    //    (stack.size() * sizeof(uintptr_t));
+    const auto stackBottom = reinterpret_cast<uintptr_t>(stack.data()) +
+        (stack.size() * sizeof(uintptr_t));
     auto context = reinterpret_cast<uintptr_t *>(stack.data());
 
-    // TODO: build stack frame
+    std::fill(context, context + 10, 0x41414141);
+
+    context[0] = reinterpret_cast<uintptr_t>(info);
+    context[8] = stackBottom;
+    context[9] = reinterpret_cast<uintptr_t>(ArmhfEntryStub);
 
     // we use the `stackTop` ptr to point to the context area
     thread->stackTop = context;

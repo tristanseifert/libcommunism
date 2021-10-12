@@ -79,7 +79,7 @@ void Aarch64::ValidateStackSize(const size_t size) {
  *       ensures they deallocate it later when the underlying kernel thread is destroyed.
  */
 void Aarch64::AllocMainCothread() {
-    auto main = new Cothread(gMainStack, gMainStack.data() + Aarch64::kMainStackSize);
+    auto main = new Cothread(gMainStack, gMainStack.data());
     gCurrentHandle = main;
 }
 

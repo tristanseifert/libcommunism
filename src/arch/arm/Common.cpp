@@ -60,7 +60,7 @@ Cothread::~Cothread() {
 void Cothread::switchTo() {
     auto from = Arm::gCurrentHandle;
     Arm::gCurrentHandle = this;
-    Arm::Switch(from, this);
+    Arm::Switch(from->stackTop, this->stackTop);
 }
 
 /**
@@ -82,7 +82,7 @@ void Arm::ValidateStackSize(const size_t size) {
  *       ensures they deallocate it later when the underlying kernel thread is destroyed.
  */
 void Arm::AllocMainCothread() {
-    auto main = new Cothread(gMainStack, gMainStack.data() + Arm::kMainStackSize);
+    auto main = new Cothread(gMainStack, gMainStack.data());
     gCurrentHandle = main;
 }
 
@@ -101,11 +101,11 @@ void Arm::CothreadReturned() {
  * @param info Pointer to the call info structure; it's deleted once the call returns.
  */
 void Arm::DereferenceCallInfo(CallInfo *info) {
-    info->entry();
-    delete info;
+
+    //info->entry();
+    //delete info;
 
     CothreadReturned();
-    gReturnHandler(gCurrentHandle);
 
     // if the return handler returns, we will crash. so abort to make debugging easier
     std::terminate();

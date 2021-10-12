@@ -29,10 +29,10 @@ struct Arm {
      * @remark The implementation of this method is written in assembly as it depends on the
      *         actual calling convention used.
      *
-     * @param from Cothread buffer that will receive the current context
-     * @param to Cothread buffer whose context is to be restored
+     * @param from Cothread context that will receive the current context
+     * @param to Cothread context buffer whose context is to be restored
      */
-    static void Switch(Cothread *from, Cothread *to);
+    static void Switch(void *from, void *to);
 
     static void AllocMainCothread();
     static void ValidateStackSize(const size_t size);
@@ -47,8 +47,7 @@ struct Arm {
      * Size of the reserved region, at the top of the stack, which is reserved for saving the
      * context of a thread. This is in bytes.
      */
-    static constexpr const size_t kContextSaveAreaSize{0x100};
-
+    static constexpr const size_t kContextSaveAreaSize{0x80};
     /**
      * Size of the stack buffer for the "fake" initial cothread, in machine words. This only needs to
      * be large enough to fit the register frame. This _must_ be a power of two.
