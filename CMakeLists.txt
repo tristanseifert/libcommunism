@@ -100,6 +100,7 @@ add_library(libcommunism
 )
 
 set_target_properties(libcommunism PROPERTIES OUTPUT_NAME communism)
+set_target_properties(libcommunism PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 target_include_directories(libcommunism PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src)
 target_include_directories(libcommunism PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
