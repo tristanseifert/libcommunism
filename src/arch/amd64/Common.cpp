@@ -21,11 +21,6 @@ thread_local std::array<uintptr_t, Amd64::kMainStackSize> Amd64::gMainStack;
 
 
 
-/**
- * Returns the handle to the currently executing cothread.
- *
- * If no cothread has been lanched yet, the "fake" initial cothread handle is returned.
- */
 Cothread *Cothread::Current() {
     if(!Amd64::gCurrentHandle) Amd64::AllocMainCothread();
     return Amd64::gCurrentHandle;

@@ -11,10 +11,55 @@ using namespace libcommunism;
  * Allocates a cothread and ensures this succeeded, then deallocates it again.
  */
 TEST_CASE("initialization of cothreads") {
-    Cothread* t1{ nullptr };
+    Cothread* t1{nullptr};
     REQUIRE_NOTHROW(t1 = new Cothread([]() {}));
     REQUIRE(!!t1);
     REQUIRE_NOTHROW(delete t1);
+}
+
+/**
+ * Ensure the stack size and stack top getters work as expected.
+ */
+TEST_CASE("stack accessors") {
+    // size of the temp stack; doesn't matter as we won't execute it
+    constexpr static const size_t kStackSize{1024 * 128};
+
+    Cothread* t1{nullptr}, * t2{nullptr};
+    REQUIRE_NOTHROW(t1 = new Cothread([]() {}, kStackSize));
+    REQUIRE(!!t1);
+
+    /*
+     * Stack size must be what we specified, or slightly more, in case the platform allocated more
+     * memory than we requested so it can hold its own data.
+     */
+    REQUIRE(t1->getStackSize() <= kStackSize + (1024));
+    REQUIRE(!!t1->getStack());
+
+    REQUIRE_NOTHROW(delete t1);
+
+    /*
+     * Now, preallocate a stack of fixed size and pass it to a cothread.
+     */
+    std::vector<uintptr_t> stack;
+    stack.resize(kStackSize / sizeof(uintptr_t));
+
+    REQUIRE_NOTHROW(t2 = new Cothread([]() {}, stack));
+
+    /*
+     * Ensure the stack size is (roughly) the same as what we originally specified. We allow some
+     * wiggle room (in the downwards direction, to allow for platforms to reserve some stack for
+     * context; and upwards, to ensure alignments) here.
+     *
+     * We also check that the top pointer is exactly at or beyond the start of the region we
+     * allocated, again to allow for platform code to reserve some space at the start.
+     */
+    REQUIRE(t2->getStackSize() >= kStackSize - (1024 * 4));
+    REQUIRE(t2->getStackSize() <= kStackSize + (1024));
+
+    REQUIRE(!!t2->getStack());
+    REQUIRE(t2->getStack() >= stack.data());
+
+    REQUIRE_NOTHROW(delete t2);
 }
 
 /**
@@ -22,7 +67,7 @@ TEST_CASE("initialization of cothreads") {
  * the context switch takes place and a counter is incremented from the cothread.
  */
 TEST_CASE("context switch between main, cothread, and back") {
-    static libcommunism::Cothread *t1{nullptr}, *main{nullptr};
+    static Cothread *t1{nullptr}, *main{nullptr};
     static size_t counter{0};
 
     main = Cothread::Current();
@@ -51,7 +96,7 @@ TEST_CASE("context switch between main, cothread, and back") {
  * our error handler.
  */
 TEST_CASE("test return handler") {
-    libcommunism::Cothread* t1{ nullptr }, * main{ nullptr };
+    Cothread* t1{ nullptr }, * main{ nullptr };
     size_t counter1{ 0 }, counter2{ 0 };
 
     main = Cothread::Current();

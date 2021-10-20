@@ -186,6 +186,22 @@ class Cothread {
             return this->stack.size() * sizeof(uintptr_t);
         }
 
+        /**
+         * Get the location of the top of the cothread's stack.
+         *
+         * @remark Regardless of the direction of the platform's stack growth, the top here refers
+         *         to the lowest address of the stack. That is, the range of memory reserved for
+         *         stack is `[start, start + getStackSize())`.
+         *
+         * @note You should never attempt to modify the stack, particularly while the cothread is
+         *       executing. Its contents are highly machine and platform dependent.
+         *
+         * @return Pointer to the top of the stack
+         */
+        constexpr void *getStack() const {
+            return this->stack.data();
+        }
+
     private:
         Cothread(std::span<uintptr_t> stack, void *stackTop);
 
