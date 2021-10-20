@@ -130,28 +130,33 @@ $(function() {
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            <span class="keywordflow">return</span> this-&gt;stack.size() * <span class="keyword">sizeof</span>(uintptr_t);</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        }</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <a class="code" href="classlibcommunism_1_1Cothread.html#a36ebd9f605c88b0155d4b02b7859b05b">Cothread</a>(std::span&lt;uintptr_t&gt; stack, <span class="keywordtype">void</span> *stackTop);</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="comment">/*</span></div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="comment">     * These fields are accessed directly by the platform specific code. It is absolutely</span></div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="comment">     * essential that these are not reordered or otherwise changed, as this changes their offsets</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="comment">     * in the class.</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <span class="keywordtype">void</span> *stackTop;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        std::span&lt;uintptr_t&gt; stack;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160; </div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        Flags flags{};</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        std::string label{<span class="stringliteral">&quot;&quot;</span>};</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;};</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;}</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160; </div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno"><a class="line" href="classlibcommunism_1_1Cothread.html#a3248210c4400f2e77c35a7364bc57e73">  201</a></span>&#160;        constexpr <span class="keywordtype">void</span> *<a class="code" href="classlibcommunism_1_1Cothread.html#a3248210c4400f2e77c35a7364bc57e73">getStack</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            <span class="keywordflow">return</span> this-&gt;stack.data();</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        }</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        <a class="code" href="classlibcommunism_1_1Cothread.html#a36ebd9f605c88b0155d4b02b7859b05b">Cothread</a>(std::span&lt;uintptr_t&gt; stack, <span class="keywordtype">void</span> *stackTop);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160; </div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="comment">/*</span></div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="comment">     * These fields are accessed directly by the platform specific code. It is absolutely</span></div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="comment">     * essential that these are not reordered or otherwise changed, as this changes their offsets</span></div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="comment">     * in the class.</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        <span class="keywordtype">void</span> *stackTop;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        std::span&lt;uintptr_t&gt; stack;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160; </div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        Flags flags{};</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        std::string label{<span class="stringliteral">&quot;&quot;</span>};</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;};</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;}</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160; </div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclasslibcommunism_1_1Cothread_html"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html">libcommunism::Cothread</a></div><div class="ttdoc">Instance of a single cooperative thread.</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00028">Cothread.h:28</a></div></div>
 <div class="ttc" id="aclasslibcommunism_1_1Cothread_html_a0cdb57c1f9305b5e9f604bb0817a63fa"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#a0cdb57c1f9305b5e9f604bb0817a63fa">libcommunism::Cothread::~Cothread</a></div><div class="ttdeci">~Cothread()</div><div class="ttdef"><b>Definition:</b> <a href="aarch64_2Common_8cpp_source.html#l00051">Common.cpp:51</a></div></div>
 <div class="ttc" id="aclasslibcommunism_1_1Cothread_html_a1aa6febcd8872e14341c66b9c5a447c6"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#a1aa6febcd8872e14341c66b9c5a447c6">libcommunism::Cothread::SetReturnHandler</a></div><div class="ttdeci">static void SetReturnHandler(const std::function&lt; void(Cothread *)&gt; &amp;handler)</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8cpp_source.html#l00074">Cothread.cpp:74</a></div></div>
 <div class="ttc" id="aclasslibcommunism_1_1Cothread_html_a2637b683ea95c78887a13347aeccfd8a"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#a2637b683ea95c78887a13347aeccfd8a">libcommunism::Cothread::getStackSize</a></div><div class="ttdeci">constexpr size_t getStackSize() const</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00185">Cothread.h:185</a></div></div>
+<div class="ttc" id="aclasslibcommunism_1_1Cothread_html_a3248210c4400f2e77c35a7364bc57e73"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#a3248210c4400f2e77c35a7364bc57e73">libcommunism::Cothread::getStack</a></div><div class="ttdeci">constexpr void * getStack() const</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00201">Cothread.h:201</a></div></div>
 <div class="ttc" id="aclasslibcommunism_1_1Cothread_html_a36ebd9f605c88b0155d4b02b7859b05b"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#a36ebd9f605c88b0155d4b02b7859b05b">libcommunism::Cothread::Cothread</a></div><div class="ttdeci">Cothread(const Entry &amp;entry, const size_t stackSize=0)</div><div class="ttdef"><b>Definition:</b> <a href="aarch64_2Common_8cpp_source.html#l00029">Common.cpp:29</a></div></div>
 <div class="ttc" id="aclasslibcommunism_1_1Cothread_html_a56facf24195f6223f0fc1397a9a71467"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#a56facf24195f6223f0fc1397a9a71467">libcommunism::Cothread::Entry</a></div><div class="ttdeci">std::function&lt; void()&gt; Entry</div><div class="ttdoc">Type alias for an entry point of a cothread.</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00054">Cothread.h:54</a></div></div>
 <div class="ttc" id="aclasslibcommunism_1_1Cothread_html_a672bcee91d509ed6a145c713066e8527"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#a672bcee91d509ed6a145c713066e8527">libcommunism::Cothread::switchTo</a></div><div class="ttdeci">void switchTo()</div><div class="ttdef"><b>Definition:</b> <a href="aarch64_2Common_8cpp_source.html#l00057">Common.cpp:57</a></div></div>
