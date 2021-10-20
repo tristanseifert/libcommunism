@@ -176,6 +176,16 @@ class Cothread {
             this->label = newLabel;
         }
 
+        /**
+         * Get the size of the cothread's stack. This should be intended mainly as an advisory
+         * value rather than as a way to check against stack overflow.
+         *
+         * @return Size of the stack, in bytes.
+         */
+        constexpr size_t getStackSize() const {
+            return this->stack.size() * sizeof(uintptr_t);
+        }
+
     private:
         Cothread(std::span<uintptr_t> stack, void *stackTop);
 
