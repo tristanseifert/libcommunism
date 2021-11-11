@@ -41,7 +41,7 @@ static constexpr auto AllocImpl(std::span<uintptr_t> buffer, bool &bufferUsed, A
 #elif defined(PLATFORM_UCONTEXT)
     return AllocImplHelper<UContext>(buffer, bufferUsed, std::forward<Args>(args)...);
 #else
-#error Don't know how to allocate implementation for current platform!
+#error Do not know how to allocate implementation for current platform!
 #endif
 }
 

@@ -1,6 +1,6 @@
 .code
 
-?CothreadReturned@Amd64@internal@libcommunism@@SAXXZ    proto
+?CothreadReturned@Amd64@internal@libcommunism@@CAXXZ    proto
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; This performs a context switch between two cothreads.
@@ -9,7 +9,7 @@
 ; -   to (RDX)
 ;
 ; void libcommunism::internal::Amd64::Switch(Cothread *from, Cothread *to)
-?Switch@Amd64@internal@libcommunism@@SAXPEAVCothread@3@0@Z PROC
+?Switch@Amd64@internal@libcommunism@@CAXPEAV123@0@Z PROC
     ; save integer state
     push    RBP
     push    RBX
@@ -65,7 +65,7 @@
     ; return to caller
     ret
 
-?Switch@Amd64@internal@libcommunism@@SAXPEAVCothread@3@0@Z ENDP
+?Switch@Amd64@internal@libcommunism@@CAXPEAV123@0@Z ENDP
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Pops two fields off the stack (for the entry point and its context) then jumps to that
@@ -75,24 +75,24 @@
 ; that we don't have.
 ;
 ; void libcommunism::internal::Amd64::JumpToEntry(void)
-?JumpToEntry@Amd64@internal@libcommunism@@SAXXZ PROC
+?JumpToEntry@Amd64@internal@libcommunism@@CAXXZ PROC
     pop     RAX
     pop     RCX
     jmp     RAX
-?JumpToEntry@Amd64@internal@libcommunism@@SAXXZ ENDP
+?JumpToEntry@Amd64@internal@libcommunism@@CAXXZ ENDP
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Fixes the stack frame and calls the C++ routine indicating that we've exited a cothread's main
 ; routine.
 ;
 ; void libcommunism::internal::Amd64::EntryReturnedStub(void)
-?EntryReturnedStub@Amd64@internal@libcommunism@@SAXXZ PROC
+?EntryReturnedStub@Amd64@internal@libcommunism@@CAXXZ PROC
     sub     RSP, 8h
     push    RBP
     mov     RBP, RSP
     
     sub     RSP, 20h
-    call    ?CothreadReturned@Amd64@internal@libcommunism@@SAXXZ
-?EntryReturnedStub@Amd64@internal@libcommunism@@SAXXZ ENDP
+    call    ?CothreadReturned@Amd64@internal@libcommunism@@CAXXZ
+?EntryReturnedStub@Amd64@internal@libcommunism@@CAXXZ ENDP
 
 end
