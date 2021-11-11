@@ -15,7 +15,7 @@
 ;
 ; void libcommunism::internal::x86::Switch(Cothread *from, Cothread *to)
 
-?Switch@x86@internal@libcommunism@@SIXPAVCothread@3@0@Z PROC
+?Switch@x86@internal@libcommunism@@CIXPAV123@0@Z PROC
     push    EBX
     push    ESI
     push    EDI
@@ -29,7 +29,7 @@
     pop     EBX
 
     ret
-?Switch@x86@internal@libcommunism@@SIXPAVCothread@3@0@Z ENDP
+?Switch@x86@internal@libcommunism@@CIXPAV123@0@Z ENDP
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Invokes a cothread's main function.
@@ -39,10 +39,10 @@
 ;
 ; void libcommunism::internal::x86::JumpToEntry(void)
 
-?JumpToEntry@x86@internal@libcommunism@@SAXXZ PROC
+?JumpToEntry@x86@internal@libcommunism@@CAXXZ PROC
     pop     EAX
     pop     ECX
     jmp     EAX
-?JumpToEntry@x86@internal@libcommunism@@SAXXZ ENDP
+?JumpToEntry@x86@internal@libcommunism@@CAXXZ ENDP
 
 end
