@@ -2,6 +2,7 @@
 #define ARCH_x86_COMMON_H
 
 #include "CothreadPrivate.h"
+#include "CothreadImpl.h"
 
 #include <array>
 #include <cstddef>
@@ -25,73 +26,89 @@ namespace libcommunism::internal {
  * stack and the cothread's `stackTop` pointer actually points to the stack pointer of the cothread
  * when it is switched out.
  */
-struct x86 {
-    /**
-     * @brief Information required to make a function call for a cothread's entry point.
-     */
-    struct CallInfo {
-        /// Entry point of the cothread
-        Cothread::Entry entry;
-    };
+class x86 final: public CothreadImpl {
+    friend CothreadImpl *libcommunism::AllocKernelThreadWrapper();
 
-    static void AllocMainCothread();
-    static void ValidateStackSize(const size_t size);
-    static void* AllocStack(const size_t bytes);
-    static void DeallocStack(void* stack);
-    static void CothreadReturned();
-    static void FASTCALL_TAG DereferenceCallInfo(CallInfo *info);
-    static void Prepare(Cothread *thread, const Cothread::Entry &entry);
+    private:
+        /**
+         * @brief Information required to make a function call for a cothread's entry point.
+         */
+        struct CallInfo {
+            /// Entry point of the cothread
+            Entry entry;
+        };
 
-    /**
-     * Performs a context switch.
-     *
-     * @remark The implementation of this method is written in assembly and varies slightly depending
-     *         on the calling convention of the platform (System V vs. Windows.)
-     *
-     * @param from Cothread buffer that will receive the current context
-     * @param to Cothread buffer whose context is to be restored
-     */
-    static void FASTCALL_TAG Switch(Cothread *from, Cothread *to);
+    public:
+        x86(const Entry &entry, const size_t stackSize = 0);
+        x86(const Entry &entry, std::span<uintptr_t> stack);
+        x86(std::span<uintptr_t> stack) : CothreadImpl(stack) {}
+        ~x86();
 
-    /**
-     * Pops two words off the stack (for the address of the entry function, and its first register
-     * argument) and sets up for a `fastcall` to that method.
-     *
-     * @remark This is necessary because we can't make a fastcall directly on return from switching
-     *         as these registers are used by the arguments to the context switch call.
-     */
-    static void JumpToEntry();
+        void switchTo(CothreadImpl *from) override;
 
+    private:
+        static void ValidateStackSize(const size_t size);
+        static void* AllocStack(const size_t bytes);
+        static void DeallocStack(void* stack);
+        static void CothreadReturned();
+        static void FASTCALL_TAG DereferenceCallInfo(CallInfo *info);
+        static void Prepare(x86 *thread, const Entry &entry);
 
-    /**
-     * Number of registers saved by the cothread swap code. This is used to correctly build the stack
-     * frames during initialization.
-     */
-    static const size_t kNumSavedRegisters{4};
+        /**
+         * Performs a context switch.
+         *
+         * @remark The implementation of this method is written in assembly and varies slightly depending
+         *         on the calling convention of the platform (System V vs. Windows.)
+         *
+         * @param from Cothread buffer that will receive the current context
+         * @param to Cothread buffer whose context is to be restored
+         */
+        static void FASTCALL_TAG Switch(x86 *from, x86 *to);
 
-    /**
-     * Size of the stack buffer for the "fake" initial cothread, in machine words. This only needs to
-     * be large enough to fit the register stack frame. This _must_ be a power of two.
-     *
-     * It must be sufficiently large to store the callee-saved general purpose registers
-     */
-    static constexpr const size_t kMainStackSize{64};
+        /**
+         * Pops two words off the stack (for the address of the entry function, and its first register
+         * argument) and sets up for a `fastcall` to that method.
+         *
+         * @remark This is necessary because we can't make a fastcall directly on return from switching
+         *         as these registers are used by the arguments to the context switch call.
+         */
+        static void JumpToEntry();
 
-    /**
-     * Requested alignment for stack allocations.
-     *
-     * This is set to only 16 byte alignment as that's the most stringent of any x86 platform.
-     */
-    static constexpr const size_t kStackAlignment{16};
+    public:
+        /**
+         * Number of registers saved by the cothread swap code. This is used to correctly build the stack
+         * frames during initialization.
+         */
+        static const size_t kNumSavedRegisters{4};
 
-    /**
-     * Platform default size to use for the stack, in bytes, if no size is requested by the caller. We
-     * default to 256K.
-     */
-    static constexpr const size_t kDefaultStackSize{0x40000};
+        /**
+         * Size of the stack buffer for the "fake" initial cothread, in machine words. This only needs to
+         * be large enough to fit the register stack frame. This _must_ be a power of two.
+         *
+         * It must be sufficiently large to store the callee-saved general purpose registers
+         */
+        static constexpr const size_t kMainStackSize{64};
 
-    static thread_local Cothread *gCurrentHandle;
-    static thread_local std::array<uintptr_t, kMainStackSize> gMainStack;
+        /**
+         * Requested alignment for stack allocations.
+         *
+         * This is set to only 16 byte alignment as that's the most stringent of any x86 platform.
+         */
+        static constexpr const size_t kStackAlignment{16};
+
+        /**
+         * Platform default size to use for the stack, in bytes, if no size is requested by the caller. We
+         * default to 256K.
+         */
+        static constexpr const size_t kDefaultStackSize{0x40000};
+
+    private:
+        static thread_local std::array<uintptr_t, kMainStackSize> gMainStack;
+
+        /// When set, the stack was allocated by us and must be freed on release
+        bool ownsStack{false};
+        /// Pointer to the top of the stack, where the thread's state is stored
+        void *stackTop{nullptr};
 };
 }
 

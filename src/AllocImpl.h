@@ -7,6 +7,8 @@
 
 #if defined(PLATFORM_AMD64_SYSV) || defined(PLATFORM_AMD64_WINDOWS)
 #include "arch/amd64/Common.h"
+#elif defined(PLATFORM_X86_FASTCALL)
+#include "arch/x86/Common.h"
 #elif defined(PLATFORM_SETJMP)
 #include "arch/setjmp/SetJmp.h"
 #elif defined(PLATFORM_UCONTEXT)
@@ -36,6 +38,8 @@ static constexpr auto AllocImpl(std::span<uintptr_t> buffer, bool &bufferUsed, A
 
 #if defined(PLATFORM_AMD64_SYSV) || defined(PLATFORM_AMD64_WINDOWS)
     return AllocImplHelper<Amd64>(buffer, bufferUsed, std::forward<Args>(args)...);
+#elif defined(PLATFORM_X86_FASTCALL)
+    return AllocImplHelper<x86>(buffer, bufferUsed, std::forward<Args>(args)...);
 #elif defined(PLATFORM_SETJMP)
     return AllocImplHelper<SetJmp>(buffer, bufferUsed, std::forward<Args>(args)...);
 #elif defined(PLATFORM_UCONTEXT)
