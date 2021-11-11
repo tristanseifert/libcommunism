@@ -78,11 +78,8 @@ void Amd64::DeallocStack(void* stack) {
  * @param wrap Wrapper structure defining the cothread
  * @param main Entry point for the cothread
  */
-void Amd64::Prepare(Cothread* wrap, const Cothread::Entry& entry) {
-    static_assert(offsetof(Cothread, stackTop) == COTHREAD_OFF_CONTEXT_TOP, "cothread stack top is invalid");
-
-    // ensure current handle is valid
-    if (!gCurrentHandle) Amd64::AllocMainCothread();
+void Amd64::Prepare(Amd64 *wrap, const Cothread::Entry& entry) {
+    static_assert(offsetof(Amd64, stackTop) == COTHREAD_OFF_CONTEXT_TOP, "cothread stack top is invalid");
 
     // build the context structure we pass to our "fake" entry point
     auto info = new CallInfo{ entry };

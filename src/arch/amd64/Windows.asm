@@ -34,10 +34,10 @@
     sub     RSP, 0A0h
 
     ; save stack
-    mov     [RCX+0h], RSP
+    mov     [RCX+20h], RSP
 
     ; restore stack
-    mov     RSP, [RDX+0h]
+    mov     RSP, [RDX+20h]
 
     ; restore SSE state
     add     RSP, 0A0h

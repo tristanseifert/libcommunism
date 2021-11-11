@@ -1,4 +1,7 @@
 #include <libcommunism/Cothread.h>
+
+#include "AllocImpl.h"
+#include "CothreadImpl.h"
 #include "CothreadPrivate.h"
 
 #include <exception>
@@ -46,7 +49,9 @@
  * \section porting Porting
  *
  * Supporting other architectures and platforms should be relatively trivial. See the
- * \link libcommunism::internal::Amd64 amd64\endlink port for an example of the required interaces.
+ * \link libcommunism::CothreadImpl cothread implementation class\endlink for an example of the
+ * required interaces. In addition, the active platform in use must provide a method to initialize
+ * the initial cothread for a given kernel thread.
  *
  * \section more More Information
  *
@@ -66,21 +71,12 @@ using namespace libcommunism::internal;
  */
 std::function<void(Cothread *)> internal::gReturnHandler{DefaultCothreadReturnedHandler};
 
-
-
 /**
- * Updates the default cothread return handler.
+ * Pointer to the cothread instance that's currently executing on this thread.
  */
-void Cothread::SetReturnHandler(const std::function<void (Cothread *)> &handler) {
-    gReturnHandler = handler;
-}
+thread_local Cothread *Cothread::gCurrent{nullptr};
 
-/**
- * Installs the default cothread return handler.
- */
-void Cothread::ResetReturnHandler() {
-    gReturnHandler = DefaultCothreadReturnedHandler;
-}
+
 
 /**
  * Default handler for a returned cothread
@@ -100,15 +96,55 @@ static void libcommunism::internal::DefaultCothreadReturnedHandler(Cothread *thr
     std::terminate();
 }
 
-
-
-/**
- * Initializes the cothread with the provided stack and stack top pointers.
- *
- * This is used internally to create the cothread object for a kernel thread.
- */
-Cothread::Cothread(std::span<uintptr_t> _stack, void *_stackTop) : stackTop(_stackTop),
-    stack(_stack) {
-    // nothing :D
+Cothread::Cothread(const Entry &entry, const size_t stackSize) {
+    this->impl = AllocImpl(this->implBuffer, this->implBufferUsed, entry, stackSize);
 }
 
+Cothread::Cothread(const Entry &entry, std::span<uintptr_t> stack) {
+    this->impl = AllocImpl(this->implBuffer, this->implBufferUsed, entry, stack);
+}
+
+
+Cothread::~Cothread() {
+    if(this->implBufferUsed) {
+        reinterpret_cast<CothreadImpl *>(this->implBuffer.data())->~CothreadImpl();
+    } else {
+        delete this->impl;
+    }
+    this->impl = nullptr;
+}
+
+Cothread *Cothread::Current() {
+    if(!gCurrent) {
+        auto impl = AllocKernelThreadWrapper();
+        if(!impl) {
+            std::cerr << "failed to allocate kernel cothread wrapper!" << std::endl;
+            std::terminate();
+        }
+
+        gCurrent = new Cothread(impl);
+    }
+    return gCurrent;
+}
+
+void Cothread::SetReturnHandler(const std::function<void (Cothread *)> &handler) {
+    gReturnHandler = handler;
+}
+
+void Cothread::ResetReturnHandler() {
+    gReturnHandler = DefaultCothreadReturnedHandler;
+}
+
+void Cothread::switchTo() {
+    auto from = Current()->impl;
+    gCurrent = this;
+    this->impl->switchTo(from);
+}
+
+void *Cothread::getStack() const {
+    return this->impl->getStack();
+}
+
+size_t Cothread::getStackSize() const {
+    return this->impl->getStackSize();
+}

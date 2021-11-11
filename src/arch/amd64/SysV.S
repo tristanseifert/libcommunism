@@ -1,6 +1,6 @@
 // Define the offsets into the `cothread_amd64::Wrapper` structure. These _MUST_ match to the actual
 // offsets of the field in the struct.
-#define COTHREAD_OFF_CONTEXT_TOP        (0x0)
+#define COTHREAD_OFF_CONTEXT_TOP        (0x20)
 
 #ifndef __cplusplus
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -8,11 +8,11 @@
 // leading underscore, but macOS requires it. We assume that clang is the only compiler that needs
 // this treatment.
 #ifdef __clang__
-.global __ZN12libcommunism8internal5Amd646SwitchEPNS_8CothreadES3_
+.global __ZN12libcommunism8internal5Amd646SwitchEPS1_S2_
 .global __ZN12libcommunism8internal5Amd6411JumpToEntryEv
 .global __ZN12libcommunism8internal5Amd6417EntryReturnedStubEv
 #else
-.global _ZN12libcommunism8internal5Amd646SwitchEPNS_8CothreadES3_
+.global _ZN12libcommunism8internal5Amd646SwitchEPS1_S2_
 .global _ZN12libcommunism8internal5Amd6411JumpToEntryEv
 .global _ZN12libcommunism8internal5Amd6417EntryReturnedStubEv
 #endif
@@ -28,9 +28,9 @@
 // void libcommunism::internal::Amd64::Switch(Cothread *from, Cothread *to)
 .balign 0x40
 #ifdef __clang__
-__ZN12libcommunism8internal5Amd646SwitchEPNS_8CothreadES3_:
+__ZN12libcommunism8internal5Amd646SwitchEPS1_S2_:
 #else
-_ZN12libcommunism8internal5Amd646SwitchEPNS_8CothreadES3_:
+_ZN12libcommunism8internal5Amd646SwitchEPS1_S2_:
 #endif
     // save current state to stack and record the stack frame
     push        %rbp
