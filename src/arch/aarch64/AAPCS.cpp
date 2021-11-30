@@ -59,11 +59,8 @@ void Aarch64::DeallocStack(void* stack) {
  * @param thread Thread whose stack to prepare
  * @param main Entry point for the cothread
  */
-void Aarch64::Prepare(Cothread *thread, const Cothread::Entry &entry) {
-    static_assert(offsetof(Cothread, stackTop) == COTHREAD_OFF_CONTEXT_TOP, "cothread stack top is invalid");
-
-    // ensure current handle is valid
-    if(!gCurrentHandle) Aarch64::AllocMainCothread();
+void Aarch64::Prepare(Aarch64 *thread, const Entry &entry) {
+    static_assert(offsetof(Aarch64, stackTop) == COTHREAD_OFF_CONTEXT_TOP, "cothread stack top is invalid");
 
     // build the context structure we pass to our "fake" entry point
     auto info = new CallInfo{entry};

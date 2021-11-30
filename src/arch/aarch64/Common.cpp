@@ -16,17 +16,22 @@
 using namespace libcommunism;
 using namespace libcommunism::internal;
 
-thread_local Cothread *Aarch64::gCurrentHandle{nullptr};
 thread_local std::array<uintptr_t, Aarch64::kMainStackSize> Aarch64::gMainStack;
 
 
 
-Cothread *Cothread::Current() {
-    if(!Aarch64::gCurrentHandle) Aarch64::AllocMainCothread();
-    return Aarch64::gCurrentHandle;
-}
-
-Cothread::Cothread(const Entry &entry, const size_t stackSize) {
+/**
+ * Allocate a cothread with a private stack.
+ *
+ *
+ * @param entry Method to execute on entry to this cothread
+ * @param stackSize Size of the stack to be allocated, in bytes. it should be a multiple of the
+ *        machine word size, or specify zero to use the platform default.
+ *
+ * @throw std::runtime_error If the memory for the cothread could not be allocated.
+ * @throw std::runtime_error If the provided stack size is invalid
+ */
+Aarch64::Aarch64(const Entry &entry, const size_t stackSize) : CothreadImpl(entry, stackSize) {
     void *buf{nullptr};
 
     // round down stack size to ensure it's aligned before allocating it
@@ -38,26 +43,40 @@ Cothread::Cothread(const Entry &entry, const size_t stackSize) {
 
     // create it as if we had provided the memory in the first place
     this->stack = {reinterpret_cast<uintptr_t *>(buf), allocSize / sizeof(uintptr_t)};
-    this->flags = Cothread::Flags::OwnsStack;
+    this->ownsStack = true;
 
     Aarch64::Prepare(this, entry);
 }
 
-Cothread::Cothread(const Entry &entry, std::span<uintptr_t> _stack) : stack(_stack) {
+/**
+ * Allocates a cothread with an already provided stack.
+ *
+ * @param entry Method to execute on entry to this cothread
+ * @param stack Buffer to use as the stack of the cothread
+ *
+ * @throw std::runtime_error If the provided stack is invalid
+ */
+Aarch64::Aarch64(const Entry &entry, std::span<uintptr_t> _stack) : CothreadImpl(entry, _stack) {
     Aarch64::ValidateStackSize(_stack.size() * sizeof(uintptr_t));
     Aarch64::Prepare(this, entry);
 }
 
-Cothread::~Cothread() {
-    if(static_cast<uintptr_t>(this->flags) & static_cast<uintptr_t>(Flags::OwnsStack)) {
-        Aarch64::DeallocStack(this->stack.data());
+/**
+ * Release the stack if we allocated it.
+ */
+Aarch64::~Aarch64() {
+    if(this->ownsStack) {
+        DeallocStack(this->stack.data());
     }
 }
 
-void Cothread::switchTo() {
-    auto from = Aarch64::gCurrentHandle;
-    Aarch64::gCurrentHandle = this;
-    Aarch64::Switch(from, this);
+/**
+ * Performs a context switch to the provided cothread.
+ *
+ * The state of the caller is stored on the stack of the currently active thread.
+ */
+void Aarch64::switchTo(CothreadImpl *from) {
+    Switch(static_cast<Aarch64 *>(from), this);
 }
 
 /**
@@ -73,22 +92,11 @@ void Aarch64::ValidateStackSize(const size_t size) {
 }
 
 /**
- * Allocates the current physical (kernel) thread's Cothread object.
- *
- * @note This will leak the associated cothread object, unless the caller stores it somewhere and
- *       ensures they deallocate it later when the underlying kernel thread is destroyed.
- */
-void Aarch64::AllocMainCothread() {
-    auto main = new Cothread(gMainStack, gMainStack.data() + Aarch64::kMainStackSize);
-    gCurrentHandle = main;
-}
-
-/**
  * The currently running cothread returned from its main function. This is a separate function such
  * that it will show up in stack traces.
  */
 void Aarch64::CothreadReturned() {
-    gReturnHandler(gCurrentHandle);
+    gReturnHandler(Cothread::Current());
 }
 
 /**
@@ -102,9 +110,21 @@ void Aarch64::DereferenceCallInfo(CallInfo *info) {
     delete info;
 
     CothreadReturned();
-    gReturnHandler(gCurrentHandle);
+    gReturnHandler(Cothread::Current());
 
     // if the return handler returns, we will crash. so abort to make debugging easier
     std::terminate();
+}
+
+
+
+/**
+ * Allocates the current physical (kernel) thread's Cothread object.
+ *
+ * @note This will leak the associated cothread object, unless the caller stores it somewhere and
+ *       ensures they deallocate it later when the underlying kernel thread is destroyed.
+ */
+CothreadImpl *libcommunism::AllocKernelThreadWrapper() {
+    return new Aarch64(Aarch64::gMainStack);
 }
 
