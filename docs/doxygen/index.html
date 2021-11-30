@@ -83,7 +83,7 @@ Installation</h1>
 <p>In all cases, the library is built using CMake. Built it as with any other project; i.e. to get started, from the root directory of the source, execute <code>mkdir build &amp;&amp; cmake ..</code> for most UNIX-like platforms.</p>
 <h1><a class="anchor" id="porting"></a>
 Porting</h1>
-<p>Supporting other architectures and platforms should be relatively trivial. See the <a class="el" href="structlibcommunism_1_1internal_1_1Amd64.html">amd64</a> port for an example of the required interaces.</p>
+<p>Supporting other architectures and platforms should be relatively trivial. See the <a class="el" href="structlibcommunism_1_1CothreadImpl.html">cothread implementation class</a> for an example of the required interaces. In addition, the active platform in use must provide a method to initialize the initial cothread for a given kernel thread.</p>
 <h1><a class="anchor" id="more"></a>
 More Information</h1>
 <p>For more information, check out the <a href="https://libcommunism.blraaz.me/">project site.</a> </p>

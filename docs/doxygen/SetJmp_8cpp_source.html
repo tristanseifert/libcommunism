@@ -89,170 +89,162 @@ $(function() {
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespacelibcommunism.html">libcommunism</a>;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">using namespace </span><a class="code" href="namespacelibcommunism_1_1internal.html">libcommunism::internal</a>;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;static_assert(<span class="keyword">sizeof</span>(sigjmp_buf) &lt; (<a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#afad47683f0733863a41dedd4e00671d1">SetJmp::kMainStackSize</a> * <span class="keyword">sizeof</span>(uintptr_t)),</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;static_assert(<span class="keyword">sizeof</span>(sigjmp_buf) &lt; (<a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html#afad47683f0733863a41dedd4e00671d1">SetJmp::kMainStackSize</a> * <span class="keyword">sizeof</span>(uintptr_t)),</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="stringliteral">&quot;main stack size is too small for sigjmp_buf!&quot;</span>);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;thread_local <a class="code" href="classlibcommunism_1_1Cothread.html">Cothread</a> *<a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#a947eb06ca191e8d372438570b1d65034">SetJmp::gCurrentHandle</a>{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;thread_local std::array&lt;uintptr_t, SetJmp::kMainStackSize&gt; <a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#a219ff5502b0dbd561ec18a5458d82f5a">SetJmp::gMainStack</a>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<a class="code" href="structlibcommunism_1_1internal_1_1SetJmp_1_1EntryContext.html">SetJmp::EntryContext</a> *<a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#a44267d6a6825b7362a9d3de0dbe12f51">SetJmp::gCurrentlyPreparing</a>{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;std::mutex <a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#aeb055b62dca595e8598b4b26a7d9fa49">SetJmp::gSignalLock</a>;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<a class="code" href="classlibcommunism_1_1Cothread.html">Cothread</a> *<a class="code" href="classlibcommunism_1_1Cothread.html#a81810be5c4a49a7f6c36f3e8dd8c36bb">Cothread::Current</a>() {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">if</span>(!<a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#a947eb06ca191e8d372438570b1d65034">SetJmp::gCurrentHandle</a>) <a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#a614632827e750f8be47e56065417cc45">SetJmp::AllocMainCothread</a>();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#a947eb06ca191e8d372438570b1d65034">SetJmp::gCurrentHandle</a>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<a class="code" href="classlibcommunism_1_1Cothread.html#a36ebd9f605c88b0155d4b02b7859b05b">Cothread::Cothread</a>(<span class="keyword">const</span> Entry &amp;entry, <span class="keyword">const</span> <span class="keywordtype">size_t</span> stackSize) {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> *buf{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">// round down stack size to ensure it&#39;s aligned before allocating it</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">auto</span> allocSize = stackSize &amp; ~(<a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">SetJmp::kStackAlignment</a> - 1);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    allocSize = allocSize ? allocSize : <a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#a7be761696b3a4c34e099ac4d4730b3ce">SetJmp::kDefaultStackSize</a>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">// then add space for ucontext</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    allocSize += <span class="keyword">sizeof</span>(sigjmp_buf);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span>(allocSize % <a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">SetJmp::kStackAlignment</a>) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        allocSize += <a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">SetJmp::kStackAlignment</a> - (allocSize % <a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">SetJmp::kStackAlignment</a>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment">// and allocate it</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    buf = _aligned_malloc(allocSize, <a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">SetJmp::kStackAlignment</a>);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">int</span> err{0};</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    err = posix_memalign(&amp;buf, <a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">SetJmp::kStackAlignment</a>, allocSize);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">if</span>(err) {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;posix_memalign() failed&quot;</span>);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span>(!buf) {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;failed to allocate stack&quot;</span>);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="comment">// create it as if we had provided the memory in the first place</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    this-&gt;stack = {<span class="keyword">reinterpret_cast&lt;</span>uintptr_t *<span class="keyword">&gt;</span>(buf), allocSize / <span class="keyword">sizeof</span>(uintptr_t)};</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    this-&gt;flags = Cothread::Flags::OwnsStack;<span class="comment">// | Cothread::Flags::PartialReserved;</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <a class="code" href="structlibcommunism_1_1internal_1_1SetJmp.html#a15481c390c0864f13ccdc82f3e362385">SetJmp::Prepare</a>(<span class="keyword">this</span>, entry);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<a class="code" href="classlibcommunism_1_1Cothread.html#a36ebd9f605c88b0155d4b02b7859b05b">Cothread::Cothread</a>(<span class="keyword">const</span> Entry &amp;entry, std::span&lt;uintptr_t&gt; _stack) : stack(_stack) {</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    SetJmp::Prepare(<span class="keyword">this</span>, entry);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;Cothread::~Cothread() {</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">if</span>(<span class="keyword">static_cast&lt;</span>uintptr_t<span class="keyword">&gt;</span>(this-&gt;flags) &amp; <span class="keyword">static_cast&lt;</span>uintptr_t<span class="keyword">&gt;</span>(Flags::OwnsStack)) {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        _aligned_free(this-&gt;stack.data());</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        free(this-&gt;stack.data());</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    }</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;}</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="keywordtype">void</span> <a class="code" href="classlibcommunism_1_1Cothread.html#a672bcee91d509ed6a145c713066e8527">Cothread::switchTo</a>() {</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">if</span>(!sigsetjmp(*SetJmp::JmpBufFor(SetJmp::gCurrentHandle), 0)) {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        SetJmp::gCurrentHandle = <span class="keyword">this</span>;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        std::atomic_thread_fence(std::memory_order_release);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        siglongjmp(*SetJmp::JmpBufFor(<span class="keyword">this</span>), 1);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    }</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="structlibcommunism_1_1internal_1_1SetJmp.html#a614632827e750f8be47e56065417cc45">  116</a></span>&#160;<span class="keywordtype">void</span> SetJmp::AllocMainCothread() {</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keyword">auto</span> main = <span class="keyword">new</span> <a class="code" href="classlibcommunism_1_1Cothread.html">Cothread</a>(gMainStack, gMainStack.data() + SetJmp::kMainStackSize);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    gCurrentHandle = main;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
-<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="structlibcommunism_1_1internal_1_1SetJmp.html#a4f299fc7a2363930bdf08e9b1a32ac27">  127</a></span>&#160;<span class="keywordtype">void</span> SetJmp::InvokeCothreadDidReturnHandler(<a class="code" href="classlibcommunism_1_1Cothread.html">Cothread</a> *from) {</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <a class="code" href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">gReturnHandler</a>(from);</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    std::terminate();</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00144"></a><span class="lineno"><a class="line" href="structlibcommunism_1_1internal_1_1SetJmp.html#a15481c390c0864f13ccdc82f3e362385">  144</a></span>&#160;<span class="keywordtype">void</span> SetJmp::Prepare(<a class="code" href="classlibcommunism_1_1Cothread.html">Cothread</a> *thread, <span class="keyword">const</span> <a class="code" href="classlibcommunism_1_1Cothread.html#a56facf24195f6223f0fc1397a9a71467">Cothread::Entry</a> &amp;entry) {</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordtype">int</span> err{0};</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keyword">struct </span>sigaction handler, oldHandler;</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    stack_t stack{}, oldStack{};</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordflow">if</span>(!gCurrentHandle) SetJmp::AllocMainCothread();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;thread_local std::array&lt;uintptr_t, SetJmp::kMainStackSize&gt; SetJmp::gMainStack;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;SetJmp::EntryContext *SetJmp::gCurrentlyPreparing{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;std::mutex SetJmp::gSignalLock;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classlibcommunism_1_1internal_1_1SetJmp.html#a49585fbf0503b773509023b42e136216">   36</a></span>&#160;<a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html#a49585fbf0503b773509023b42e136216">SetJmp::SetJmp</a>(<span class="keyword">const</span> <a class="code" href="structlibcommunism_1_1CothreadImpl.html#a5dbedbabaaf7c6ee9968f7ee4ec30f85">Entry</a> &amp;entry, <span class="keyword">const</span> <span class="keywordtype">size_t</span> stackSize) : <a class="code" href="structlibcommunism_1_1CothreadImpl.html">CothreadImpl</a>(entry, stackSize) {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> *buf{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment">// round down stack size to ensure it&#39;s aligned before allocating it</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">auto</span> allocSize = stackSize &amp; ~(<a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">SetJmp::kStackAlignment</a> - 1);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    allocSize = allocSize ? allocSize : <a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html#a7be761696b3a4c34e099ac4d4730b3ce">SetJmp::kDefaultStackSize</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">// then add space for ucontext</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    allocSize += <span class="keyword">sizeof</span>(sigjmp_buf);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">if</span>(allocSize % <a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">SetJmp::kStackAlignment</a>) {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        allocSize += <a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">SetJmp::kStackAlignment</a> - (allocSize % <a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">SetJmp::kStackAlignment</a>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">// and allocate it</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    buf = _aligned_malloc(allocSize, <a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">SetJmp::kStackAlignment</a>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">int</span> err{0};</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    err = posix_memalign(&amp;buf, <a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">SetJmp::kStackAlignment</a>, allocSize);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span>(err) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;posix_memalign() failed&quot;</span>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">if</span>(!buf) {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;failed to allocate stack&quot;</span>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="comment">// create it as if we had provided the memory in the first place</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    this-&gt;<a class="code" href="structlibcommunism_1_1CothreadImpl.html#ab0bba692ebd47d478d4d7432ae738476">stack</a> = {<span class="keyword">reinterpret_cast&lt;</span>uintptr_t *<span class="keyword">&gt;</span>(buf), allocSize / <span class="keyword">sizeof</span>(uintptr_t)};</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    this-&gt;ownsStack = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    Prepare(<span class="keyword">this</span>, entry);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="classlibcommunism_1_1internal_1_1SetJmp.html#af16cc8880427fae11b4b8dbc5333864f">   73</a></span>&#160;<a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html#a49585fbf0503b773509023b42e136216">SetJmp::SetJmp</a>(<span class="keyword">const</span> <a class="code" href="structlibcommunism_1_1CothreadImpl.html#a5dbedbabaaf7c6ee9968f7ee4ec30f85">Entry</a> &amp;entry, std::span&lt;uintptr_t&gt; stack) : <a class="code" href="structlibcommunism_1_1CothreadImpl.html">CothreadImpl</a>(entry, stack) {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    Prepare(<span class="keyword">this</span>, entry);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="classlibcommunism_1_1internal_1_1SetJmp.html#ab3ed28f0f3781204888a6617665592ad">   80</a></span>&#160;<a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html#ab3ed28f0f3781204888a6617665592ad">SetJmp::~SetJmp</a>() {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">if</span>(this-&gt;ownsStack) {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        _aligned_free(this-&gt;<a class="code" href="structlibcommunism_1_1CothreadImpl.html#ab0bba692ebd47d478d4d7432ae738476">stack</a>.data());</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        free(this-&gt;<a class="code" href="structlibcommunism_1_1CothreadImpl.html#ab0bba692ebd47d478d4d7432ae738476">stack</a>.data());</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="classlibcommunism_1_1internal_1_1SetJmp.html#a6c4f288b5b61ec132895048225758e0c">   93</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html#a6c4f288b5b61ec132895048225758e0c">SetJmp::switchTo</a>(<a class="code" href="structlibcommunism_1_1CothreadImpl.html">CothreadImpl</a> *_from) {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keyword">auto</span> from = <span class="keyword">static_cast&lt;</span><a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html">SetJmp</a> *<span class="keyword">&gt;</span>(_from);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">if</span>(!sigsetjmp(*SetJmp::JmpBufFor(from), 0)) {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        std::atomic_thread_fence(std::memory_order_release);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        siglongjmp(*SetJmp::JmpBufFor(<span class="keyword">this</span>), 1);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<a class="code" href="structlibcommunism_1_1CothreadImpl.html">CothreadImpl</a> *<a class="code" href="namespacelibcommunism.html#a0ff8f089d6c4a8ef43dabcaceefb5b74">libcommunism::AllocKernelThreadWrapper</a>() {</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html">SetJmp</a>(SetJmp::gMainStack);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="keywordtype">void</span> SetJmp::InvokeCothreadDidReturnHandler(<a class="code" href="classlibcommunism_1_1Cothread.html">Cothread</a> *from) {</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <a class="code" href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">gReturnHandler</a>(from);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    std::terminate();</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;}</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="keywordtype">void</span> SetJmp::Prepare(<a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html">SetJmp</a> *thread, <span class="keyword">const</span> <a class="code" href="classlibcommunism_1_1Cothread.html#a56facf24195f6223f0fc1397a9a71467">Cothread::Entry</a> &amp;entry) {</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordtype">int</span> err{0};</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keyword">struct </span>sigaction handler, oldHandler;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    stack_t <a class="code" href="structlibcommunism_1_1CothreadImpl.html#ab0bba692ebd47d478d4d7432ae738476">stack</a>{}, oldStack{};</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keyword">auto</span> jbuf = JmpBufFor(thread);</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    memset(jbuf, 0, <span class="keyword">sizeof</span>(*jbuf));</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="comment">// prepare the signal handling stack</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keyword">auto</span> offset = <span class="keyword">sizeof</span>(sigjmp_buf);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordflow">if</span>(offset % <a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">kStackAlignment</a>) {</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        offset += <a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">kStackAlignment</a> - (offset % <a class="code" href="classlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">kStackAlignment</a>);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    }</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keyword">auto</span> jbuf = JmpBufFor(thread);</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    memset(jbuf, 0, <span class="keyword">sizeof</span>(*jbuf));</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <a class="code" href="structlibcommunism_1_1CothreadImpl.html#ab0bba692ebd47d478d4d7432ae738476">stack</a>.ss_sp = <span class="keyword">reinterpret_cast&lt;</span>std::byte *<span class="keyword">&gt;</span>(thread-&gt;<a class="code" href="structlibcommunism_1_1CothreadImpl.html#ab0bba692ebd47d478d4d7432ae738476">stack</a>.data()) + offset;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <a class="code" href="structlibcommunism_1_1CothreadImpl.html#ab0bba692ebd47d478d4d7432ae738476">stack</a>.ss_size = (thread-&gt;<a class="code" href="structlibcommunism_1_1CothreadImpl.html#ab0bba692ebd47d478d4d7432ae738476">stack</a>.size() * <span class="keyword">sizeof</span>(uintptr_t)) - offset;</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="comment">// prepare the signal handling stack</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keyword">auto</span> offset = <span class="keyword">sizeof</span>(sigjmp_buf);</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordflow">if</span>(offset % kStackAlignment) {</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        offset += kStackAlignment - (offset % kStackAlignment);</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    }</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    stack.ss_sp = <span class="keyword">reinterpret_cast&lt;</span>std::byte *<span class="keyword">&gt;</span>(thread-&gt;stack.data()) + offset;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    stack.ss_size = (thread-&gt;stack.size() * <span class="keyword">sizeof</span>(uintptr_t)) - offset;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keyword">auto</span> info = <span class="keyword">new</span> <a class="code" href="structlibcommunism_1_1internal_1_1SetJmp_1_1EntryContext.html">EntryContext</a>(thread, entry);</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordflow">if</span>(!info) <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Failed to allocate context&quot;</span>);</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keyword">auto</span> info = <span class="keyword">new</span> EntryContext( thread, entry);</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordflow">if</span>(!info) <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Failed to allocate context&quot;</span>);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="comment">// listen man you&#39;re just gonna have to trust me on this one</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        std::lock_guard&lt;std::mutex&gt; lock(gSignalLock);</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        err = sigaltstack(&amp;<a class="code" href="structlibcommunism_1_1CothreadImpl.html#ab0bba692ebd47d478d4d7432ae738476">stack</a>, &amp;oldStack);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <span class="keywordflow">if</span>(err) {</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <span class="keywordflow">throw</span> std::system_error(errno, std::generic_category(), <span class="stringliteral">&quot;sigaltstack&quot;</span>);</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        }</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="comment">// listen man you&#39;re just gonna have to trust me on this one</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        std::lock_guard&lt;std::mutex&gt; lock(gSignalLock);</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        err = sigaltstack(&amp;stack, &amp;oldStack);</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <span class="keywordflow">if</span>(err) {</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="keywordflow">throw</span> std::system_error(errno, std::generic_category(), <span class="stringliteral">&quot;sigaltstack&quot;</span>);</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        }</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        gCurrentlyPreparing = info;</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        std::atomic_thread_fence(std::memory_order_release);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        handler.sa_handler = SignalHandlerSetupThunk;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        handler.sa_flags = SA_ONSTACK;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        sigemptyset(&amp;handler.sa_mask);</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        err = sigaction(SIGUSR1, &amp;handler, &amp;oldHandler);</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="keywordflow">if</span>(err) {</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            <span class="keywordflow">throw</span> std::system_error(errno, std::generic_category(), <span class="stringliteral">&quot;sigaction&quot;</span>);</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        }</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        err = <span class="keyword">raise</span>(SIGUSR1);</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <span class="keywordflow">if</span>(err) {</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            <span class="keywordflow">throw</span> std::system_error(errno, std::generic_category(), <span class="stringliteral">&quot;raise&quot;</span>);</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        }</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        sigaltstack(&amp;oldStack, <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        sigaction(SIGUSR1, &amp;oldHandler, <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    } <span class="keywordflow">catch</span>(<span class="keyword">const</span> std::exception &amp;) {</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        <span class="keyword">delete</span> info;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    }</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;}</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
-<div class="line"><a name="l00209"></a><span class="lineno"><a class="line" href="structlibcommunism_1_1internal_1_1SetJmp.html#af2f788f1d2d0312fcb75f67d002ae238">  209</a></span>&#160;<span class="keywordtype">void</span> SetJmp::SignalHandlerSetupThunk(<span class="keywordtype">int</span> signal) {</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    (void) signal;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keyword">auto</span> ctx = gCurrentlyPreparing;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordflow">if</span>(sigsetjmp(*JmpBufFor(ctx-&gt;thread), 0)) {</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        ctx-&gt;entry();</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        InvokeCothreadDidReturnHandler(ctx-&gt;thread);</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    }</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;}</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        gCurrentlyPreparing = info;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        std::atomic_thread_fence(std::memory_order_release);</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        handler.sa_handler = SignalHandlerSetupThunk;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        handler.sa_flags = SA_ONSTACK;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        sigemptyset(&amp;handler.sa_mask);</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160; </div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        err = sigaction(SIGUSR1, &amp;handler, &amp;oldHandler);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="keywordflow">if</span>(err) {</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            <span class="keywordflow">throw</span> std::system_error(errno, std::generic_category(), <span class="stringliteral">&quot;sigaction&quot;</span>);</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        }</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        err = <span class="keyword">raise</span>(SIGUSR1);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <span class="keywordflow">if</span>(err) {</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            <span class="keywordflow">throw</span> std::system_error(errno, std::generic_category(), <span class="stringliteral">&quot;raise&quot;</span>);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        }</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        sigaltstack(&amp;oldStack, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        sigaction(SIGUSR1, &amp;oldHandler, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    } <span class="keywordflow">catch</span>(<span class="keyword">const</span> std::exception &amp;) {</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        <span class="keyword">delete</span> info;</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    }</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;}</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="keywordtype">void</span> SetJmp::SignalHandlerSetupThunk(<span class="keywordtype">int</span> signal) {</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    (void) signal;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keyword">auto</span> ctx = gCurrentlyPreparing;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="keywordflow">if</span>(sigsetjmp(*JmpBufFor(ctx-&gt;impl), 0)) {</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        ctx-&gt;entry();</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        InvokeCothreadDidReturnHandler(<a class="code" href="classlibcommunism_1_1Cothread.html#a81810be5c4a49a7f6c36f3e8dd8c36bb">Cothread::Current</a>());</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    }</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;}</div>
 <div class="ttc" id="aCothreadPrivate_8h_html"><div class="ttname"><a href="CothreadPrivate_8h.html">CothreadPrivate.h</a></div></div>
 <div class="ttc" id="aSetJmp_8h_html"><div class="ttname"><a href="SetJmp_8h.html">SetJmp.h</a></div></div>
-<div class="ttc" id="aclasslibcommunism_1_1Cothread_html"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html">libcommunism::Cothread</a></div><div class="ttdoc">Instance of a single cooperative thread.</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00028">Cothread.h:28</a></div></div>
-<div class="ttc" id="aclasslibcommunism_1_1Cothread_html_a36ebd9f605c88b0155d4b02b7859b05b"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#a36ebd9f605c88b0155d4b02b7859b05b">libcommunism::Cothread::Cothread</a></div><div class="ttdeci">Cothread(const Entry &amp;entry, const size_t stackSize=0)</div><div class="ttdef"><b>Definition:</b> <a href="aarch64_2Common_8cpp_source.html#l00029">Common.cpp:29</a></div></div>
-<div class="ttc" id="aclasslibcommunism_1_1Cothread_html_a56facf24195f6223f0fc1397a9a71467"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#a56facf24195f6223f0fc1397a9a71467">libcommunism::Cothread::Entry</a></div><div class="ttdeci">std::function&lt; void()&gt; Entry</div><div class="ttdoc">Type alias for an entry point of a cothread.</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00054">Cothread.h:54</a></div></div>
-<div class="ttc" id="aclasslibcommunism_1_1Cothread_html_a672bcee91d509ed6a145c713066e8527"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#a672bcee91d509ed6a145c713066e8527">libcommunism::Cothread::switchTo</a></div><div class="ttdeci">void switchTo()</div><div class="ttdef"><b>Definition:</b> <a href="aarch64_2Common_8cpp_source.html#l00057">Common.cpp:57</a></div></div>
-<div class="ttc" id="aclasslibcommunism_1_1Cothread_html_a81810be5c4a49a7f6c36f3e8dd8c36bb"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#a81810be5c4a49a7f6c36f3e8dd8c36bb">libcommunism::Cothread::Current</a></div><div class="ttdeci">static Cothread * Current()</div><div class="ttdef"><b>Definition:</b> <a href="aarch64_2Common_8cpp_source.html#l00024">Common.cpp:24</a></div></div>
-<div class="ttc" id="anamespacelibcommunism_1_1internal_html"><div class="ttname"><a href="namespacelibcommunism_1_1internal.html">libcommunism::internal</a></div><div class="ttdoc">Implementation details (including architecture/platform specific code) for the library.</div><div class="ttdef"><b>Definition:</b> <a href="aarch64_2Common_8h_source.html#l00010">Common.h:10</a></div></div>
-<div class="ttc" id="anamespacelibcommunism_1_1internal_html_a7ffa60f4788d5229f04e2ad5a41b2935"><div class="ttname"><a href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">libcommunism::internal::gReturnHandler</a></div><div class="ttdeci">std::function&lt; void(libcommunism::Cothread *)&gt; gReturnHandler</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8cpp_source.html#l00067">Cothread.cpp:67</a></div></div>
-<div class="ttc" id="anamespacelibcommunism_html"><div class="ttname"><a href="namespacelibcommunism.html">libcommunism</a></div><div class="ttdoc">Main namespace for the libcommunism library.</div><div class="ttdef"><b>Definition:</b> <a href="aarch64_2Common_8h_source.html#l00010">Common.h:10</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1SetJmp_1_1EntryContext_html"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1SetJmp_1_1EntryContext.html">libcommunism::internal::SetJmp::EntryContext</a></div><div class="ttdoc">Context structure passed to the entry point of a setjmp based cothread.</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8h_source.html#l00028">SetJmp.h:28</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1SetJmp_html_a15481c390c0864f13ccdc82f3e362385"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1SetJmp.html#a15481c390c0864f13ccdc82f3e362385">libcommunism::internal::SetJmp::Prepare</a></div><div class="ttdeci">static void Prepare(Cothread *thread, const Cothread::Entry &amp;entry)</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8cpp_source.html#l00144">SetJmp.cpp:144</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1SetJmp_html_a219ff5502b0dbd561ec18a5458d82f5a"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1SetJmp.html#a219ff5502b0dbd561ec18a5458d82f5a">libcommunism::internal::SetJmp::gMainStack</a></div><div class="ttdeci">static thread_local std::array&lt; uintptr_t, kMainStackSize &gt; gMainStack</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8h_source.html#l00102">SetJmp.h:102</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1SetJmp_html_a44267d6a6825b7362a9d3de0dbe12f51"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1SetJmp.html#a44267d6a6825b7362a9d3de0dbe12f51">libcommunism::internal::SetJmp::gCurrentlyPreparing</a></div><div class="ttdeci">static EntryContext * gCurrentlyPreparing</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8h_source.html#l00110">SetJmp.h:110</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1SetJmp_html_a49447cf4552f3f52f19f0f4c01dde38f"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">libcommunism::internal::SetJmp::kStackAlignment</a></div><div class="ttdeci">static constexpr const size_t kStackAlignment</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8h_source.html#l00068">SetJmp.h:68</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1SetJmp_html_a614632827e750f8be47e56065417cc45"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1SetJmp.html#a614632827e750f8be47e56065417cc45">libcommunism::internal::SetJmp::AllocMainCothread</a></div><div class="ttdeci">static void AllocMainCothread()</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8cpp_source.html#l00116">SetJmp.cpp:116</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1SetJmp_html_a7be761696b3a4c34e099ac4d4730b3ce"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1SetJmp.html#a7be761696b3a4c34e099ac4d4730b3ce">libcommunism::internal::SetJmp::kDefaultStackSize</a></div><div class="ttdeci">static constexpr const size_t kDefaultStackSize</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8h_source.html#l00082">SetJmp.h:82</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1SetJmp_html_a947eb06ca191e8d372438570b1d65034"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1SetJmp.html#a947eb06ca191e8d372438570b1d65034">libcommunism::internal::SetJmp::gCurrentHandle</a></div><div class="ttdeci">static thread_local Cothread * gCurrentHandle</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8h_source.html#l00089">SetJmp.h:89</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1SetJmp_html_aeb055b62dca595e8598b4b26a7d9fa49"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1SetJmp.html#aeb055b62dca595e8598b4b26a7d9fa49">libcommunism::internal::SetJmp::gSignalLock</a></div><div class="ttdeci">static std::mutex gSignalLock</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8h_source.html#l00121">SetJmp.h:121</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1SetJmp_html_afad47683f0733863a41dedd4e00671d1"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1SetJmp.html#afad47683f0733863a41dedd4e00671d1">libcommunism::internal::SetJmp::kMainStackSize</a></div><div class="ttdeci">static constexpr const size_t kMainStackSize</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8h_source.html#l00076">SetJmp.h:76</a></div></div>
+<div class="ttc" id="aclasslibcommunism_1_1Cothread_html"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html">libcommunism::Cothread</a></div><div class="ttdoc">Instance of a single cooperative thread.</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00024">Cothread.h:24</a></div></div>
+<div class="ttc" id="aclasslibcommunism_1_1Cothread_html_a56facf24195f6223f0fc1397a9a71467"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#a56facf24195f6223f0fc1397a9a71467">libcommunism::Cothread::Entry</a></div><div class="ttdeci">std::function&lt; void()&gt; Entry</div><div class="ttdoc">Type alias for an entry point of a cothread.</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00027">Cothread.h:27</a></div></div>
+<div class="ttc" id="aclasslibcommunism_1_1Cothread_html_a81810be5c4a49a7f6c36f3e8dd8c36bb"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html#a81810be5c4a49a7f6c36f3e8dd8c36bb">libcommunism::Cothread::Current</a></div><div class="ttdeci">static Cothread * Current()</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8cpp_source.html#l00117">Cothread.cpp:117</a></div></div>
+<div class="ttc" id="aclasslibcommunism_1_1internal_1_1SetJmp_html"><div class="ttname"><a href="classlibcommunism_1_1internal_1_1SetJmp.html">libcommunism::internal::SetJmp</a></div><div class="ttdoc">Context switching utilizing the C library setjmp() and longjmp() methods.</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8h_source.html#l00025">SetJmp.h:25</a></div></div>
+<div class="ttc" id="aclasslibcommunism_1_1internal_1_1SetJmp_html_a49447cf4552f3f52f19f0f4c01dde38f"><div class="ttname"><a href="classlibcommunism_1_1internal_1_1SetJmp.html#a49447cf4552f3f52f19f0f4c01dde38f">libcommunism::internal::SetJmp::kStackAlignment</a></div><div class="ttdeci">static constexpr const size_t kStackAlignment</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8h_source.html#l00082">SetJmp.h:82</a></div></div>
+<div class="ttc" id="aclasslibcommunism_1_1internal_1_1SetJmp_html_a49585fbf0503b773509023b42e136216"><div class="ttname"><a href="classlibcommunism_1_1internal_1_1SetJmp.html#a49585fbf0503b773509023b42e136216">libcommunism::internal::SetJmp::SetJmp</a></div><div class="ttdeci">SetJmp(const Entry &amp;entry, const size_t stackSize=0)</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8cpp_source.html#l00036">SetJmp.cpp:36</a></div></div>
+<div class="ttc" id="aclasslibcommunism_1_1internal_1_1SetJmp_html_a6c4f288b5b61ec132895048225758e0c"><div class="ttname"><a href="classlibcommunism_1_1internal_1_1SetJmp.html#a6c4f288b5b61ec132895048225758e0c">libcommunism::internal::SetJmp::switchTo</a></div><div class="ttdeci">void switchTo(CothreadImpl *from) override</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8cpp_source.html#l00093">SetJmp.cpp:93</a></div></div>
+<div class="ttc" id="aclasslibcommunism_1_1internal_1_1SetJmp_html_a7be761696b3a4c34e099ac4d4730b3ce"><div class="ttname"><a href="classlibcommunism_1_1internal_1_1SetJmp.html#a7be761696b3a4c34e099ac4d4730b3ce">libcommunism::internal::SetJmp::kDefaultStackSize</a></div><div class="ttdeci">static constexpr const size_t kDefaultStackSize</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8h_source.html#l00096">SetJmp.h:96</a></div></div>
+<div class="ttc" id="aclasslibcommunism_1_1internal_1_1SetJmp_html_ab3ed28f0f3781204888a6617665592ad"><div class="ttname"><a href="classlibcommunism_1_1internal_1_1SetJmp.html#ab3ed28f0f3781204888a6617665592ad">libcommunism::internal::SetJmp::~SetJmp</a></div><div class="ttdeci">~SetJmp()</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8cpp_source.html#l00080">SetJmp.cpp:80</a></div></div>
+<div class="ttc" id="aclasslibcommunism_1_1internal_1_1SetJmp_html_afad47683f0733863a41dedd4e00671d1"><div class="ttname"><a href="classlibcommunism_1_1internal_1_1SetJmp.html#afad47683f0733863a41dedd4e00671d1">libcommunism::internal::SetJmp::kMainStackSize</a></div><div class="ttdeci">static constexpr const size_t kMainStackSize</div><div class="ttdef"><b>Definition:</b> <a href="SetJmp_8h_source.html#l00090">SetJmp.h:90</a></div></div>
+<div class="ttc" id="anamespacelibcommunism_1_1internal_html"><div class="ttname"><a href="namespacelibcommunism_1_1internal.html">libcommunism::internal</a></div><div class="ttdoc">Implementation details (including architecture/platform specific code) for the library.</div><div class="ttdef"><b>Definition:</b> <a href="aarch64_2Common_8h_source.html#l00011">Common.h:11</a></div></div>
+<div class="ttc" id="anamespacelibcommunism_1_1internal_html_a7ffa60f4788d5229f04e2ad5a41b2935"><div class="ttname"><a href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">libcommunism::internal::gReturnHandler</a></div><div class="ttdeci">std::function&lt; void(libcommunism::Cothread *)&gt; gReturnHandler</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8cpp_source.html#l00072">Cothread.cpp:72</a></div></div>
+<div class="ttc" id="anamespacelibcommunism_html"><div class="ttname"><a href="namespacelibcommunism.html">libcommunism</a></div><div class="ttdoc">Main namespace for the libcommunism library.</div><div class="ttdef"><b>Definition:</b> <a href="aarch64_2Common_8h_source.html#l00011">Common.h:11</a></div></div>
+<div class="ttc" id="anamespacelibcommunism_html_a0ff8f089d6c4a8ef43dabcaceefb5b74"><div class="ttname"><a href="namespacelibcommunism.html#a0ff8f089d6c4a8ef43dabcaceefb5b74">libcommunism::AllocKernelThreadWrapper</a></div><div class="ttdeci">CothreadImpl * AllocKernelThreadWrapper()</div><div class="ttdef"><b>Definition:</b> <a href="aarch64_2Common_8cpp_source.html#l00134">Common.cpp:134</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1CothreadImpl_html"><div class="ttname"><a href="structlibcommunism_1_1CothreadImpl.html">libcommunism::CothreadImpl</a></div><div class="ttdoc">Abstract interface for a platform implementation of cothreads.</div><div class="ttdef"><b>Definition:</b> <a href="CothreadImpl_8h_source.html#l00018">CothreadImpl.h:18</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1CothreadImpl_html_a5dbedbabaaf7c6ee9968f7ee4ec30f85"><div class="ttname"><a href="structlibcommunism_1_1CothreadImpl.html#a5dbedbabaaf7c6ee9968f7ee4ec30f85">libcommunism::CothreadImpl::Entry</a></div><div class="ttdeci">Cothread::Entry Entry</div><div class="ttdef"><b>Definition:</b> <a href="CothreadImpl_8h_source.html#l00019">CothreadImpl.h:19</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1CothreadImpl_html_ab0bba692ebd47d478d4d7432ae738476"><div class="ttname"><a href="structlibcommunism_1_1CothreadImpl.html#ab0bba692ebd47d478d4d7432ae738476">libcommunism::CothreadImpl::stack</a></div><div class="ttdeci">std::span&lt; uintptr_t &gt; stack</div><div class="ttdoc">Stack used by this cothread, if any.</div><div class="ttdef"><b>Definition:</b> <a href="CothreadImpl_8h_source.html#l00088">CothreadImpl.h:88</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

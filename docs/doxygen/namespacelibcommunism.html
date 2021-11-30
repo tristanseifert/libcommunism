@@ -65,7 +65,8 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">libcommunism Namespace Reference</div>  </div>
 </div><!--header-->
@@ -82,13 +83,50 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlibcommunism_1_1CothreadImpl.html">CothreadImpl</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract interface for a platform implementation of cothreads.  <a href="structlibcommunism_1_1CothreadImpl.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibcommunism_1_1Cothread.html">Cothread</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instance of a single cooperative thread.  <a href="classlibcommunism_1_1Cothread.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a0ff8f089d6c4a8ef43dabcaceefb5b74"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structlibcommunism_1_1CothreadImpl.html">CothreadImpl</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelibcommunism.html#a0ff8f089d6c4a8ef43dabcaceefb5b74">AllocKernelThreadWrapper</a> ()</td></tr>
+<tr class="separator:a0ff8f089d6c4a8ef43dabcaceefb5b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Main namespace for the libcommunism library. </p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a0ff8f089d6c4a8ef43dabcaceefb5b74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ff8f089d6c4a8ef43dabcaceefb5b74">&#9670;&nbsp;</a></span>AllocKernelThreadWrapper()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structlibcommunism_1_1CothreadImpl.html">CothreadImpl</a> * libcommunism::AllocKernelThreadWrapper </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Allocate the cothread implementation for the currently executing kernel thread.</p>
+<p>This is invoked when no cothread is running on the kernel thread, and is only used to hold the state of the kernel thread on entry to the first cothread, so it can "resume" the kernel thread.</p>
+<dl class="section remark"><dt>Remarks</dt><dd>Only one definition of this method is allowed; it's typically provided by the platform code selected via build configuration.</dd></dl>
+<p>Allocates the current physical (kernel) thread's <a class="el" href="classlibcommunism_1_1Cothread.html" title="Instance of a single cooperative thread.">Cothread</a> object.</p>
+<dl class="section note"><dt>Note</dt><dd>This will leak the associated cothread object, unless the caller stores it somewhere and ensures they deallocate it later when the underlying kernel thread is destroyed. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="aarch64_2Common_8cpp_source.html#l00134">134</a> of file <a class="el" href="aarch64_2Common_8cpp_source.html">Common.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                                                     {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="classlibcommunism_1_1internal_1_1Aarch64.html">Aarch64</a>(Aarch64::gMainStack);</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;}</div>
+<div class="ttc" id="aclasslibcommunism_1_1internal_1_1Aarch64_html"><div class="ttname"><a href="classlibcommunism_1_1internal_1_1Aarch64.html">libcommunism::internal::Aarch64</a></div><div class="ttdoc">Architecture specific methods for working with cothreads on 64 bit ARM machines.</div><div class="ttdef"><b>Definition:</b> <a href="aarch64_2Common_8h_source.html#l00018">Common.h:18</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1

@@ -1,12 +1,10 @@
 var searchData=
 [
-  ['setjmp_55',['SetJmp',['../structlibcommunism_1_1internal_1_1SetJmp.html',1,'libcommunism::internal']]],
-  ['setjmp_2ecpp_56',['SetJmp.cpp',['../SetJmp_8cpp.html',1,'']]],
-  ['setjmp_2eh_57',['SetJmp.h',['../SetJmp_8h.html',1,'']]],
-  ['setlabel_58',['setLabel',['../classlibcommunism_1_1Cothread.html#adc9fabe12335420c2fcd05fe748cba18',1,'libcommunism::Cothread']]],
-  ['setreturnhandler_59',['SetReturnHandler',['../classlibcommunism_1_1Cothread.html#a1aa6febcd8872e14341c66b9c5a447c6',1,'libcommunism::Cothread']]],
-  ['signalhandlersetupthunk_60',['SignalHandlerSetupThunk',['../structlibcommunism_1_1internal_1_1SetJmp.html#af2f788f1d2d0312fcb75f67d002ae238',1,'libcommunism::internal::SetJmp']]],
-  ['switch_61',['Switch',['../structlibcommunism_1_1internal_1_1Aarch64.html#a5daac619007097ed839ec15ae6330575',1,'libcommunism::internal::Aarch64::Switch()'],['../structlibcommunism_1_1internal_1_1Amd64.html#a66794b215fbd5878f8f92e51fa68f956',1,'libcommunism::internal::Amd64::Switch()'],['../structlibcommunism_1_1internal_1_1x86.html#a2f05a23e6f2d00110c0e19569f114275',1,'libcommunism::internal::x86::Switch()']]],
-  ['switchto_62',['switchTo',['../classlibcommunism_1_1Cothread.html#a672bcee91d509ed6a145c713066e8527',1,'libcommunism::Cothread']]],
-  ['sysv_2ecpp_63',['SysV.cpp',['../SysV_8cpp.html',1,'']]]
+  ['_7eaarch64_45',['~Aarch64',['../classlibcommunism_1_1internal_1_1Aarch64.html#af90f4e6c6e0f4245c1f8f68ed0f83c9e',1,'libcommunism::internal::Aarch64']]],
+  ['_7eamd64_46',['~Amd64',['../classlibcommunism_1_1internal_1_1Amd64.html#a3753b3b4ace9025d0ce8f713945edb4a',1,'libcommunism::internal::Amd64']]],
+  ['_7ecothread_47',['~Cothread',['../classlibcommunism_1_1Cothread.html#a0cdb57c1f9305b5e9f604bb0817a63fa',1,'libcommunism::Cothread']]],
+  ['_7ecothreadimpl_48',['~CothreadImpl',['../structlibcommunism_1_1CothreadImpl.html#a7b8036a6a294f71d29f2b3ae8148c805',1,'libcommunism::CothreadImpl']]],
+  ['_7esetjmp_49',['~SetJmp',['../classlibcommunism_1_1internal_1_1SetJmp.html#ab3ed28f0f3781204888a6617665592ad',1,'libcommunism::internal::SetJmp']]],
+  ['_7eucontext_50',['~UContext',['../classlibcommunism_1_1internal_1_1UContext.html#a9a0b99abcaf29d50c81932816263b0cb',1,'libcommunism::internal::UContext']]],
+  ['_7ex86_51',['~x86',['../classlibcommunism_1_1internal_1_1x86.html#a707453eff548b42c863348ec85119f50',1,'libcommunism::internal::x86']]]
 ];
