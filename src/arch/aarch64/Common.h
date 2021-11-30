@@ -29,7 +29,7 @@ class Aarch64 final: public CothreadImpl {
     public:
         Aarch64(const Entry &entry, const size_t stackSize = 0);
         Aarch64(const Entry &entry, std::span<uintptr_t> stack);
-        Aarch64(std::span<uintptr_t> stack) : CothreadImpl(stack) {}
+        Aarch64(std::span<uintptr_t> stack);
         ~Aarch64();
 
         void switchTo(CothreadImpl *from) override;

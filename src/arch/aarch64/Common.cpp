@@ -61,6 +61,14 @@ Aarch64::Aarch64(const Entry &entry, std::span<uintptr_t> _stack) : CothreadImpl
 }
 
 /**
+ * Allocate a cothread placeholder for a kernel thread. This uses a preallocated "stack" to
+ * store the kernel thread's context at the time we switched to the cothread.
+ */
+Aarch64::Aarch64(std::span<uintptr_t> stack) : CothreadImpl(stack), stackTop(stack.data()) {
+}
+
+
+/**
  * Release the stack if we allocated it.
  */
 Aarch64::~Aarch64() {
