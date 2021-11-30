@@ -26,7 +26,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" ST
     add_compile_options(-Werror)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     add_compile_options(-Wall -Wextra -Wmissing-declarations -Wformat=2 -Wcast-qual -Wundef
-        -fdiagnostics-color=always -Wwrite-strings -Wimplicit-fallthrough)
+        -fdiagnostics-color=always -Wwrite-strings -Wimplicit-fallthrough -Wno-invalid-offsetof)
     add_compile_options(-Werror)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     # default warnings, treat warnings as errors
