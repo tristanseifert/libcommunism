@@ -1,4 +1,4 @@
-libcommunism is intended to be a really, really fast, portable, and small implementation of cooperative multithreading in userspace. It provides a common C++ interface to clients, similar to the C++ `std::thread` class. The caller decides when threads are executed by explicitly switching to them function call style.
+libcommunism is intended to be a really, really fast, portable, and small implementation of cooperative multithreading in userspace. It provides a common C++ interface to clients, similar to the C++ `std::thread` class. The caller decides when threads are executed by explicitly switching to them, function call style.
 
 Like kernel threads, each cooperative thread (cothread) has its own stack. By performing the context switching in user space (i.e. making it explicit by calling the thread's `switchTo()` method) the significant cost of a switch into the kernel, and the associated kernel processing time is completely removed.
 
@@ -12,9 +12,9 @@ Unless overridden, the build script will automatically select the best suitable 
 ## Optimized Implementations
 In addition to the generic platforms, the following performance optimized platform choices are available:
 
-- amd64 (System V, Windows ABIs)
 - aarch64 (AAPCS ABI)
-- x86 (fastcall ABI)
+- amd64 (System V, Windows ABIs)
+- x86 (fastcall)
 
 Adding optimized implementations for new platforms is relatively easy; only a thin shim needs to be developed, which may require a few small assembly routines to switch thread context. Feel free to submit pull requests to add new platforms.
 
@@ -22,7 +22,7 @@ Adding optimized implementations for new platforms is relatively easy; only a th
 There are no external requirements for using the library besides a functioning C++ compiler. The library itself requires C++20 (due to use of `std::span<T>`) and CMake to build.
 
 # Building and Installation
-Use your favorite CMake generator to generate the build files for the library and build it; by default, this will result in a static library. You can then easily link against it by its name after installing it to the system.
+Use your favorite CMake generator to generate the build files for the library and build it; by default, this will result in a static library. You can then easily link against it by its name after installing it to the system, or manually link to the library (and include the appropriate header) in your application.
 
 Alternatively, if you are using CMake, simply include the subdirectory containing this library (use the [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html) module against the library repository, if possible) in your project's CMakeLists.txt, and then link against it like so:
 
@@ -42,8 +42,9 @@ All releases of the library are [available on GitHub.](https://github.com/trista
 Tests are provided with the library. They use the [Catch2](https://github.com/catchorg/Catch2) framework, and are built by the `tests` target. Do note that these tests only cover the host's architecture. While simple, they do a reasonable job exercising the most commonly used library methods.
 
 ## Benchmarks
-One of the tests attempts to benchmark the context switching time. Approximate context switching times are:
+One of the tests benchmarks the time required to perform a context switch. Results for currently available platforms are:
 
+- aarch64 AAPCS: 5.8ns
 - amd64 System V: 15ns
 - amd64 Windows: 19ns
 - x86 Fastcall: 23ns
