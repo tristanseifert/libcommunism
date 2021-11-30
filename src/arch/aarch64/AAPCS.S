@@ -87,10 +87,9 @@ Aarch64AapcsEntryStub:
 #endif
     mov         x0, x19
 #if defined(__clang__) && defined(__APPLE__)
-    ldr         x16, =__ZN12libcommunism8internal7Aarch6419DereferenceCallInfoEPNS1_8CallInfoE
+    bl  __ZN12libcommunism8internal7Aarch6419DereferenceCallInfoEPNS1_8CallInfoE
 #else
-    ldr         x16, =_ZN12libcommunism8internal7Aarch6419DereferenceCallInfoEPNS1_8CallInfoE
+    bl  _ZN12libcommunism8internal7Aarch6419DereferenceCallInfoEPNS1_8CallInfoE
 #endif
-    br          x16
 
 #endif

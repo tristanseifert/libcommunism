@@ -23,7 +23,6 @@ thread_local std::array<uintptr_t, Aarch64::kMainStackSize> Aarch64::gMainStack;
 /**
  * Allocate a cothread with a private stack.
  *
- *
  * @param entry Method to execute on entry to this cothread
  * @param stackSize Size of the stack to be allocated, in bytes. it should be a multiple of the
  *        machine word size, or specify zero to use the platform default.
