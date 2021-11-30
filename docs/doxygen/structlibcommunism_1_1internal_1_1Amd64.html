@@ -156,11 +156,11 @@ Static Public Attributes</h2></td></tr>
 <p>Allocates the current physical (kernel) thread's <a class="el" href="classlibcommunism_1_1Cothread.html" title="Instance of a single cooperative thread.">Cothread</a> object.</p>
 <dl class="section note"><dt>Note</dt><dd>This will leak the associated cothread object, unless the caller stores it somewhere and ensures they deallocate it later when the underlying kernel thread is destroyed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="amd64_2Common_8cpp_source.html#l00087">87</a> of file <a class="el" href="amd64_2Common_8cpp_source.html">Common.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                              {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">auto</span> main = <span class="keyword">new</span> <a class="code" href="classlibcommunism_1_1Cothread.html">Cothread</a>(<a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a6d11b198daf631dff419c45fc41634c6">gMainStack</a>, <a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a6d11b198daf631dff419c45fc41634c6">gMainStack</a>.data() + <a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a5d221a54b8413b25a9544a60db82c297">Amd64::kMainStackSize</a>);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a485e7e91fcf6bebca5812c0df210d9c6">gCurrentHandle</a> = main;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="amd64_2Common_8cpp_source.html#l00082">82</a> of file <a class="el" href="amd64_2Common_8cpp_source.html">Common.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                              {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">auto</span> main = <span class="keyword">new</span> <a class="code" href="classlibcommunism_1_1Cothread.html">Cothread</a>(<a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a6d11b198daf631dff419c45fc41634c6">gMainStack</a>, <a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a6d11b198daf631dff419c45fc41634c6">gMainStack</a>.data() + <a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a5d221a54b8413b25a9544a60db82c297">Amd64::kMainStackSize</a>);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a485e7e91fcf6bebca5812c0df210d9c6">gCurrentHandle</a> = main;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
 <div class="ttc" id="aclasslibcommunism_1_1Cothread_html"><div class="ttname"><a href="classlibcommunism_1_1Cothread.html">libcommunism::Cothread</a></div><div class="ttdoc">Instance of a single cooperative thread.</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8h_source.html#l00028">Cothread.h:28</a></div></div>
 <div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_a485e7e91fcf6bebca5812c0df210d9c6"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#a485e7e91fcf6bebca5812c0df210d9c6">libcommunism::internal::Amd64::gCurrentHandle</a></div><div class="ttdeci">static thread_local Cothread * gCurrentHandle</div><div class="ttdef"><b>Definition:</b> <a href="amd64_2Common_8h_source.html#l00142">Common.h:142</a></div></div>
 <div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_a5d221a54b8413b25a9544a60db82c297"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#a5d221a54b8413b25a9544a60db82c297">libcommunism::internal::Amd64::kMainStackSize</a></div><div class="ttdeci">static constexpr const size_t kMainStackSize</div><div class="ttdef"><b>Definition:</b> <a href="amd64_2Common_8h_source.html#l00122">Common.h:122</a></div></div>
@@ -273,10 +273,10 @@ Static Public Attributes</h2></td></tr>
 <p>Invoked when the main method of a cothread returns.</p>
 <p>The currently running cothread returned from its main function. This is very naughty behavior. </p>
 
-<p class="definition">Definition at line <a class="el" href="amd64_2Common_8cpp_source.html#l00095">95</a> of file <a class="el" href="amd64_2Common_8cpp_source.html">Common.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                             {</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <a class="code" href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">gReturnHandler</a>(<a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a485e7e91fcf6bebca5812c0df210d9c6">gCurrentHandle</a>);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="amd64_2Common_8cpp_source.html#l00090">90</a> of file <a class="el" href="amd64_2Common_8cpp_source.html">Common.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                             {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <a class="code" href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">gReturnHandler</a>(<a class="code" href="structlibcommunism_1_1internal_1_1Amd64.html#a485e7e91fcf6bebca5812c0df210d9c6">gCurrentHandle</a>);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
 <div class="ttc" id="anamespacelibcommunism_1_1internal_html_a7ffa60f4788d5229f04e2ad5a41b2935"><div class="ttname"><a href="namespacelibcommunism_1_1internal.html#a7ffa60f4788d5229f04e2ad5a41b2935">libcommunism::internal::gReturnHandler</a></div><div class="ttdeci">std::function&lt; void(libcommunism::Cothread *)&gt; gReturnHandler</div><div class="ttdef"><b>Definition:</b> <a href="Cothread_8cpp_source.html#l00067">Cothread.cpp:67</a></div></div>
 </div><!-- fragment -->
 </div>
@@ -356,11 +356,11 @@ Static Public Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="amd64_2Common_8cpp_source.html#l00104">104</a> of file <a class="el" href="amd64_2Common_8cpp_source.html">Common.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                                              {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    info-&gt;entry();</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">delete</span> info;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="amd64_2Common_8cpp_source.html#l00099">99</a> of file <a class="el" href="amd64_2Common_8cpp_source.html">Common.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                                              {</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    info-&gt;entry();</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keyword">delete</span> info;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -510,8 +510,8 @@ The arguments are implicit; they reside on the stack when this method is invoked
 <div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_a1152bf592d959f6f119a6b7c6a39080e"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#a1152bf592d959f6f119a6b7c6a39080e">libcommunism::internal::Amd64::JumpToEntry</a></div><div class="ttdeci">static void JumpToEntry()</div></div>
 <div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_a27b1e648272f2649bb7ff76588eb653a"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#a27b1e648272f2649bb7ff76588eb653a">libcommunism::internal::Amd64::kNumSavedRegisters</a></div><div class="ttdeci">static const size_t kNumSavedRegisters</div><div class="ttdef"><b>Definition:</b> <a href="amd64_2Common_8h_source.html#l00113">Common.h:113</a></div></div>
 <div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_a296bb3942213f7a194474e72c76aa3f0"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#a296bb3942213f7a194474e72c76aa3f0">libcommunism::internal::Amd64::EntryReturnedStub</a></div><div class="ttdeci">static void EntryReturnedStub()</div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_abd68efacd93a79896aa876bdf56a9bed"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#abd68efacd93a79896aa876bdf56a9bed">libcommunism::internal::Amd64::AllocMainCothread</a></div><div class="ttdeci">static void AllocMainCothread()</div><div class="ttdef"><b>Definition:</b> <a href="amd64_2Common_8cpp_source.html#l00087">Common.cpp:87</a></div></div>
-<div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_af66b604f36218306d2ccd34fe65da58c"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#af66b604f36218306d2ccd34fe65da58c">libcommunism::internal::Amd64::DereferenceCallInfo</a></div><div class="ttdeci">static void DereferenceCallInfo(CallInfo *info)</div><div class="ttdef"><b>Definition:</b> <a href="amd64_2Common_8cpp_source.html#l00104">Common.cpp:104</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_abd68efacd93a79896aa876bdf56a9bed"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#abd68efacd93a79896aa876bdf56a9bed">libcommunism::internal::Amd64::AllocMainCothread</a></div><div class="ttdeci">static void AllocMainCothread()</div><div class="ttdef"><b>Definition:</b> <a href="amd64_2Common_8cpp_source.html#l00082">Common.cpp:82</a></div></div>
+<div class="ttc" id="astructlibcommunism_1_1internal_1_1Amd64_html_af66b604f36218306d2ccd34fe65da58c"><div class="ttname"><a href="structlibcommunism_1_1internal_1_1Amd64.html#af66b604f36218306d2ccd34fe65da58c">libcommunism::internal::Amd64::DereferenceCallInfo</a></div><div class="ttdeci">static void DereferenceCallInfo(CallInfo *info)</div><div class="ttdef"><b>Definition:</b> <a href="amd64_2Common_8cpp_source.html#l00099">Common.cpp:99</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
