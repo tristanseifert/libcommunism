@@ -1,18 +1,18 @@
 // Define the offsets into the `cothread_amd64::Wrapper` structure. These _MUST_ match to the actual
 // offsets of the field in the struct.
-#define COTHREAD_OFF_CONTEXT_TOP        (0x0)
+#define COTHREAD_OFF_CONTEXT_TOP        (0x20)
 
 #ifndef __cplusplus
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Define the proper symbol names, based on what compiler we have. For GNU, we do not need an extra
 // leading underscore, but macOS requires it. We assume that clang is the only compiler that needs
 // this treatment.
-#ifdef __clang__
-.global __ZN12libcommunism8internal5Amd646SwitchEPNS_8CothreadES3_
+#if defined(__clang__) && defined(__APPLE__)
+.global __ZN12libcommunism8internal5Amd646SwitchEPS1_S2_
 .global __ZN12libcommunism8internal5Amd6411JumpToEntryEv
 .global __ZN12libcommunism8internal5Amd6417EntryReturnedStubEv
 #else
-.global _ZN12libcommunism8internal5Amd646SwitchEPNS_8CothreadES3_
+.global _ZN12libcommunism8internal5Amd646SwitchEPS1_S2_
 .global _ZN12libcommunism8internal5Amd6411JumpToEntryEv
 .global _ZN12libcommunism8internal5Amd6417EntryReturnedStubEv
 #endif
@@ -27,10 +27,10 @@
 // under the System V ABI.
 // void libcommunism::internal::Amd64::Switch(Cothread *from, Cothread *to)
 .balign 0x40
-#ifdef __clang__
-__ZN12libcommunism8internal5Amd646SwitchEPNS_8CothreadES3_:
+#if defined(__clang__) && defined(__APPLE__)
+__ZN12libcommunism8internal5Amd646SwitchEPS1_S2_:
 #else
-_ZN12libcommunism8internal5Amd646SwitchEPNS_8CothreadES3_:
+_ZN12libcommunism8internal5Amd646SwitchEPS1_S2_:
 #endif
     // save current state to stack and record the stack frame
     push        %rbp
@@ -59,7 +59,7 @@ _ZN12libcommunism8internal5Amd646SwitchEPNS_8CothreadES3_:
 // This pulls the arguments off the stack, since that's the only real nice way we can pass
 // information to this function (the registers aren't necessarily initialized here)
 // void libcommunism::internal::Amd64::JumpToEntry(void)
-#ifdef __clang__
+#if defined(__clang__) && defined(__APPLE__)
 __ZN12libcommunism8internal5Amd6411JumpToEntryEv:
 #else
 _ZN12libcommunism8internal5Amd6411JumpToEntryEv:
@@ -74,7 +74,7 @@ _ZN12libcommunism8internal5Amd6411JumpToEntryEv:
 // we invoke the library handler.
 //
 // void libcommunism::internal::Amd64::EntryReturnedStub(void)
-#ifdef __clang__
+#if defined(__clang__) && defined(__APPLE__)
 __ZN12libcommunism8internal5Amd6417EntryReturnedStubEv:
 #else
 _ZN12libcommunism8internal5Amd6417EntryReturnedStubEv:
@@ -84,7 +84,7 @@ _ZN12libcommunism8internal5Amd6417EntryReturnedStubEv:
     mov         %rsp, %rbp
 
     // libcommunism::internal::Amd64::CothreadReturned()
-#ifdef __clang__
+#if defined(__clang__) && defined(__APPLE__)
     call        __ZN12libcommunism8internal5Amd6416CothreadReturnedEv
 #else
     call        _ZN12libcommunism8internal5Amd6416CothreadReturnedEv

@@ -19,14 +19,14 @@ include(TargetArch)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
     add_compile_options(-Wall -Wextra -Wmissing-declarations -Wformat=2 -Wcast-qual -Wundef
         -fdiagnostics-color=always -Wwrite-strings -Wimplicit-fallthrough
         -Wno-unused-private-field)
     add_compile_options(-Werror)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     add_compile_options(-Wall -Wextra -Wmissing-declarations -Wformat=2 -Wcast-qual -Wundef
-        -fdiagnostics-color=always -Wwrite-strings -Wimplicit-fallthrough)
+        -fdiagnostics-color=always -Wwrite-strings -Wimplicit-fallthrough -Wno-invalid-offsetof)
     add_compile_options(-Werror)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     # default warnings, treat warnings as errors
@@ -43,7 +43,7 @@ message(STATUS "Target architecture: ${TARGET_ARCH}")
 ### Use the manually specified arch code override, or autodetect it
 set(PLATFORM_LIBCOMMUNISM "Auto" CACHE STRING "Architecture specific code to be built")
 set_property(CACHE PLATFORM_LIBCOMMUNISM PROPERTY STRINGS Auto amd64-sysv amd64-win aarch64-aapcs
-    setjmp ucontext)
+    setjmp ucontext x86-fastcall)
 
 if("Auto" STREQUAL ${PLATFORM_LIBCOMMUNISM})
     if("x86_64" STREQUAL ${TARGET_ARCH})

@@ -1,12 +1,12 @@
-// Define the offsets into the `cothread_amd64::Wrapper` structure. These _MUST_ match to the actual
-// offsets of the field in the struct.
-#define COTHREAD_OFF_CONTEXT_TOP        (0x0)
+// Define the offsets into the `x86` structure. These _MUST_ match to the actual offsets of the
+// field in the struct.
+#define COTHREAD_OFF_CONTEXT_TOP        (0x10)
 
 #ifndef __cplusplus
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Define the exported symbols.
 
-.global _ZN12libcommunism8internal3x866SwitchEPNS_8CothreadES3_
+.global _ZN12libcommunism8internal3x866SwitchEPS1_S2_
 .global _ZN12libcommunism8internal3x8611JumpToEntryEv
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,9 +21,9 @@
 // traditionally reserved for the return value of the function, which this is a void so it may or
 // may not matter.
 //
-// void libcommunism::internal::x86::Switch(Cothread *from, Cothread *to)
+// void libcommunism::internal::x86::Switch(x86 *from, x86 *to)
 .balign 0x40
-_ZN12libcommunism8internal3x866SwitchEPNS_8CothreadES3_:
+_ZN12libcommunism8internal3x866SwitchEPS1_S2_:
     // save current state to stack and record the stack frame
     push        %ebx
     push        %esi

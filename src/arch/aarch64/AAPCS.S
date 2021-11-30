@@ -1,11 +1,16 @@
 /// Offset into the Cothread class to get to the "current" stack pointer value.
-#define COTHREAD_OFF_CONTEXT_TOP        (0x0)
+#define COTHREAD_OFF_CONTEXT_TOP        (0x20)
 
 #ifndef __cplusplus
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Define the exported symbol names.
-.global _ZN12libcommunism8internal7Aarch646SwitchEPNS_8CothreadES3_
+#if defined(__clang__) && defined(__APPLE__)
+.global __ZN12libcommunism8internal7Aarch646SwitchEPS1_S2_
+.global _Aarch64AapcsEntryStub
+#else
+.global _ZN12libcommunism8internal7Aarch646SwitchEPS1_S2_
 .global Aarch64AapcsEntryStub
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Performs a context switch between two threads
@@ -28,7 +33,11 @@
 //
 // void libcommunism::internal::Aarch64::Switch(Cothread *from, Cothread *to)
 .balign 0x40
-_ZN12libcommunism8internal7Aarch646SwitchEPNS_8CothreadES3_:
+#if defined(__clang__) && defined(__APPLE__)
+__ZN12libcommunism8internal7Aarch646SwitchEPS1_S2_:
+#else
+_ZN12libcommunism8internal7Aarch646SwitchEPS1_S2_:
+#endif
     // dereference the entry offset address
     ldr         x0, [x0, COTHREAD_OFF_CONTEXT_TOP]
     ldr         x1, [x1, COTHREAD_OFF_CONTEXT_TOP]
@@ -71,9 +80,16 @@ _ZN12libcommunism8internal7Aarch646SwitchEPNS_8CothreadES3_:
 /// proper entry thread entry point.
 ///
 /// extern "C" void Aarch64AapcsEntryStub()
+#if defined(__clang__) && defined(__APPLE__)
+_Aarch64AapcsEntryStub:
+#else
 Aarch64AapcsEntryStub:
+#endif
     mov         x0, x19
-    ldr         x16, =_ZN12libcommunism8internal7Aarch6419DereferenceCallInfoEPNS1_8CallInfoE
-    br          x16
+#if defined(__clang__) && defined(__APPLE__)
+    bl  __ZN12libcommunism8internal7Aarch6419DereferenceCallInfoEPNS1_8CallInfoE
+#else
+    bl  _ZN12libcommunism8internal7Aarch6419DereferenceCallInfoEPNS1_8CallInfoE
+#endif
 
 #endif

@@ -22,22 +22,11 @@ using namespace libcommunism::internal;
 static_assert(sizeof(ucontext_t) < (UContext::kMainStackSize * sizeof(uintptr_t)),
         "main stack size is too small for ucontext!");
 
-thread_local Cothread *UContext::gCurrentHandle{nullptr};
 thread_local std::array<uintptr_t, UContext::kMainStackSize> UContext::gMainStack;
 
 std::unordered_map<int, std::unique_ptr<UContext::Context>> UContext::gContextInfo;
 std::mutex UContext::gContextInfoLock;
 int UContext::gContextNextId{0};
-
-/**
- * Returns the handle to the currently executing cothread.
- *
- * If no cothread has been lanched yet, the "fake" initial cothread handle is returned.
- */
-Cothread *Cothread::Current() {
-    if(!UContext::gCurrentHandle) UContext::AllocMainCothread();
-    return UContext::gCurrentHandle;
-}
 
 
 /**
@@ -45,7 +34,7 @@ Cothread *Cothread::Current() {
  *
  * This ensures there's sufficient bonus space allocated to hold the ucontext.
  */
-Cothread::Cothread(const Entry &entry, const size_t stackSize) {
+UContext::UContext(const Entry &entry, const size_t stackSize) : CothreadImpl(entry, stackSize) {
     void *buf{nullptr};
 
     // round down stack size to ensure it's aligned before allocating it
@@ -54,8 +43,8 @@ Cothread::Cothread(const Entry &entry, const size_t stackSize) {
 
     // then add space for ucontext
     allocSize += sizeof(ucontext_t);
-    if(allocSize % UContext::kStackAlignment) {
-        allocSize += UContext::kStackAlignment - (allocSize % UContext::kStackAlignment);
+    if(allocSize % kStackAlignment) {
+        allocSize += kStackAlignment - (allocSize % kStackAlignment);
     }
 
     // and allocate it
@@ -74,23 +63,23 @@ Cothread::Cothread(const Entry &entry, const size_t stackSize) {
 
     // create it as if we had provided the memory in the first place
     this->stack = {reinterpret_cast<uintptr_t *>(buf), allocSize / sizeof(uintptr_t)};
-    this->flags = Cothread::Flags::OwnsStack;// | Cothread::Flags::PartialReserved;
+    this->ownsStack = true;
 
-    UContext::Prepare(this, entry);
+    Prepare(this, entry);
 }
 
 /**
  * Allocates a cothread with an existing region of memory to back its stack.
  */
-Cothread::Cothread(const Entry &entry, std::span<uintptr_t> _stack) : stack(_stack) {
-    UContext::Prepare(this, entry);
+UContext::UContext(const Entry &entry, std::span<uintptr_t> stack) : CothreadImpl(entry, stack) {
+    Prepare(this, entry);
 }
 
 /**
  * Deallocates a cothread. This releases the underlying stack if we allocated it.
  */
-Cothread::~Cothread() {
-    if(static_cast<uintptr_t>(this->flags) & static_cast<uintptr_t>(Flags::OwnsStack)) {
+UContext::~UContext() {
+    if(this->ownsStack) {
 #ifdef _WIN32
         _aligned_free(this->stack.data());
 #else
@@ -100,14 +89,6 @@ Cothread::~Cothread() {
 }
 
 
-
-/**
- * Allocates the Cothread instance for the current kernel thread.
- */
-void UContext::AllocMainCothread() {
-    auto main = new Cothread(gMainStack, gMainStack.data() + UContext::kMainStackSize);
-    gCurrentHandle = main;
-}
 
 // XXX: We need to disable deprecation warnings for getcontext() and friends on macOS, BSD
 #pragma clang diagnostic push
@@ -121,10 +102,7 @@ void UContext::AllocMainCothread() {
  *
  * @throw std::runtime_error If context allocation or initialization failed
  */
-void UContext::Prepare(Cothread *thread, const Cothread::Entry &entry) {
-    // ensure current handle is valid
-    if(!gCurrentHandle) UContext::AllocMainCothread();
-
+void UContext::Prepare(UContext *thread, const UContext::Entry &entry) {
     // build the context structure we pass to our "fake" entry point
     auto info = std::make_unique<Context>(entry);
     if(!info) throw std::runtime_error("Failed to allocate context");
@@ -191,7 +169,7 @@ void UContext::EntryStub(int id) {
 
     // call the return handler
     info.reset();
-    UContext::InvokeCothreadDidReturnHandler(gCurrentHandle);
+    UContext::InvokeCothreadDidReturnHandler(Cothread::Current());
 }
 
 /**
@@ -199,11 +177,19 @@ void UContext::EntryStub(int id) {
  *
  * The state of the caller is stored on the stack of the currently active thread.
  */
-void Cothread::switchTo() {
-    auto from = UContext::gCurrentHandle;
-    UContext::gCurrentHandle = this;
-
+void UContext::switchTo(CothreadImpl *from) {
     swapcontext(UContext::ContextFor(from), UContext::ContextFor(this));
 }
 
 #pragma clang diagnostic pop
+
+/**
+ * Allocates the current physical (kernel) thread's Cothread object.
+ *
+ * @note This will leak the associated cothread object, unless the caller stores it somewhere and
+ *       ensures they deallocate it later when the underlying kernel thread is destroyed.
+ */
+CothreadImpl *libcommunism::AllocKernelThreadWrapper() {
+    return new UContext(UContext::gMainStack);
+}
+

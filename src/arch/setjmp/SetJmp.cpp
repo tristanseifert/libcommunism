@@ -23,28 +23,17 @@ using namespace libcommunism::internal;
 static_assert(sizeof(sigjmp_buf) < (SetJmp::kMainStackSize * sizeof(uintptr_t)),
         "main stack size is too small for sigjmp_buf!");
 
-thread_local Cothread *SetJmp::gCurrentHandle{nullptr};
 thread_local std::array<uintptr_t, SetJmp::kMainStackSize> SetJmp::gMainStack;
 
 SetJmp::EntryContext *SetJmp::gCurrentlyPreparing{nullptr};
 std::mutex SetJmp::gSignalLock;
 
 /**
- * Returns the handle to the currently executing cothread.
- *
- * If no cothread has been lanched yet, the "fake" initial cothread handle is returned.
- */
-Cothread *Cothread::Current() {
-    if(!SetJmp::gCurrentHandle) SetJmp::AllocMainCothread();
-    return SetJmp::gCurrentHandle;
-}
-
-/**
  * Allocates a cothread including a context region of the specified size.
  *
  * This ensures there's sufficient bonus space allocated to hold the sigjmp_buf.
  */
-Cothread::Cothread(const Entry &entry, const size_t stackSize) {
+SetJmp::SetJmp(const Entry &entry, const size_t stackSize) : CothreadImpl(entry, stackSize) {
     void *buf{nullptr};
 
     // round down stack size to ensure it's aligned before allocating it
@@ -73,22 +62,23 @@ Cothread::Cothread(const Entry &entry, const size_t stackSize) {
 
     // create it as if we had provided the memory in the first place
     this->stack = {reinterpret_cast<uintptr_t *>(buf), allocSize / sizeof(uintptr_t)};
-    this->flags = Cothread::Flags::OwnsStack;// | Cothread::Flags::PartialReserved;
+    this->ownsStack = true;
 
-    SetJmp::Prepare(this, entry);
+    Prepare(this, entry);
 }
 
 /**
  * Allocates a cothread with an existing region of memory to back its stack and jump buffer.
  */
-Cothread::Cothread(const Entry &entry, std::span<uintptr_t> _stack) : stack(_stack) {
-    SetJmp::Prepare(this, entry);
+SetJmp::SetJmp(const Entry &entry, std::span<uintptr_t> stack) : CothreadImpl(entry, stack) {
+    Prepare(this, entry);
 }
+
 /**
- * Deallocates a cothread. This releases the underlying stack if we allocated it.
+ * Release the underlying stack if required
  */
-Cothread::~Cothread() {
-    if(static_cast<uintptr_t>(this->flags) & static_cast<uintptr_t>(Flags::OwnsStack)) {
+SetJmp::~SetJmp() {
+    if(this->ownsStack) {
 #ifdef _WIN32
         _aligned_free(this->stack.data());
 #else
@@ -100,9 +90,10 @@ Cothread::~Cothread() {
 /**
  * Performs a context switch to the provided cothread.
  */
-void Cothread::switchTo() {
-    if(!sigsetjmp(*SetJmp::JmpBufFor(SetJmp::gCurrentHandle), 0)) {
-        SetJmp::gCurrentHandle = this;
+void SetJmp::switchTo(CothreadImpl *_from) {
+    auto from = static_cast<SetJmp *>(_from);
+
+    if(!sigsetjmp(*SetJmp::JmpBufFor(from), 0)) {
         std::atomic_thread_fence(std::memory_order_release);
         siglongjmp(*SetJmp::JmpBufFor(this), 1);
     }
@@ -111,11 +102,13 @@ void Cothread::switchTo() {
 
 
 /**
- * Allocates the Cothread instance for the current kernel thread.
+ * Allocates the current physical (kernel) thread's Cothread object.
+ *
+ * @note This will leak the associated cothread object, unless the caller stores it somewhere and
+ *       ensures they deallocate it later when the underlying kernel thread is destroyed.
  */
-void SetJmp::AllocMainCothread() {
-    auto main = new Cothread(gMainStack, gMainStack.data() + SetJmp::kMainStackSize);
-    gCurrentHandle = main;
+CothreadImpl *libcommunism::AllocKernelThreadWrapper() {
+    return new SetJmp(SetJmp::gMainStack);
 }
 
 /**
@@ -141,12 +134,10 @@ void SetJmp::InvokeCothreadDidReturnHandler(Cothread *from) {
  *
  * @throw std::runtime_error If context allocation or initialization failed
  */
-void SetJmp::Prepare(Cothread *thread, const Cothread::Entry &entry) {
+void SetJmp::Prepare(SetJmp *thread, const Cothread::Entry &entry) {
     int err{0};
     struct sigaction handler, oldHandler;
     stack_t stack{}, oldStack{};
-
-    if(!gCurrentHandle) SetJmp::AllocMainCothread();
 
     auto jbuf = JmpBufFor(thread);
     memset(jbuf, 0, sizeof(*jbuf));
@@ -160,7 +151,7 @@ void SetJmp::Prepare(Cothread *thread, const Cothread::Entry &entry) {
     stack.ss_sp = reinterpret_cast<std::byte *>(thread->stack.data()) + offset;
     stack.ss_size = (thread->stack.size() * sizeof(uintptr_t)) - offset;
 
-    auto info = new EntryContext(thread, entry);
+    auto info = new EntryContext( thread, entry);
     if(!info) throw std::runtime_error("Failed to allocate context");
 
     // listen man you're just gonna have to trust me on this one
@@ -210,8 +201,8 @@ void SetJmp::SignalHandlerSetupThunk(int signal) {
     (void) signal;
 
     auto ctx = gCurrentlyPreparing;
-    if(sigsetjmp(*JmpBufFor(ctx->thread), 0)) {
+    if(sigsetjmp(*JmpBufFor(ctx->impl), 0)) {
         ctx->entry();
-        InvokeCothreadDidReturnHandler(ctx->thread);
+        InvokeCothreadDidReturnHandler(Cothread::Current());
     }
 }

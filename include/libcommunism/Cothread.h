@@ -1,7 +1,9 @@
 #ifndef LIBCOMMUNISM_COTHREAD_H
 #define LIBCOMMUNISM_COTHREAD_H
 
+#include <array>
 #include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <span>
 #include <string>
@@ -10,13 +12,7 @@
  * @brief Main namespace for the libcommunism library.
  */
 namespace libcommunism {
-namespace internal{
-struct Amd64;
-struct Aarch64;
-struct SetJmp;
-struct UContext;
-struct x86;
-}
+struct CothreadImpl;
 
 /**
  * Cooperative threads are threads that perform context switching in userspace, rather than relying
@@ -26,29 +22,6 @@ struct x86;
  * @brief Instance of a single cooperative thread
  */
 class Cothread {
-    friend struct internal::Amd64;
-    friend struct internal::Aarch64;
-    friend struct internal::SetJmp;
-    friend struct internal::UContext;
-    friend struct internal::x86;
-
-    private:
-        /**
-         * Flags that change the behavior of a cothread. These are used internally by the
-         * architecture specific code.
-         */
-        enum class Flags: uintptr_t {
-            /// Stack was allocated by the cothread and should be deallocated on destruction
-            OwnsStack                   = (1 << 0),
-            /**
-             * @brief Part of the stack memory is reserved for use by the platform code.
-             *
-             * This memory is taken from the _top_ of the stack, so that it does not affect the
-             * application code.
-             */
-            PartialReserved             = (1 << 1),
-        };
-
     public:
         /// Type alias for an entry point of a cothread
         using Entry = std::function<void()>;
@@ -182,9 +155,7 @@ class Cothread {
          *
          * @return Size of the stack, in bytes.
          */
-        constexpr size_t getStackSize() const {
-            return this->stack.size() * sizeof(uintptr_t);
-        }
+        size_t getStackSize() const;
 
         /**
          * Get the location of the top of the cothread's stack.
@@ -198,31 +169,36 @@ class Cothread {
          *
          * @return Pointer to the top of the stack
          */
-        constexpr void *getStack() const {
-            return this->stack.data();
-        }
+        void *getStack() const;
 
-    private:
-        Cothread(std::span<uintptr_t> stack, void *stackTop);
-
-    /*
-     * These fields are accessed directly by the platform specific code. It is absolutely
-     * essential that these are not reordered or otherwise changed, as this changes their offsets
-     * in the class.
-     */
     private:
         /**
-         * Points to the location where the thread's context is stored in the stack frame. The
-         * exact location on the stack is defined by the platform code.
+         * Create a cothread with an already initialized cothread implementation, which will be
+         * transferred into the cothread.
+         *
+         * @param impl An initialized CothreadImpl object
          */
-        void *stackTop;
-        /// Range encompassing the entire stack allocated to this cothread
-        std::span<uintptr_t> stack;
+        Cothread(CothreadImpl *impl) : impl(impl) {}
 
-        /// Flags that define the behavior of the cothread
-        Flags flags{};
+    private:
         /// Optional label attached to the cothread (for debugging purposes only)
         std::string label{""};
+
+    private:
+        CothreadImpl *impl{nullptr};
+
+        static thread_local Cothread *gCurrent;
+
+        /**
+         * Buffer into which the implementation is allocated.
+         *
+         * This is part of the cothread so we can avoid an extra heap allocation for the
+         * implementation object. This means it must be large enough to accomodate all of the
+         * built-in implementations to take advantage of this optimization.
+         */
+        std::array<uintptr_t, 32> implBuffer;
+        /// When set, the implementation buffer is used.
+        bool implBufferUsed{false};
 };
 }
 
